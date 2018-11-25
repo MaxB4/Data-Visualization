@@ -10,4 +10,4 @@ The target group of the visualization are people that live in Amsterdam or would
 The visualization will consist of an interactive map of Amsterdam and a line chart. The line chart will also give the option to compare municipalities average income and housing prices.
 
 
-![Alt text](relative/path/to/Visualization.png?raw=true "Title")
+![Alt text](relative/path/to/Visualization.png?raw=true "Visualization.png")
