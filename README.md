@@ -20,7 +20,7 @@ The visualization will consist of an interactive map of Amsterdam and a line cha
 - Go to previous chart option
 - Compare different cities
 
-![What is this](Visualization.png)
+![What is this](/doc/Visualization.png)
 
 ## Sources
 - Gemeente Amsterdam
