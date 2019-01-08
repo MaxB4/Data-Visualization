@@ -1,5 +1,13 @@
+## D3 plugins
+The following D3 plugins are examples of plugins that are likely to be used:
+- d3-legend
+- d3-scale-chromatic
+- d3-tile
+- d3-zoom
+- d3-scale-interactive
+
 ## Data sources
-The following files are all csv files and will be converted to JSON.
+The following files are all csv files and will be converted to JSON. The files are located in the data map (doc --> data).
 Gemeente Amsterdam
 Publicatie: Amsterdam in cijfers 2018
 - 10.2.12 Gemiddelde huurprijs voor particuliere en corporatie huursector per stadsdeel, 2013-2017
