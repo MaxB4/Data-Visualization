@@ -1,4 +1,4 @@
-## Design
+## Diagram
 
 ![Diagram](/doc/diagram.png)
 
