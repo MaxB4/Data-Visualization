@@ -1,3 +1,5 @@
+![Diagram](/doc/diagram.png)
+
 ## D3 plugins
 The following D3 plugins are examples of plugins that are likely to be used:
 - d3-legend
