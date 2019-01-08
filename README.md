@@ -11,14 +11,13 @@ The visualization will consist of an interactive map of Amsterdam and a line cha
 
 ### MVP
 - Interactive Map which links to line chart 1
-- Line chart 1 that displays average rent price for each submunicipality, highlighting line when mouse is above it.  When clicked on line go to line chart 2.
-- Line chart 2 with checkboxes. Checkboxes decide what user can see. Line chart 2 also shows average income per submunicipality.
+- Line chart 1 displays average rent price and income for each submunicipality (radio buttons), highlighting line when mouse is above it.  When clicked on line go to line chart 2.
+- Line chart 2 also uses radio buttons. Line chart 2 provides average income and housing prices of the largest cities in The Netherlands compared to Amsterdam. 
 
 ### Optional
 - Zoom option in line charts
 - Default settings for line chart 2 same as line clicked on in line chart 1
 - Go to previous chart option
-- Compare different cities
 
 ![What is this](/doc/Visualization.png)
 
