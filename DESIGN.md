@@ -16,8 +16,8 @@ Publicatie: Amsterdam in cijfers 2018
 - 10.2.6 Woningvoorraad naar stadsdelen en waarde van de woning, 1 januari 2018 (procenten)
 - 5.4.2 Kerncijfers inkomen stadsdelen, 2015
 - 1.1.4 Index gestandaardiseerd inkomen huishoudens naar stadsdelen, 2012-2015
-*- 5.4.1 Kerncijfers inkomen, 2011-2015 (x 1.000 euro)  --> Amsterdam inkomen verschillende bevolkingsgroepen
-*- 10.2.10 Verkochte bestaande woningen naar soort en gemiddelde prijs, 2013-2017
+* - 5.4.1 Kerncijfers inkomen, 2011-2015 (x 1.000 euro)  --> Amsterdam inkomen verschillende bevolkingsgroepen
+* - 10.2.10 Verkochte bestaande woningen naar soort en gemiddelde prijs, 2013-2017
 CBS
 - Gemiddelde verkoopprijzen, meerdere steden (https://opendata.cbs.nl/statline/#/CBS/nl/dataset/83625NED/table?ts=1546961144215)
 - Gemiddelde inkomen, meerdere steden (https://opendata.cbs.nl/statline/#/CBS/nl/dataset/84341ned/table?ts=1546961566335)
