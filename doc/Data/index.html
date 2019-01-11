@@ -196,11 +196,16 @@ d3.queue()
 
 function ready(error, buurten) {
   if (error) throw error;
-
+  console.log(buurten)
+  
   /* Areas */
   var stadsdelen = topojson.feature(buurten, buurten.objects.buurten).features;
+  
+  
+  // var deelgemeenten = topojson.feature(buurten, objects.buurten.geometries["0"].properties.Stadsdeel_code).features;
+  console.log(buurten.properties)
 
-  // Draw the buurten
+    // Draw the buurten
   svg.selectAll(".buurt")
       .data(stadsdelen)
     .enter().insert("g")
