@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<!-- source code https://gist.github.com/JulesBlm/918e2987805c7189f568d95a4e8855b4 -->
 <style>
   body { 
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -21,37 +22,23 @@
   /*Lines*/
  .buurt-borders {
     fill: none;
-    stroke: #fff;
+    /* stroke: #fff;
     stroke-width: 0.4px;
     stroke-linejoin: round;
     stroke-linecap: round;
     pointer-events: none;
-    opacity: 0.7;
+    opacity: 0.7; */
   }
   .stadsdeel-borders {
     fill: none;
-    stroke: black;
-    stroke-width: 4px;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-    pointer-events: none;
-    opacity: 0.3;
+    stroke: rgb(247, 247, 247);
+    stroke-width: 3px;
+    /* stroke-linejoin: round; */
+    /* stroke-linecap: round; */
+    /* pointer-events: none; */
+    /* opacity: 0.1; */
   }
-  .spoor {
-    fill: none;
-    stroke-linejoin: round;
-  }
-  .train {
-    stroke: black;
-    stroke-width: 2;
-    opacity: 0.5;
-  }
-  .tram {
-  }
-  .metro {
-     stroke-dasharray: 5,1;
-  }
-  /*Points*/
+  /* Points
   .station {
     fill: #ffb310;
     r: 4;
@@ -59,7 +46,7 @@
     stroke-width: 2;
     z-index: 3;
   }
-  .stationnaam{
+  .stationnaam {
     z-index: 4;
     fill: black;
     font-size: x-small;
@@ -73,7 +60,7 @@
     fill: white;
     opacity: 0.8;
     z-index: -1;
-  }
+  } */
 </style>
 <script src="http://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
@@ -109,13 +96,12 @@ var colorScale = d3.scaleOrdinal(d3.schemeCategory20)
     colorStadsdelen = d3.scaleOrdinal(d3.schemePastel2); //d3.schemeGreys
     colorLines = d3.scaleSequential(d3.schemeCategory20);
 
-// svg.append("text")
-//   .attr("x", 0)
-//   .attr("y", 15)
-//   .attr("font-size", "large")
-//   .attr("text-decoration", "underline")
-//   .attr("font-weight", "bold")
-//   .text("Legenda");
+svg.append("text")
+  .attr("x", 0)
+  .attr("y", 15)
+  .attr("font-size", "large")
+  .attr("font-weight", "bold")
+  .text("Legenda");
 
 var y0 = 30;
 var spacingy = 20
