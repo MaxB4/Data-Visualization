@@ -4,3 +4,4 @@ Potentially interesting to also include a small city/village average habitants i
 
 # Day 3
 Create page on website with explanation of data + source
+Changed line chart 3 for a bar chart with average loan growth and rent growth for 5 cities over the past 3 years.
