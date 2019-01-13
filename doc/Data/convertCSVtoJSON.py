@@ -13,6 +13,13 @@ df = df.dropna()
 
 # drop irrelevant columns
 df = df.drop(columns=['verandering 2015 t.o.v. 2012 (%)'])
+# df.columns != ['stadsdeel']:
+# df = df.applymap(lambda x: float(x.replace(',','.')))
+
+# df[2012] = df[2012].astype(float)
+# df[2012] = [x.replace(',', '.') for x in df[2012]]
+
+
 
 df[2015]  = df[2015] * averageIncome2015
 
