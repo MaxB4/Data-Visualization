@@ -2,11 +2,12 @@
 Updated the third visualization which includes income and housing prices of a number of large Dutch cities.
 Potentially interesting to also include a small city/village average habitants income and housing price.
 
-# Day 2
+# Day 2 (10/01/2018)
 Create page on website with explanation of data + source
 Changed line chart 3 for a bar chart with average loan growth and rent growth for 5 cities over the past 3 years.
 
-# Day 3
-Added map of Amsterdam and trying to change tiles from "buurten" to "deelgemeenten".
+# Day 3 (11/01/2018)
+Added map of Amsterdam with deelgemeenten.
+Changed idea of visualization 3 from line chart to bar chart
 
-# Day 4
+# Day 4 (12/01/2018)
