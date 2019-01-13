@@ -4,12 +4,6 @@ var svg = d3.select("#map")
 width = +svg.attr("width"),
 height = +svg.attr("height");            
 
-// .append("svg")
-//             .attr("width", width)
-//             .attr("height", height)
-//             .append('g')
-//             .attr('class', 'map');
-
 // Should really change this to 'clipExtent' instead of center
 var projection = d3.geoAlbers() 
   .center([4.9, 52.366667])
@@ -23,115 +17,83 @@ var path = d3.geoPath()
 
 var stadsdeel = {"A": "Centrum","B": "Westpoort", "E": "West", "M": "Oost", "K": "Zuid", "F": "Nieuw west", "N": "Noord", "T": "Zuidoost"}
 
-var colorScale = d3.scaleOrdinal(d3.schemeCategory20)
-    colorStadsdelen = d3.scaleOrdinal(d3.schemeCategory20); 
-    // colorLines = d3.scaleSequential(d3.schemeCategory20);
+// color scale
+color= d3.scaleThreshold()
+.domain([400,500,600,700,800,900])
+.range(["rgb(255,255,178)", "rgb(254,217,118)", "rgb(254,178,76)", "rgb(253,141,60)","rgb(252,78,42)","rgb(227,26,28)","rgb(177,0,38)","rgb(37,37,37)"]);
 
+// standard variables
+var y0 = 30;
+var spacingy = 45
+var x0 = 0
+var spacingx = 55
+
+// legend
 svg.append("text")
-  .attr("x", 0)
+  .attr("x", x0)
   .attr("y", 15)
   .attr("font-size", "large")
   .attr("font-weight", "bold")
   .text("Legenda");
 
-var y0 = 30;
-var spacingy = 20
-var x0 = 5
-var spacingx = 55
+legend = svg.selectAll("#map")
+            .data([400,500,600,700,800,900])
+            .enter()
+            .append("g")
+            .attr("class", ".legend")
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; 
+          });
 
-/*Legenda*/
-svg.append("circle")                                                
-  .attr("stroke", "black")
-  .attr("class", "Deelgemeente")
-  .attr("stroke", colorScale(1))
-  .attr("stroke-width", 7)
-  .attr("y1", y0)
-  .attr("y2", y0)
-  .attr("x1", x0)
-  .attr("x2", spacingx);
-svg.append("text")
-  .attr("x", spacingx + 5)
-  .attr("y", y0 + 5)
-  .attr("class", "label")
-  .text("Deelgemeente");
+// create boxes
+legend.append("rect")
+    .attr("y", y0)
+    .attr("x", x0)
+    .attr("width", 32)
+    .attr("height", 20)
+    .style("fill", color);
 
-// svg.append("line")
-//   .attr("class", "metro")
-//   .attr("stroke", colorScale())
-//   .attr("stroke-width", 7)
-//   .attr("y1", y0 + spacingy )
-//   .attr("y2", y0 + spacingy )
-//   .attr("x1", x0)
-//   .attr("x2", spacingx);
-// svg.append("text")
-//   .attr("x", spacingx + 5)
-//   .attr("y", y0 + spacingy + 5)
-//   .attr("class", "label")
-//   .text("Metrolijn");
+// add text to legend
+legend.append("text")
+        .attr("x", spacingx)
+        .attr("y", spacingy)
+        .text(function(d){
+        return d;
+        })
 
-// svg.append("line")
-//   .attr("class", "train")
-//   .attr("y1", y0 + spacingy * 2)
-//   .attr("y2", y0 + spacingy * 2)
-//   .attr("x1", x0)
-//   .attr("x2", 50);
-// svg.append("text")
-//   .attr("x", spacingx + 5)
-//   .attr("y", y0 + spacingy * 2+ 5)
-//   .attr("class", "label")
-//   .text("Treinspoor");
+window.onload = function() {
 
-// svg.append("circle")
-//   .attr("class", "station")
-//   .attr("cx", x0 + 22)
-//   .attr("cy", y0 + spacingy * 3);
-// svg.append("text")
-//   .attr("class", "label")
-//   .attr("x", spacingx + 5)
-//   .attr("y", y0 + spacingy * 3 + 5)
-//   .text("Treinstation");
+  var data = "buurten.json"
+  var rentprice = "RentPrice.json"
+  var requests = [d3.json(data), d3.json(rentprice)];
 
-// svg.append("circle")
-//   .attr("fill", "white")
-//   .attr("stroke", "black")
-//   .attr("r", "1.5")
-//   .attr("cx", x0 + 22)
-//   .attr("cy", y0 + spacingy * 4);
-// svg.append("text")
-//   .attr("class", "label")
-//   .attr("x", spacingx + 5)
-//   .attr("y", y0 + spacingy * 4 + 5)
-//   .text("Tram/metro halte");
-
-
-d3.queue()
-    .defer(d3.json, "buurten.json")
-    // .defer(d3.json, "trammetro.json")
-    // .defer(d3.json, "trammetrostations.geojson")
-    // .defer(d3.json, "spoor.geojson")
-    // .defer(d3.csv,  "treinstations.csv")
-    .await(ready);
-
-function ready(error, data) {
-  if (error) throw error;
-  console.log(data)
-  
+  Promise.all(requests).then(function(response) {
+      main(response);
+  }).catch(function(e){
+  throw(e);   
+  });
+}
+  function main (response){
+      var data = response[0];
+      var rentprice = response[1];
+      
+      console.log(data)
+      console.log(rentprice)
   var stadsdelen = topojson.feature(data, data.objects.buurten).features;
   
   var deelgemeenten = (data, data.objects.buurten.geometries);
   console.log(deelgemeenten)
 
-  // // Set tooltips and put rent data in map
-  // var tip = d3.tip()
-  //           .attr('class', 'd3-tip')
-  //           .offset([-10, 0])
-  //           .html(function(d) {
-  //               if(Country.includes(d.properties.name)){
-  //                   var location = Country.indexOf(d.properties.name)
-  //                   var NewGDP2017 = GDP_2017[location];
-  //               }
-  //           return "<strong>Country: </strong><span class='details'>" + d.properties.name + "<br></span>" + "<strong>GDP(billions): </strong><span class='details'>" + NewGDP2017 +"<br></span>";
-  //           })
+  // Set tooltips and put rent data in map
+  var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-10, 0])
+            .html(function(d) {
+                if(deelgemeenten.includes(d.properties.name)){
+                    var location = deelgemeenten.indexOf(d.properties.name)
+                    var NewRent2015 = Rent_2015[location];
+                }
+            return "<strong>Country: </strong><span class='details'>" + d.properties.name + "<br></span>" + "<strong>GDP(billions): </strong><span class='details'>" + NewGDP2017 +"<br></span>";
+            })
 
   // Draw the deelgemeenten
   svg.selectAll(".buurt")
@@ -140,50 +102,18 @@ function ready(error, data) {
      .append("path")
      .attr("class", "buurt")
      .attr("d", path)
-     .attr("fill", function(d) { return colorStadsdelen(d.properties.Stadsdeel_code[0]) })
+     .attr("fill", function(d) { return color(d.properties.Stadsdeel_code[0]) })
      .append("title")
      .text(function(d) { return stadsdeel[d.properties.Stadsdeel_code] + ": " + d.properties.Buurtcombinatie });
 
-  // Draw borders around buurten
-  svg.append("path")
-      .attr("class", "buurt-borders")
-      .attr("d", path(topojson.mesh(data, data.objects.buurten, function(a, b) { return a !== b; })));
+  // // Draw borders around buurten
+  // svg.append("path")
+  //     .attr("class", "buurt-borders")
+  //     .attr("d", path(topojson.mesh(data, data.objects.buurten, function(a, b) { return a !== b; })));
 
   // Draw borders around stadsdelen
   svg.append("path")
       .attr("class", "stadsdeel-borders")
       .attr("d", path(topojson.mesh(data, data.objects.buurten, function(a, b) { return stadsdeel[a.properties.Stadsdeel_code] !== stadsdeel[b.properties.Stadsdeel_code]; })));
-
-//   /* Lines */
-//   // Draw the tram/metro tracks
-//   var trammetro = topojson.feature(trammetrotopo, trammetrotopo.objects.trammetro);
-
-//   // Get the number of tracks for each line
-//   trammetro.features.forEach(function(d) { d.properties.tracks = d.properties.Lijn.split(/ \| /g).length; });
-
-//   colorLines.domain([0, d3.max(trammetro.features, function(d) { return d.properties.tracks; })]);
-
-//   var railLine = svg.append('g').attr('class', 'rail-lines')
-//           .selectAll('.rail-line').data(trammetro.features)
-//       .enter().append('g')
-//           .attr('class', 'spoor');
-      
-//   railLine
-//       .selectAll('.track')
-//       .data(function(lineString) {
-//           // Duplicate the lineString feature based on the number of tracks
-//           return d3.range(0, lineString.properties.tracks)
-//               .map(function() { return lineString; }); 
-//       })
-//       .enter().append('path')
-//         .attr("class", function(d) { return "spoor " + d.properties.Modaliteit.toLowerCase() })
-//         .attr('d', function(lineString, i) {
-//             // Offset each lineString by 50 meters
-//             var lineStringOffset = turf.lineOffset(lineString.geometry, i * 60,  {units: "meters"});
-//             return path(lineStringOffset);
-//         })
-//         .attr("stroke", function(d, i) { return (colorScale(d.properties.Lijn.split(/ \| /g)[i]) ) })
-//       .append("title")
-//         .text(function(d) { return ((d.properties.Lijn).length !== 1 ? "Lijnen: " : "Lijn: ") + d.properties.Lijn }); 
 
 };
