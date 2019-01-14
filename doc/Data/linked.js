@@ -7,7 +7,6 @@ height = +svg.attr("height");
 // Should really change this to 'clipExtent' instead of center
 var projection = d3.geoAlbers() 
   .center([4.9, 52.366667])
-  // .parallels([51.5, 51.49])
   .rotate(120)
   .scale(250000)
   .translate([width / 2, height / 2]);
@@ -77,26 +76,104 @@ window.onload = function() {
       var data = response[0];
       var rentprice = response[1];
       var income = response [2];
-      
+  
+      Country = [];
+
     console.log(data)
     console.log(rentprice)
     console.log(income)
   var stadsdelen = topojson.feature(data, data.objects.buurten).features;
-  
-  var deelgemeenten = (data, data.objects.buurten.geometries);
-//   console.log(deelgemeenten)
+  console.log(stadsdelen)
+
+  var deelgemeenten = (data, data.objects.buurten.geometries).object;
+  console.log(stadsdelen["0"])
+
+  // console.log(stadsdeel[d.properties.Stadsdeel_code])
+
+
+
 
   // Set tooltips and put rent data in map
   var tip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-                if(deelgemeenten.includes(d.properties.name)){
-                    var location = deelgemeenten.indexOf(d.properties.name)
+                if(deelgemeenten.includes(d.properties.Stadsdeel_code)){
+                    var location = deelgemeenten.indexOf(d.properties.Stadsdeel_code)
                     var NewRent2015 = Rent_2015[location];
                 }
-            return "<strong>Country: </strong><span class='details'>" + d.properties.name + "<br></span>" + "<strong>GDP(billions): </strong><span class='details'>" + NewGDP2017 +"<br></span>";
+            return "<strong>Deelgemeente: </strong><span class='details'>" + d.properties.Stadsdeel_code + "<br></span>" + "<strong>GDP(billions): </strong><span class='details'>" + NewRent2015 +"<br></span>";
             })
+
+  svg.call(tip);
+  // ready(data, rentprice, income);
+  // function ready(data, rentprice, income){
+    
+// svg.append("text")
+//     .attr("x", (width / 2))             
+//     .attr("y", 0 - (margin.top / 2))
+//     .attr("text-anchor", "middle")  
+//     .style("font-size", "25px") 
+//     .text("Rent Price");
+  
+// svg.append("g")
+//   .attr("class", "deelgemeenten")
+//   .selectAll("path")
+//   .data(data.features)
+//   .enter()
+//   .append("path")
+//   .attr("d", path)
+//   .style("fill", function(d) {
+//       if(Country.includes(d.properties.Stadsdeel_code)){
+//           var location = Country.indexOf(d.properties.name)
+//           var NewGDP2017 = GDP_2017[location]
+//           return color(NewGDP2017); 
+//       }
+//   })
+//   .style('stroke-width', 1.5)
+//   .style("opacity",0.8)
+  
+//   // tooltips
+//   .style('stroke-width', 0.3)
+//   .on('mouseover',function(d){
+//       tip.show(d);
+
+//       d3.select(this)
+//       .style("opacity", 1)
+//       .style("stroke","white")
+//       .style("stroke-width",3);
+//   })
+//   .on('mouseout', function(d){
+//       tip.hide(d);
+
+//       d3.select(this)
+//       .style("opacity", 0.8)
+//       .style("stroke","white")
+//       .style("stroke-width",0.3);
+//   })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // Draw the deelgemeenten
   svg.selectAll(".buurt")
@@ -118,5 +195,5 @@ window.onload = function() {
   svg.append("path")
       .attr("class", "stadsdeel-borders")
       .attr("d", path(topojson.mesh(data, data.objects.buurten, function(a, b) { return stadsdeel[a.properties.Stadsdeel_code] !== stadsdeel[b.properties.Stadsdeel_code]; })));
-
-};
+  
+  };
