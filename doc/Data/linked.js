@@ -153,29 +153,7 @@ window.onload = function() {
 //   })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // Draw the deelgemeenten
+// Draw the deelgemeenten
   svg.selectAll(".buurt")
      .data(stadsdelen)
      .enter().insert("g")

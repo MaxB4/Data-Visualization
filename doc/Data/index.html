@@ -4,23 +4,69 @@ http://localhost:7800/
 -->
 
 <!DOCTYPE html>
+<html>
 <meta charset="utf-8">
 <head>
-<title>Huurprijzen en lonen Amsterdam</title>
-    <!-- <link rel="icon" href="Mainimage.jpg"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+        body, html {
+          height: 100%;
+          margin: 0;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .hero-image {
+          background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("Mainimage.jpg");
+          height: 100%;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+          position: relative;
+        }
+        
+        .hero-text {
+          text-align: center;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: white;
+        }
+        
+        .hero-text button {
+          border: none;
+          outline: 0;
+          display: inline-block;
+          padding: 10px 25px;
+          color: black;
+          background-color: #ddd;
+          text-align: center;
+          cursor: pointer;
+        }
+        
+        .hero-text button:hover {
+          background-color: #555;
+          color: white;
+        }
+</style>
 </head>
 <body>
-    <body background="Mainimage.jpg">
+<!-- image -->
+<div class="hero-image">
+        <div class="hero-text">
+            <h1 style="font-size:50px">Huurprijzen en lonen in Amsterdam</h1>
+            <p>A visualization by Max Baneke</p>
+            <button>Scroll down</button>
+        </div>
+</div>
+
+        
 <link rel="stylesheet" href="linked.css">
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <!-- <script src="http://d3js.org/queue.v1.min.js"></script> -->
 <!-- <script src="http://d3js.org/topojson.v1.min.js"></script> -->
 
-<h1>Huurprijzen en lonen Amsterdam</h1>
+<h1>Huurprijzen en lonen per deelgemeente</h1>
 
 
 <!-- source code https://gist.github.com/JulesBlm/918e2987805c7189f568d95a4e8855b4 -->
@@ -33,6 +79,7 @@ http://localhost:7800/
 <script type="text/javascript" src="linked.js"> </script>
 <div id="map"></div>
 <div id="chart"></div>
+
 
 <p> Bron: Gemeenste Amsterdam, CBS</p>
 </body>
