@@ -10,4 +10,8 @@ Changed line chart 3 for a bar chart with average loan growth and rent growth fo
 Added map of Amsterdam with deelgemeenten.
 Changed idea of visualization 3 from line chart to bar chart
 
-# Day 4 (12/01/2018)
+# Day 4 (13/01/2018)
+Added legenda and colors
+
+# Day 5 (14/01/2018)
+Added homepage, scroll down buttton, links, and improved reading of data
