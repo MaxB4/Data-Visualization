@@ -15,7 +15,7 @@ var projection = d3.geoAlbers()
 var path = d3.geoPath()
   .projection(projection);
 
-var stadsdeel = {"A": "Centrum","B": "Westpoort", "E": "West", "M": "Oost", "K": "Zuid", "F": "Nieuw west", "N": "Noord", "T": "Zuidoost"}
+var stadsdeel = {"A": "A Centrum","B": "B Westpoort", "E": "E West", "M": "M Oost", "K": "K Zuid", "F": "F Nieuw west", "N": "N Noord", "T": "T Zuidoost"}
 
 // color scale
 color= d3.scaleThreshold()
@@ -64,7 +64,8 @@ window.onload = function() {
 
   var data = "buurten.json"
   var rentprice = "RentPrice.json"
-  var requests = [d3.json(data), d3.json(rentprice)];
+  var income = "Income.json"
+  var requests = [d3.json(data), d3.json(rentprice), d3.json(income)];
 
   Promise.all(requests).then(function(response) {
       main(response);
@@ -75,13 +76,15 @@ window.onload = function() {
   function main (response){
       var data = response[0];
       var rentprice = response[1];
+      var income = response [2];
       
-      console.log(data)
-      console.log(rentprice)
+    console.log(data)
+    console.log(rentprice)
+    console.log(income)
   var stadsdelen = topojson.feature(data, data.objects.buurten).features;
   
   var deelgemeenten = (data, data.objects.buurten.geometries);
-  console.log(deelgemeenten)
+//   console.log(deelgemeenten)
 
   // Set tooltips and put rent data in map
   var tip = d3.tip()
