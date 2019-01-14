@@ -132,3 +132,15 @@
       .details{
         color:white;
       }
+  
+  /* change link color */
+  a:visited {
+    color: pink;
+    background-color: transparent;
+    text-decoration: none;
+  }
+  a:hover {
+    color: red;
+    background-color: transparent;
+    text-decoration: underline;
+  }
