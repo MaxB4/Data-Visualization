@@ -4,7 +4,7 @@ var svg = d3.select("#map")
 width = +svg.attr("width"),
 height = +svg.attr("height");            
 
-// Should really change this to 'clipExtent' instead of center
+// properties of map visualization
 var projection = d3.geoAlbers() 
   .center([4.9, 52.366667])
   .rotate(120)
@@ -14,7 +14,7 @@ var projection = d3.geoAlbers()
 var path = d3.geoPath()
   .projection(projection);
 
-var stadsdeel = {"A": "A Centrum","B": "B Westpoort", "E": "E West", "M": "M Oost", "K": "K Zuid", "F": "F Nieuw west", "N": "N Noord", "T": "T Zuidoost"}
+var stadsdeel = {"A Centrum": "Centrum","B Westpoort": "Westpoort", "E West": "West", "M Oost": "Oost", "K Zuid": "Zuid", "F Nieuw west": "Nieuw west", "N Noord": "Noord", "T Zuidoost": "Zuidoost"}
 
 // color scale
 color= d3.scaleThreshold()
@@ -23,14 +23,15 @@ color= d3.scaleThreshold()
 
 // standard variables
 var y0 = 30;
-var spacingy = 45
-var x0 = 0
-var spacingx = 55
+var spacingy = 45;
+var x0 = 0;
+var spacingx = 55;
+var legendhight = 15;
 
 // legend
 svg.append("text")
   .attr("x", x0)
-  .attr("y", 15)
+  .attr("y", legendhight)
   .attr("font-size", "large")
   .attr("font-weight", "bold")
   .text("Legenda");
@@ -76,21 +77,37 @@ window.onload = function() {
       var data = response[0];
       var rentprice = response[1];
       var income = response [2];
-  
-      Country = [];
+    
+    // console.log(data)
+    // console.log(rentprice)
+    // console.log(income)
+    // console.log(objects.data.buurten.geometries["0"])
+    // console.log(stadsdelen)
 
-    console.log(data)
-    console.log(rentprice)
-    console.log(income)
   var stadsdelen = topojson.feature(data, data.objects.buurten).features;
-  console.log(stadsdelen)
-
-  var deelgemeenten = (data, data.objects.buurten.geometries).object;
-  console.log(stadsdelen["0"])
-
-  // console.log(stadsdeel[d.properties.Stadsdeel_code])
-
-
+  // var deelgemeenten = (data, data.objects.buurten.geometries).object;
+  // console.log(stadsdelen["7"].properties.Stadsdeel_code)
+  
+  // console.log(stadsdelen)
+  // console.log(deelgemeenten)
+  CodeDeelgemeente = []
+  incomeList = []
+  income2015 = [];
+  for (i = 2012; i < 2016; i++) {
+    codeDeelgemeente = {}
+    incomeList.push(codeDeelgemeente)
+    
+    codeDeelgemeente["A  Centrum"] = income["A  Centrum"][i]
+    codeDeelgemeente["E  West"] = income["E  West"][i]
+    codeDeelgemeente["F  Nieuw-West"] = income["F  Nieuw-West"][i]
+    codeDeelgemeente["K  Zuid"] = income["K  Zuid"][i]
+    codeDeelgemeente["M  Oost"] = income["M  Oost"][i]
+    codeDeelgemeente["N  Noord"] = income["N  Noord"][i]
+    codeDeelgemeente["T  Zuidoost"] = income["T  Zuidoost"][i]
+    codeDeelgemeente["Amsterdam"] = income["Amsterdam"][i]
+    CodeDeelgemeente.push(income)
+  }
+  console.log(incomeList[0])
 
 
   // Set tooltips and put rent data in map
@@ -98,11 +115,12 @@ window.onload = function() {
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-                if(deelgemeenten.includes(d.properties.Stadsdeel_code)){
-                    var location = deelgemeenten.indexOf(d.properties.Stadsdeel_code)
-                    var NewRent2015 = Rent_2015[location];
+                if(CodeDeelgemeente.includes(d.properties.Stadsdeel_code)){
+                    var location = CodeDeelgemeente.indexOf(d.properties.Stadsdeel_code)
+                    var newIncome2015 = income2015[location];
+                    console.log(newIncome2015)
                 }
-            return "<strong>Deelgemeente: </strong><span class='details'>" + d.properties.Stadsdeel_code + "<br></span>" + "<strong>GDP(billions): </strong><span class='details'>" + NewRent2015 +"<br></span>";
+            return "<strong>Deelgemeente: </strong><span class='details'>" + d.properties.Stadsdeel_code + "<br></span>" + "<strong>GDP(billions): </strong><span class='details'>" + newIncome2015 +"<br></span>";
             })
 
   svg.call(tip);
@@ -160,7 +178,7 @@ window.onload = function() {
      .append("path")
      .attr("class", "buurt")
      .attr("d", path)
-     .attr("fill", function(d) { return color(d.properties.Stadsdeel_code[0]) })
+     .attr("fill", function(d) { console.log(d.properties.Stadsdeel_code); return color(d.properties.Stadsdeel_code[0]) })
      .append("title")
      .text(function(d) { return stadsdeel[d.properties.Stadsdeel_code] + ": " + d.properties.Buurtcombinatie });
 
