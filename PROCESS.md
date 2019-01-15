@@ -15,3 +15,6 @@ Added legenda and colors
 
 # Day 5 (14/01/2018)
 Added homepage, scroll down buttton, links, and improved reading of data
+
+# Day 6 (15/01/2018)
+Tried to add tooltip to map. 
