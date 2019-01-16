@@ -82,17 +82,13 @@ window.onload = function() {
     // console.log(rentprice)
     // console.log(income)
     // console.log(objects.data.buurten.geometries["0"])
-    // console.log(stadsdelen)
+
 
   var stadsdelen = topojson.feature(data, data.objects.buurten).features;
-  // var deelgemeenten = (data, data.objects.buurten.geometries).object;
-  // console.log(stadsdelen["7"].properties.Stadsdeel_code)
-  
   // console.log(stadsdelen)
-  // console.log(deelgemeenten)
+
   CodeDeelgemeente = []
   incomeList = []
-  income2015 = [];
   for (i = 2012; i < 2016; i++) {
     codeDeelgemeente = {}
     incomeList.push(codeDeelgemeente)
@@ -107,10 +103,11 @@ window.onload = function() {
     codeDeelgemeente["Amsterdam"] = income["Amsterdam"][i]
     CodeDeelgemeente.push(income)
   }
-  console.log(incomeList[0])
+  // console.log(incomeList[0])
+  var income2015 = incomeList[0]
+  console.log(CodeDeelgemeente)
 
-
-  // Set tooltips and put rent data in map
+// Set tooltips
   var tip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
@@ -118,34 +115,35 @@ window.onload = function() {
                 if(CodeDeelgemeente.includes(d.properties.Stadsdeel_code)){
                     var location = CodeDeelgemeente.indexOf(d.properties.Stadsdeel_code)
                     var newIncome2015 = income2015[location];
-                    console.log(newIncome2015)
                 }
-            return "<strong>Deelgemeente: </strong><span class='details'>" + d.properties.Stadsdeel_code + "<br></span>" + "<strong>GDP(billions): </strong><span class='details'>" + newIncome2015 +"<br></span>";
+            return "<strong>Deelgemeente: </strong><span class='details'>" + d.properties.Stadsdeel_code + "<br></span>" + "<strong>Income (euro): </strong><span class='details'>" + newIncome2015 +"<br></span>";
             })
+            // console.log(CodeDeelgemeente)
+
 
   svg.call(tip);
-  // ready(data, rentprice, income);
-  // function ready(data, rentprice, income){
+  ready(data, income);
+  function ready(data, income){
     
-// svg.append("text")
-//     .attr("x", (width / 2))             
-//     .attr("y", 0 - (margin.top / 2))
-//     .attr("text-anchor", "middle")  
-//     .style("font-size", "25px") 
-//     .text("Rent Price");
+svg.append("text")
+    .attr("x", (width / 2))             
+    .attr("y", 0 - (margin.top / 2))
+    .attr("text-anchor", "middle")  
+    .style("font-size", "25px") 
+    .text("Income");
   
 // svg.append("g")
 //   .attr("class", "deelgemeenten")
 //   .selectAll("path")
-//   .data(data.features)
+//   .data(data.features) // is this right?
 //   .enter()
 //   .append("path")
 //   .attr("d", path)
 //   .style("fill", function(d) {
-//       if(Country.includes(d.properties.Stadsdeel_code)){
-//           var location = Country.indexOf(d.properties.name)
-//           var NewGDP2017 = GDP_2017[location]
-//           return color(NewGDP2017); 
+//       if(CodeDeelgemeente.includes(d.properties.Stadsdeel_code)){
+//           var location = CodeDeelgemeente.indexOf(d.properties.Stadsdeel_code)
+//           var newIncome2015 = income2015[location]
+//           return color(newIncome2015); 
 //       }
 //   })
 //   .style('stroke-width', 1.5)
@@ -170,7 +168,6 @@ window.onload = function() {
 //       .style("stroke-width",0.3);
 //   })
 
-
 // Draw the deelgemeenten
   svg.selectAll(".buurt")
      .data(stadsdelen)
@@ -191,5 +188,7 @@ window.onload = function() {
   svg.append("path")
       .attr("class", "stadsdeel-borders")
       .attr("d", path(topojson.mesh(data, data.objects.buurten, function(a, b) { return stadsdeel[a.properties.Stadsdeel_code] !== stadsdeel[b.properties.Stadsdeel_code]; })));
-  
+
+}
   };
+  
