@@ -75,6 +75,13 @@ var color = d3.scaleThreshold()
 var path = d3.geoPath()
   .projection(projection);
 
+    // draw borders around stadsdelen
+    svg.append("path")
+    .attr("class", "stadsdeel-borders")
+    .attr("d", path(topojson.mesh(data, data.objects.buurten, function(a, b) { return stadsdeel[a.properties.Stadsdeel_code] !== stadsdeel[b.properties.Stadsdeel_code]; })));
+
+
+
 // constant variables
 var y0 = 30;
 var spacingy = 45;
@@ -171,16 +178,28 @@ legend.append("text")
          .style("stroke","white")
          .style("stroke-width",0.3);
      })
+    
+     // load line chart of deelgemeente when clicked on
+    .on('click', function(d){
+        d3.select("#chart > *").remove()
+        if(DeelGemeenteList1.includes(d.properties.Stadsdeel_code)){
+            var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
+            var data = [{year: 2012, income: incomeListYears[0][location]},
+                        {year: 2013, income: incomeListYears[1][location]},
+                        {year: 2014, income: incomeListYears[2][location]},
+                        {year: 2015, income: incomeListYears[3][location]}]
+            
+            createLinechart(data)
+            console.log(data[3].income)
+            return(data)
+        }
 
-  // Draw borders around stadsdelen
-  svg.append("path")
-      .attr("class", "stadsdeel-borders")
-      .attr("d", path(topojson.mesh(data, data.objects.buurten, function(a, b) { return stadsdeel[a.properties.Stadsdeel_code] !== stadsdeel[b.properties.Stadsdeel_code]; })));
-
-// }
-  };
   
-  // function createLinechart(data) {
+    });
+}
+  };
+
+  function createLinechart(data) {
     
     // use standard margins
     var margin = {top: 50, right: 50, bottom: 50, left: 50}
@@ -203,14 +222,15 @@ legend.append("text")
    
     // Y scale 
     var yScale = d3.scaleLinear()
-        .domain([0, incomeListYears])
+        .domain([20000, 35000])
         .range([height, 0]);
 
     // X axis
     svg.append("g")
        .attr("class", "x axis")
        .attr("transform", "translate(0," + height + ")")
-       .call(d3.axisBottom(xScale));
+       .call(d3.axisBottom(xScale)
+       .ticks(4));
             
     // title x axis
     svg.append("text")
@@ -242,6 +262,8 @@ legend.append("text")
       .style('stroke-width', 2)
       .style('fill', 'none')
       .attr('d', line)
+      .call(transition);
+
 
     svg.selectAll('circle')
         .data(data)
@@ -249,12 +271,37 @@ legend.append("text")
         .append('circle')
         .attr('class', 'circle')
         .attr('cx', d => xScale(d.year))
-        .attr('cy', d => yScale(d.gdp))
+        .attr('cy', d => yScale(d.income))
         .attr('r', 3)
-        .on("mouseover", function(a, b, c) { 
-                console.log(a) 
-            this.attr('class', 'focus')
-            })
-        .on("mouseout", function() {  })
-    }
-  // }
+        
+        // .on("mouseover", function(a, b, c) { 
+        //         console.log(a) 
+        //     this.attr('class', 'focus')
+
+            
+    //     .on('mouseover',function(d){ 
+    //         // tip.show(d);
+                
+    //         // d3.select(this)
+    //         // .style("opacity", 1)
+    //         // .style("stroke","white")
+    //         // .style("stroke-width",3);
+    //         })
+    //     .on("mouseout", function(d) {}
+
+    //     )
+        
+    //     ;
+}
+        function transition(path) {
+            path.transition()
+                .duration(4000)
+                .attrTween("stroke-dasharray", tweenDash)
+                // .on("end", function() { d3.select(this).call(transition); });
+          }
+          
+          function tweenDash() {
+            var l = this.getTotalLength(),
+                i = d3.interpolateString("0," + l, l + "," + l);
+            return function(t) { return i(t); };
+          }

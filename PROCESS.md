@@ -23,4 +23,4 @@ Tried to add tooltip to map
 Finally have a tooltip showing the "name" of the "deelgemeente"for the map. The code was partly d3 version 3 and therefore not working
 
 # Day 8 (17/01/2018)
-Had a lot of trouble with loading the data in the tooltip. Problem was that one of the datasets used an extra space in the "deelgemeentes" name.
+Had a lot of trouble with loading the data in the tooltip. Problem was that one of the datasets used an extra space in the "deelgemeentes" name. Will add a transition to the line chart. Bug: Deelgemeente Nieuw-West name is not loading
