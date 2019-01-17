@@ -12,9 +12,9 @@
   body {
     text-align: center;
   }
-  .buurt:hover {
+  /* .buurt:hover {
     opacity: 0.65;
-  }
+  } */
   /*Lines*/
  .buurt-borders {
     fill: none;

@@ -15,34 +15,27 @@ window.onload = function() {
       var data = response[0];
       var rentprice = response[1];
       var income = response [2];
-    
-    // console.log(data)
-    // console.log(rentprice)
-    // console.log(income)
-    // console.log(objects.data.buurten.geometries["0"])
+      var stadsdeel = {"A Centrum": "Centrum","B Westpoort": "Westpoort", "E West": "West", "M Oost": "Oost", "K Zuid": "Zuid", "F Nieuw west": "Nieuw west", "N Noord": "Noord", "T Zuidoost": "Zuidoost"}
+
 
   var stadsdelen = topojson.feature(data, data.objects.buurten).features;
   // console.log(stadsdelen)
+  incomeListYears = []
+  
+  DeelGemeenteList = ["A  Centrum", "E  West", "F  Nieuw-West", "K  Zuid", "M  Oost", "N  Noord", "T  Zuidoost", "Amsterdam"];
+  DeelGemeenteList1 = ["A Centrum", "E West", "F Nieuw-West", "K Zuid", "M Oost", "N Noord", "T Zuidoost", "Amsterdam"];
+  for (i = 2012; i < 2016; i++) {
+    incomeList = []
+    incomeListYears.push(incomeList)
+    for (j = 0; j < 8; j++) {
+      incomeList.push(income[DeelGemeenteList[j]][i])
+      }
+    }
+  income2015 = []
+  income2015 = incomeListYears[3]
 
-  CodeDeelgemeente = []
-  incomeList = []
-  codeDeelgemeente = {}
-  incomeList.push(codeDeelgemeente)
-    var i = 2015
-
-    codeDeelgemeente["A  Centrum"] = income["A  Centrum"][i]
-    codeDeelgemeente["E  West"] = income["E  West"][i]
-    codeDeelgemeente["F  Nieuw-West"] = income["F  Nieuw-West"][i]
-    codeDeelgemeente["K  Zuid"] = income["K  Zuid"][i]
-    codeDeelgemeente["M  Oost"] = income["M  Oost"][i]
-    codeDeelgemeente["N  Noord"] = income["N  Noord"][i]
-    codeDeelgemeente["T  Zuidoost"] = income["T  Zuidoost"][i]
-    codeDeelgemeente["Amsterdam"] = income["Amsterdam"][i]
-
-  CodeDeelgemeente.push(income)
-  // }
-  var income2015 = incomeList[0]
-  console.log(income2015)
+  console.log(incomeList)
+  console.log(DeelGemeenteList)
   
 
 // Set tooltips
@@ -50,11 +43,11 @@ window.onload = function() {
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-                if(CodeDeelgemeente.includes(d.properties.Stadsdeel_code)){
-                    var location = CodeDeelgemeente.indexOf(d.properties.Stadsdeel_code)
+                if(DeelGemeenteList1.includes(d.properties.Stadsdeel_code)){
+                    var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code)
                     var newIncome2015 = income2015[location];
                 }
-            return "<strong>Deelgemeente: </strong><span class='details'>" + d.properties.Stadsdeel_code + "<br></span>" + "<strong>Income (euro): </strong><span class='details'>" + newIncome2015 +"<br></span>";
+            return "<strong>Deelgemeente: </strong><span class='details'>" + stadsdeel[d.properties.Stadsdeel_code] + "<br></span>" + "<strong>Income (euro): </strong><span class='details'>" + newIncome2015 +"<br></span>";
             })
 
 
@@ -76,15 +69,11 @@ var projection = d3.geoAlbers()
 
 // color scale
 var color = d3.scaleThreshold()
-.domain([400,500,600,700,800,900])
+.domain([20000,22000,24000,26000,28000,34000])
 .range(["rgb(255,255,178)", "rgb(254,217,118)", "rgb(254,178,76)", "rgb(253,141,60)","rgb(252,78,42)","rgb(227,26,28)","rgb(177,0,38)","rgb(37,37,37)"]);
             
 var path = d3.geoPath()
   .projection(projection);
-
-var stadsdeel = {"A Centrum": "Centrum","B Westpoort": "Westpoort", "E West": "West", "M Oost": "Oost", "K Zuid": "Zuid", "F Nieuw west": "Nieuw west", "N Noord": "Noord", "T Zuidoost": "Zuidoost"}
-
-
 
 // constant variables
 var y0 = 30;
@@ -102,7 +91,7 @@ svg.append("text")
   .text("Legenda");
 
 legend = svg.selectAll("#map")
-            .data([400,500,600,700,800,900])
+            .data([20000,22000,24000,26000,28000,34000 +"+"])
             .enter()
             .append("g")
             .attr("class", ".legend")
@@ -155,8 +144,8 @@ legend.append("text")
      .append("path")
      .attr("d", path)
      .style("fill", function(d) {
-        if(CodeDeelgemeente.includes(d.properties.Stadsdeel_code)){
-            var location = CodeDeelgemeente.indexOf(d.properties.Stadsdeel_code)
+        if(DeelGemeenteList1.includes(d.properties.Stadsdeel_code)){
+            var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code)
             var newIncome2015 = income2015[location];
             return color(newIncome2015); 
          }
@@ -166,9 +155,9 @@ legend.append("text")
      
      // tooltips
      .style('stroke-width', 0.3)
-     .on('mouseover',function(d){
+     .on('mouseover',function(d){ 
          tip.show(d);
-
+          
          d3.select(this)
          .style("opacity", 1)
          .style("stroke","white")
