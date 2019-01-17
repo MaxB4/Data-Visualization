@@ -17,4 +17,7 @@ Added legenda and colors
 Added homepage, scroll down buttton, links, and improved reading of data
 
 # Day 6 (15/01/2018)
-Tried to add tooltip to map. 
+Tried to add tooltip to map
+
+# Day 6 (15/01/2018)
+Finally have a tooltip showing the "name" of the "deelgemeente"for the map. The code was partly d3 version 3 and therefore not working
