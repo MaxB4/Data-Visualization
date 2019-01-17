@@ -19,5 +19,8 @@ Added homepage, scroll down buttton, links, and improved reading of data
 # Day 6 (15/01/2018)
 Tried to add tooltip to map
 
-# Day 6 (15/01/2018)
+# Day 7 (16/01/2018)
 Finally have a tooltip showing the "name" of the "deelgemeente"for the map. The code was partly d3 version 3 and therefore not working
+
+# Day 8 (17/01/2018)
+Had a lot of trouble with loading the data in the tooltip. Problem was that one of the datasets used an extra space in the "deelgemeentes" name.
