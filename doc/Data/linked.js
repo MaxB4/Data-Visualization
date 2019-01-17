@@ -180,81 +180,81 @@ legend.append("text")
 // }
   };
   
-//   function createLinechart(data) {
+  // function createLinechart(data) {
     
-//     // use standard margins
-//     var margin = {top: 50, right: 50, bottom: 50, left: 50}
-//     , width = window.innerWidth - margin.left - margin.right 
-//     , height = window.innerHeight - margin.top - margin.bottom; 
-//     padding = 20;
+    // use standard margins
+    var margin = {top: 50, right: 50, bottom: 50, left: 50}
+    , width = window.innerWidth - margin.left - margin.right 
+    , height = window.innerHeight - margin.top - margin.bottom; 
+    padding = 20;
 
-//     // add SVG 
-//     var svg = d3.select("#chart")
-//                 .append("svg")
-//                 .attr("width", width + margin.left + margin.right)
-//                 .attr("height", height + margin.top + margin.bottom)
-//                 .append("g")
-//                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    // add SVG 
+    var svg = d3.select("#chart")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-//     // X scale
-//     var xScale = d3.scaleLinear()
-//         .domain([2013, 2015])
-//         .range([0, width]);
+    // X scale
+    var xScale = d3.scaleLinear()
+        .domain([2012, 2015])
+        .range([0, width]);
    
-//     // Y scale 
-//     var yScale = d3.scaleLinear()
-//         .domain([0, data[5].rent]) // data[5] is from old visualization
-//         .range([height, 0]);
+    // Y scale 
+    var yScale = d3.scaleLinear()
+        .domain([0, incomeListYears])
+        .range([height, 0]);
 
-//     // X axis
-//     svg.append("g")
-//        .attr("class", "x axis")
-//        .attr("transform", "translate(0," + height + ")")
-//        .call(d3.axisBottom(xScale));
+    // X axis
+    svg.append("g")
+       .attr("class", "x axis")
+       .attr("transform", "translate(0," + height + ")")
+       .call(d3.axisBottom(xScale));
             
-//     // title x axis
-//     svg.append("text")
-//         .attr("transform", "translate(" + (width / 2) + " ," + (height + padding + 20) + ")")
-//         .attr("class", "x axis", margin.top)
-//         .style("text-anchor", "middle")
-//         .text("Year");
+    // title x axis
+    svg.append("text")
+        .attr("transform", "translate(" + (width / 2) + " ," + (height + padding + 20) + ")")
+        .attr("class", "x axis", margin.top)
+        .style("text-anchor", "middle")
+        .text("Year");
 
-//     // Y axis
-//     svg.append("g")
-//         .attr("class", "y axis")
-//         .call(d3.axisLeft(yScale));
+    // Y axis
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(d3.axisLeft(yScale));
     
-//     // title y axis
-//     svg.append("text")
-//     .attr("dy", "-1.2em")
-//     .style("text-anchor", "middle")
-//     .text("Rent (Euro)");
+    // title y axis
+    svg.append("text")
+    .attr("dy", "-1.2em")
+    .style("text-anchor", "middle")
+    .text("Income (Euro)");
 
-//     // create line
-//     const line = d3.line()
-//     .x(d => xScale(d.year))
-//     .y(d => yScale(d.rent))
-//     .curve(d3.curveMonotoneX);
+    // create line
+    const line = d3.line()
+    .x(d => xScale(d.year))
+    .y(d => yScale(d.income))
+    .curve(d3.curveMonotoneX);
    
-//     svg.append('path')
-//       .datum(data)
-//       .style('stroke','#D073BA')
-//       .style('stroke-width', 2)
-//       .style('fill', 'none')
-//       .attr('d', line)
+    svg.append('path')
+      .datum(data)
+      .style('stroke','#D073BA')
+      .style('stroke-width', 2)
+      .style('fill', 'none')
+      .attr('d', line)
 
-//     svg.selectAll('circle')
-//         .data(data)
-//         .enter()
-//         .append('circle')
-//         .attr('class', 'circle')
-//         .attr('cx', d => xScale(d.year))
-//         .attr('cy', d => yScale(d.gdp))
-//         .attr('r', 3)
-//         .on("mouseover", function(a, b, c) { 
-//                 console.log(a) 
-//             this.attr('class', 'focus')
-//             })
-//         .on("mouseout", function() {  })
-//     }
-  }
+    svg.selectAll('circle')
+        .data(data)
+        .enter()
+        .append('circle')
+        .attr('class', 'circle')
+        .attr('cx', d => xScale(d.year))
+        .attr('cy', d => yScale(d.gdp))
+        .attr('r', 3)
+        .on("mouseover", function(a, b, c) { 
+                console.log(a) 
+            this.attr('class', 'focus')
+            })
+        .on("mouseout", function() {  })
+    }
+  // }
