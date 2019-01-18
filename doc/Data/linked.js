@@ -19,7 +19,6 @@ window.onload = function() {
 
 
   var stadsdelen = topojson.feature(data, data.objects.buurten).features;
-  // console.log(stadsdelen)
   incomeListYears = []
   
   DeelGemeenteList = ["A  Centrum", "E  West", "F  Nieuw-West", "K  Zuid", "M  Oost", "N  Noord", "T  Zuidoost", "Amsterdam"];
@@ -31,7 +30,7 @@ window.onload = function() {
       incomeList.push(income[DeelGemeenteList[j]][i])
       }
     }
-  income2015 = []
+
   income2015 = incomeListYears[3]
 
   console.log(incomeList)
@@ -159,7 +158,7 @@ legend.append("text")
      })
      .style('stroke-width', 1.5)
      .style("opacity",0.8)
-     
+  
      // tooltips
      .style('stroke-width', 0.3)
      .on('mouseover',function(d){ 
@@ -190,11 +189,13 @@ legend.append("text")
                         {year: 2015, income: incomeListYears[3][location]}]
             
             createLinechart(data)
+            
+            // scroll down
+            document.documentElement.scrollTop = 1630;
+            
             console.log(data[3].income)
             return(data)
         }
-
-  
     });
 }
   };
@@ -225,6 +226,10 @@ legend.append("text")
         .domain([20000, 35000])
         .range([height, 0]);
 
+    var yScale2 = d3.scaleLinear()
+    .domain([0, 1500])
+    .range([height, 0]);
+
     // X axis
     svg.append("g")
        .attr("class", "x axis")
@@ -239,16 +244,30 @@ legend.append("text")
         .style("text-anchor", "middle")
         .text("Year");
 
-    // Y axis
+    // left Y axis 
     svg.append("g")
         .attr("class", "y axis")
         .call(d3.axisLeft(yScale));
     
-    // title y axis
+    // title left y axis
     svg.append("text")
     .attr("dy", "-1.2em")
     .style("text-anchor", "middle")
     .text("Income (Euro)");
+
+    // right Y axis 
+    svg.append("g")
+    .attr("class", "right y axis")
+    .attr("transform", "translate( " + width + ", 0 )")
+    .call(d3.axisRight(yScale2));
+    
+    // title right y axis
+    svg.append("text")
+    .attr("dy", "-1.2em")
+    .attr("transform", "translate( " + width + ", 0 )")
+    .style("text-anchor", "middle")
+    .text("Rent");
+
 
     // create line
     const line = d3.line()
@@ -265,6 +284,7 @@ legend.append("text")
       .call(transition);
 
 
+
     svg.selectAll('circle')
         .data(data)
         .enter()
@@ -274,34 +294,42 @@ legend.append("text")
         .attr('cy', d => yScale(d.income))
         .attr('r', 3)
         
-        // .on("mouseover", function(a, b, c) { 
-        //         console.log(a) 
-        //     this.attr('class', 'focus')
-
+        // tooltips
+        .style('stroke-width', 0.3)
+        .on('mouseover',function(d){ 
+            tip.show(d);
             
-    //     .on('mouseover',function(d){ 
-    //         // tip.show(d);
-                
-    //         // d3.select(this)
-    //         // .style("opacity", 1)
-    //         // .style("stroke","white")
-    //         // .style("stroke-width",3);
-    //         })
-    //     .on("mouseout", function(d) {}
+         d3.select(this)
+         .style("opacity", 1)
+         .style("stroke","white")
+         .style("stroke-width",3);
+         })
+         .on('mouseout', function(d){
+         tip.hide(d);
+         })
 
-    //     )
-        
-    //     ;
-}
+           // Set tooltips
+           var tip = d3.tip()
+                        .attr('class', 'd3-tip')
+                        .offset([-10, 0])
+                        .html(function(d) {
+            return "<strong>Year: </strong><span class='details'>" + d.year + "<br></span>" + "<strong>Income (euro): </strong><span class='details'>" + d.income +"<br></span>";
+            })
+            svg.call(tip);
+            }
+
         function transition(path) {
             path.transition()
                 .duration(4000)
-                .attrTween("stroke-dasharray", tweenDash)
-                // .on("end", function() { d3.select(this).call(transition); });
-          }
-          
-          function tweenDash() {
-            var l = this.getTotalLength(),
-                i = d3.interpolateString("0," + l, l + "," + l);
-            return function(t) { return i(t); };
-          }
+                .attrTween("stroke-dasharray", tweenDash);
+        }
+
+        function tweenDash() {
+        var l = this.getTotalLength(),
+            i = d3.interpolateString("0," + l, l + "," + l);
+        return function(t) { return i(t); };
+        }
+        
+        function scrollWin() {
+            window.scrollBy(0, 1000);
+          }        
