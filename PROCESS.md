@@ -24,3 +24,9 @@ Finally have a tooltip showing the "name" of the "deelgemeente"for the map. The 
 
 # Day 8 (17/01/2018)
 Had a lot of trouble with loading the data in the tooltip. Problem was that one of the datasets used an extra space in the "deelgemeentes" name. Will add a transition to the line chart. Bug: Deelgemeente Nieuw-West name is not loading
+
+# Day 9 (18/01/2018)
+Finalized tooltip, created second line. Failed to add tooltip to second line. No idea why.
+
+# Day 10 (21/01/2018)
+Started building a dropdown menu for the line chart.
