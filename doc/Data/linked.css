@@ -1,3 +1,6 @@
+/* standard rad more */
+#more {display: none;}
+  
   body { 
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
@@ -15,48 +18,27 @@
   /* .buurt:hover {
     opacity: 0.65;
   } */
+  
   /*Lines*/
- .buurt-borders {
+ /* .buurt-borders {
     fill: none;
-    /* stroke: #fff;
+    stroke: #fff;
     stroke-width: 0.4px;
     stroke-linejoin: round;
     stroke-linecap: round;
     pointer-events: none;
-    opacity: 0.7; */
-  }
+    opacity: 0.7;
+  } */
+  
   .stadsdeel-borders {
     fill: none;
     stroke: rgb(26, 26, 26);
-    stroke-width: 5px;
+    stroke-width: 2px;
     stroke-linejoin: round;
     stroke-linecap: round;
     pointer-events: none;
-    opacity: 0.3;
-  }
-  /* Points
-  .station {
-    fill: #ffb310;
-    r: 4;
-    stroke: #092869;
-    stroke-width: 2;
-    z-index: 3;
-  }
-  .stationnaam {
-    z-index: 4;
-    fill: black;
-    font-size: x-small;
-    text-anchor: middle;
-  }
-  .station:hover {
-    stroke: #ffb310;
-  }
-  .halte {
-    r: 1.5;
-    fill: white;
     opacity: 0.8;
-    z-index: -1;
-  } */
+  }
 
 /* d3 tooltip */
     
@@ -125,9 +107,9 @@
         left: 100%;
       }
   
-  /*    text{
+     /* text{
         pointer-events:none;
-      }*/
+      } */
   
       .details{
         color:white;
@@ -189,5 +171,10 @@
     fill: none;
     stroke: #000;
     stroke-width: 3px;
+  }
+  .line {
+    fill: none;
+    stroke: rgba(0, 255, 98, 0.856);
+    stroke-width: 2px;
   }
   

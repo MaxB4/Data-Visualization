@@ -13,16 +13,24 @@ window.onload = function() {
 }
   function main (response){
       var data = response[0];
-      var rentprice = response[1];
+      var rent = response[1];
       var income = response [2];
       var stadsdeel = {"A Centrum": "Centrum","B Westpoort": "Westpoort", "E West": "West", "M Oost": "Oost", "K Zuid": "Zuid", "F Nieuw west": "Nieuw west", "N Noord": "Noord", "T Zuidoost": "Zuidoost"}
 
 
   var stadsdelen = topojson.feature(data, data.objects.buurten).features;
   incomeListYears = []
-  
+  rentListYears = []
+  emptyList = Array(8).fill(0)
+
   DeelGemeenteList = ["A  Centrum", "E  West", "F  Nieuw-West", "K  Zuid", "M  Oost", "N  Noord", "T  Zuidoost", "Amsterdam"];
   DeelGemeenteList1 = ["A Centrum", "E West", "F Nieuw-West", "K Zuid", "M Oost", "N Noord", "T Zuidoost", "Amsterdam"];
+  
+
+// console.log(income[DeelGemeenteList[0]])
+// rentList = []
+//   rentListYears.push(rentList)
+  
   for (i = 2012; i < 2016; i++) {
     incomeList = []
     incomeListYears.push(incomeList)
@@ -31,10 +39,33 @@ window.onload = function() {
       }
     }
 
-  income2015 = incomeListYears[3]
+    console.log(incomeListYears)
+    rentListYears = []
+    years = [2013, 2015]
+    var robinsie = 1
+    
 
-  console.log(incomeList)
-  console.log(DeelGemeenteList)
+    for (i = 0; i < 2; i++) {
+        rentList = []
+        for (j = 0; j < 8; j++) {
+            rentList.push(rent[DeelGemeenteList1[j]][years[i]])
+            
+        }
+        rentListYears.push(rentList)
+    }
+        // rentListSocial = []
+        // rentListSocial.push(rent[DeelGemeenteList1[j]][2013.1])
+        // rentListSocial.push(rent[DeelGemeenteList1[j]][2015.1])
+        // rentListYears.push(rentListSocial)  
+
+
+
+
+  income2015 = incomeListYears[3]
+ 
+//   console.log(incomeListYears)
+//   console.log(rentListYears[1])
+//   console.log(DeelGemeenteList)
   
 
 // Set tooltips
@@ -74,12 +105,10 @@ var color = d3.scaleThreshold()
 var path = d3.geoPath()
   .projection(projection);
 
-    // draw borders around stadsdelen
-    svg.append("path")
-    .attr("class", "stadsdeel-borders")
-    .attr("d", path(topojson.mesh(data, data.objects.buurten, function(a, b) { return stadsdeel[a.properties.Stadsdeel_code] !== stadsdeel[b.properties.Stadsdeel_code]; })));
-
-
+// draw borders around stadsdelen
+svg.append("path")
+.attr("class", "stadsdeel-borders")
+.attr("d", path(topojson.mesh(data, data.objects.buurten, function(a, b) { return stadsdeel[a.properties.Stadsdeel_code] !== stadsdeel[b.properties.Stadsdeel_code]; })));
 
 // constant variables
 var y0 = 30;
@@ -125,24 +154,17 @@ legend.append("text")
         function ready(data, income2015) {
 
 
-// // Draw the deelgemeenten
-//   svg.selectAll(".buurt")
-//      .data(stadsdelen)
-//      .enter().insert("g")
-//      .append("path")
-//      .attr("class", "buurt")
-//      .attr("d", path)
-//      .attr("fill", function(d) { console.log(d.properties.Stadsdeel_code); return color(d.properties.Stadsdeel_code[0]) })
-//      .on("mouseover", function (d)
-//      {
-//       console.log(d.properties.Stadsdeel_code)
-//      })
-     
-//      .append("title")
-//      .text(function(d) { return stadsdeel[d.properties.Stadsdeel_code] + ": " + d.properties.Income})
-  
+// Draw the deelgemeenten
+  svg.selectAll(".buurt")
+     .data(stadsdelen)
+     .enter().insert("g")
+     .append("path")
+    //  .attr("class", "buurt")
+    //  .attr("d", path)
 
-     svg.append("g")
+
+
+svg.append("g")
      .attr("class", "buurt")
      .selectAll("path")
      .data(stadsdelen)
@@ -154,10 +176,13 @@ legend.append("text")
             var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code)
             var newIncome2015 = income2015[location];
             return color(newIncome2015); 
+            
          }
      })
      .style('stroke-width', 1.5)
      .style("opacity",0.8)
+
+     
   
      // tooltips
      .style('stroke-width', 0.3)
@@ -181,26 +206,94 @@ legend.append("text")
      // load line chart of deelgemeente when clicked on
     .on('click', function(d){
         d3.select("#chart > *").remove()
+        
+        // destroy linechart 
+        // console.log(robinsie)
+        // if (robinsie == 2) {
+        //     console.log(TestChart)
+            // TestChart.destroy();
+        
+        // robinsie = 2
         if(DeelGemeenteList1.includes(d.properties.Stadsdeel_code)){
             var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
-            var data = [{year: 2012, income: incomeListYears[0][location]},
-                        {year: 2013, income: incomeListYears[1][location]},
-                        {year: 2014, income: incomeListYears[2][location]},
-                        {year: 2015, income: incomeListYears[3][location]}]
+            var rent2013 = rentListYears[0][location]
+            var rent2015 = rentListYears[1][location]
+            var rent2014 = (((rentListYears[0][location]) + rent2015)/2)
+            var rent2012 = (rentListYears[0][location]) - (rent2014-rentListYears[0][location])
+
+            var year = [2012, 2013, 2014, 2015]
             
+            var data = [{year: year[0], income: incomeListYears[0][location], rent: rent2012},
+                        {year: year[1], income: incomeListYears[1][location], rent: rent2013},
+                        {year: year[2], income: incomeListYears[2][location], rent: rent2014},
+                        {year: year[3], income: incomeListYears[3][location], rent: rent2015}]
+
             createLinechart(data)
+      console.log(income2015)
+            
+      //line   
+            // var canvas = document.getElementById('chart1');
+            // var TestChart = new Chart(canvas, {
+            //   type: 'line',
+            //   data: {
+            //     labels: [year[0], year[1], year[2], year[3]],
+            //     datasets: [{
+            //       label: 'Income',
+            //       yAxisID: 'Income',
+            //       data: [incomeListYears[0][location], incomeListYears[1][location], incomeListYears[2][location], incomeListYears[3][location]],        
+            //       backgroundColor: [
+            //           'rgba(105, 0, 132, .2)',
+            //         ],
+            //         borderColor: [
+            //           'rgba(200, 99, 132, .7)',
+            //         ],
+            //         borderWidth: 2
+                 
+            //     }, {
+            //       label: 'Rent',
+            //       yAxisID: 'Rent',
+            //       data: [rent2013, rent2013, rent2014, rent2015], 
+            //         backgroundColor: [
+            //           'rgba(0, 137, 132, .2)',
+            //         ],
+            //         borderColor: [
+            //           'rgba(0, 10, 130, .7)',
+            //         ],
+            //         borderWidth: 2
+            //     }]
+            //   },
+            //   options: {
+            //     scales: {
+            //       yAxes: [{
+            //         id: 'Income',
+            //         type: 'linear',
+            //         position: 'left',
+            //       }, {
+            //         id: 'Rent',
+            //         type: 'linear',
+            //         position: 'right',
+            //       }]
+            //     }
+            //   }
+            // });
+        
             
             // scroll down
             document.documentElement.scrollTop = 1630;
             
-            console.log(data[3].income)
             return(data)
+        
+        
+        
+        
         }
     });
 }
   };
 
   function createLinechart(data) {
+
+    console.log(data)
     
     // use standard margins
     var margin = {top: 50, right: 50, bottom: 50, left: 50}
@@ -227,7 +320,7 @@ legend.append("text")
         .range([height, 0]);
 
     var yScale2 = d3.scaleLinear()
-    .domain([0, 1500])
+    .domain([0, width])
     .range([height, 0]);
 
     // X axis
@@ -269,8 +362,14 @@ legend.append("text")
     .text("Rent");
 
 
-    // create line
-    const line = d3.line()
+    createrentline(data, svg, xScale, yScale2)
+    createincomeline(data, svg, xScale, yScale)
+    
+  }
+    function createincomeline(data, svg, xScale, yScale) {
+    
+    // income line
+    var incomeline = d3.line()
     .x(d => xScale(d.year))
     .y(d => yScale(d.income))
     .curve(d3.curveMonotoneX);
@@ -280,11 +379,10 @@ legend.append("text")
       .style('stroke','#D073BA')
       .style('stroke-width', 2)
       .style('fill', 'none')
-      .attr('d', line)
+      .attr('d', incomeline)
       .call(transition);
-
-
-
+    
+    //  circles income line
     svg.selectAll('circle')
         .data(data)
         .enter()
@@ -299,24 +397,74 @@ legend.append("text")
         .on('mouseover',function(d){ 
             tip.show(d);
             
+            d3.select(this)
+            .style("opacity", 1)
+            .style("stroke","white")
+            .style("stroke-width",3);
+            })
+            .on('mouseout', function(d){
+            tip.hide(d);
+            })
+            // tooltip income
+           var tip = d3.tip()
+           .attr('class', 'd3-tip')
+           .offset([-10, 0])
+           .html(function(d) {
+return "<strong>Year: </strong><span class='details'>" + d.year + "<br></span>" + "<strong>Income (euro): </strong><span class='details'>" + d.income +"<br></span>";
+})
+svg.call(tip);
+    }
+// end function income line
+
+function createrentline(data, svg, xScale, yScale2) {
+
+    // rent line
+    var rentline = d3.line()
+    .x(d => xScale(d.year))
+    .y(d => yScale2(d.rent))
+    .curve(d3.curveMonotoneX);
+
+    svg.append('path')
+    .datum(data)
+    .style('stroke','#72ccd0')
+    .style('stroke-width', 2)
+    .style('fill', 'none')
+    .attr('d', rentline)
+    .call(transition);
+       
+    // circles rent line 
+    svg.selectAll('circle')
+        .data(data)
+        .enter()
+        .append('circle')
+        .attr('class', 'circle')
+        .attr('cx', d => xScale(d.year))
+        .attr('cy', d => yScale2(d.rent))
+        .attr('r', 3)
+        
+        // tooltips
+        .style('stroke-width', 0.3)
+        .on('mouseover',function(d){ 
+            tip1.show(d);
+        
          d3.select(this)
          .style("opacity", 1)
          .style("stroke","white")
          .style("stroke-width",3);
          })
          .on('mouseout', function(d){
-         tip.hide(d);
-         })
-
-           // Set tooltips
-           var tip = d3.tip()
-                        .attr('class', 'd3-tip')
-                        .offset([-10, 0])
-                        .html(function(d) {
-            return "<strong>Year: </strong><span class='details'>" + d.year + "<br></span>" + "<strong>Income (euro): </strong><span class='details'>" + d.income +"<br></span>";
-            })
-            svg.call(tip);
-            }
+         tip1.hide(d);
+         })  
+            
+        // tooltip rent
+        var tip1 = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 0])
+        .html(function(d) {
+        return "<strong>Year: </strong><span class='details'>" + d.year + "<br></span>" + "<strong>Rent (euro): </strong><span class='details'>" + d.rent +"<br></span>";
+        })
+        svg.call(tip1);
+        }
 
         function transition(path) {
             path.transition()
@@ -328,8 +476,26 @@ legend.append("text")
         var l = this.getTotalLength(),
             i = d3.interpolateString("0," + l, l + "," + l);
         return function(t) { return i(t); };
-        }
+
         
-        function scrollWin() {
-            window.scrollBy(0, 1000);
-          }        
+        }   
+        // function readFunction() {
+        //     var dots = document.getElementById("dots");
+        //     var moreText = document.getElementById("more");
+        //     var btnText = document.getElementById("readButton");
+          
+        //     if (dots.style.display === "none") {
+        //       dots.style.display = "inline";
+        //       btnText.innerHTML = "Read more"; 
+        //       moreText.style.display = "none";
+        //     } else {
+        //       dots.style.display = "none";
+        //       btnText.innerHTML = "Read less"; 
+        //       moreText.style.display = "inline";
+        //     }
+        //   }
+
+        // when the user clicks on the button, scroll to the first visualization
+        function downFunction() {
+            document.documentElement.scrollTop = 770;
+}    
