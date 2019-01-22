@@ -30,3 +30,6 @@ Finalized tooltip, created second line. Failed to add tooltip to second line. No
 
 # Day 10 (21/01/2018)
 Started building a dropdown menu for the line chart.
+
+# Day 11 (22/01/2018)
+Finished dropdown menu and thinking about adding a rent and income button
