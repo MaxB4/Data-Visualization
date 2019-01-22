@@ -27,9 +27,6 @@ window.onload = function() {
   DeelGemeenteList1 = ["A Centrum", "E West", "F Nieuw-West", "K Zuid", "M Oost", "N Noord", "T Zuidoost", "Amsterdam"];
   
 
-// console.log(income[DeelGemeenteList[0]])
-// rentList = []
-//   rentListYears.push(rentList)
   
   for (i = 2012; i < 2016; i++) {
     incomeList = []
@@ -39,7 +36,6 @@ window.onload = function() {
       }
     }
 
-    console.log(incomeListYears)
     rentListYears = []
     years = [2013, 2015]
     var robinsie = 1
@@ -58,15 +54,12 @@ window.onload = function() {
         // rentListSocial.push(rent[DeelGemeenteList1[j]][2015.1])
         // rentListYears.push(rentListSocial)  
 
-
+        var check123 = d3.selectAll("dropdown-menu");
+        console.log(check123)
 
 
   income2015 = incomeListYears[3]
- 
-//   console.log(incomeListYears)
-//   console.log(rentListYears[1])
-//   console.log(DeelGemeenteList)
-  
+
 
 // Set tooltips
   var tip = d3.tip()
@@ -216,6 +209,8 @@ svg.append("g")
         // robinsie = 2
         if(DeelGemeenteList1.includes(d.properties.Stadsdeel_code)){
             var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
+            // console.log(location)
+           
             var rent2013 = rentListYears[0][location]
             var rent2015 = rentListYears[1][location]
             var rent2014 = (((rentListYears[0][location]) + rent2015)/2)
@@ -383,7 +378,7 @@ svg.append("g")
       .call(transition);
     
     //  circles income line
-    svg.selectAll('circle')
+    svg.selectAll(".buurt")
         .data(data)
         .enter()
         .append('circle')
@@ -433,7 +428,7 @@ function createrentline(data, svg, xScale, yScale2) {
     .call(transition);
        
     // circles rent line 
-    svg.selectAll('circle')
+    svg.selectAll(".buurt")
         .data(data)
         .enter()
         .append('circle')
@@ -498,4 +493,25 @@ function createrentline(data, svg, xScale, yScale2) {
         // when the user clicks on the button, scroll to the first visualization
         function downFunction() {
             document.documentElement.scrollTop = 770;
-}    
+        }    
+        function getSelectValue() {
+            d3.select("#chart > *").remove()
+            var selectedValue = document.getElementById("list").value;
+            var location = selectedValue
+            
+            var rent2013 = rentListYears[0][location]
+            var rent2015 = rentListYears[1][location]
+            var rent2014 = (((rentListYears[0][location]) + rent2015)/2)
+            var rent2012 = (rentListYears[0][location]) - (rent2014-rentListYears[0][location])
+
+            var year = [2012, 2013, 2014, 2015]
+            
+            var data = [{year: year[0], income: incomeListYears[0][location], rent: rent2012},
+                        {year: year[1], income: incomeListYears[1][location], rent: rent2013},
+                        {year: year[2], income: incomeListYears[2][location], rent: rent2014},
+                        {year: year[3], income: incomeListYears[3][location], rent: rent2015}]
+
+            console.log(location)
+            createLinechart(data)
+        }
+        getSelectValue()

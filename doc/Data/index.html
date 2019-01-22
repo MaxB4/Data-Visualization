@@ -31,7 +31,7 @@ http://localhost:7800/
         </div>
 </div>
 
-<canvas id="chart1"></canvas>
+<!-- <canvas id="chart1"></canvas> -->
         
 <link rel="stylesheet" href="linked.css">
 <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -53,27 +53,32 @@ http://localhost:7800/
 <script type="text/javascript" src="linked.js"> </script>
 <div id="map"></div>
 
+<select id="list" onchange="getSelectValue();">
+    <option value= '0'>Centrum</option>
+    <option value= '3'>Zuid</option>
+    <option value= '5'>Noord</option>
+    <option value= '1'>West</option>
+    <option value= '4'>Oost</option>
+    <option value= '2'>Nieuw-West</option>
+    <option value= '6'>Zuidoost</option>
+    <option value= '7'>Amsterdam</option>
+</select>
 <!-- <div id = "fruitDropdown"></div> -->
 <div id="chart"></div>
 
-<div class="dropdown">
-    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+<!-- <div class="dropdown"> -->
+    <!-- <button  onclick="myFunction()" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> -->
+    <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+
       Deelgemeentes
     </button>
-    <!-- <div class="dropdown-menu"> -->
-        <select id="ddlViewBy">
+    <div id="myDropdown" class="dropdown-menu"> -->
+       
       <!-- <div class="dropdown-menu" onchange="loadData()"></div> -->
-    <a class="dropdown-item" option value= '0'>Centrum</a>
-    <a class="dropdown-item" option value= '3'>Zuid</a>
-    <a class="dropdown-item" option value= '5'>Noord</a>
-    <a class="dropdown-item" option value= '1'>West</a>
-    <a class="dropdown-item" option value= '4'>Oost</a>
-    <a class="dropdown-item" option value= '2'>Nieuw-West</a> 
-    <a class="dropdown-item" option value= '6'>Zuidoost</a>
-    <a class="dropdown-item" option value= '7'>Amsterdam</a>
-  </select>
-    <!-- </div> -->
-  </div>
+
+<!--   
+    </div>
+  </div> -->
 
   
 
