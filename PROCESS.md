@@ -32,4 +32,4 @@ Finalized tooltip, created second line. Failed to add tooltip to second line. No
 Started building a dropdown menu for the line chart.
 
 # Day 11 (22/01/2018)
-Finished dropdown menu and thinking about adding a rent and income button
+Finished dropdown menu and thinking about adding a rent and income button. Third visualization is going to be a pie chart with radio buttons. Pie chart shows percentage of "sociale huurwoning" per "deelgemeente".
