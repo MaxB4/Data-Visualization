@@ -3,7 +3,8 @@ window.onload = function() {
   var data = "buurten.json"
   var rentprice = "RentPrice.json"
   var income = "Income.json"
-  var requests = [d3.json(data), d3.json(rentprice), d3.json(income)];
+  var socialrent = "Socialrent.json"
+  var requests = [d3.json(data), d3.json(rentprice), d3.json(income), d3.json(socialrent)];
 
   Promise.all(requests).then(function(response) {
       main(response);
@@ -15,19 +16,23 @@ window.onload = function() {
       var data = response[0];
       var rent = response[1];
       var income = response [2];
+      var socialrent = response [3];
       var stadsdeel = {"A Centrum": "Centrum","B Westpoort": "Westpoort", "E West": "West", "M Oost": "Oost", "K Zuid": "Zuid", "F Nieuw west": "Nieuw west", "N Noord": "Noord", "T Zuidoost": "Zuidoost"}
 
+    
 
+  
   var stadsdelen = topojson.feature(data, data.objects.buurten).features;
   incomeListYears = []
   rentListYears = []
+  socialRentList = []
   emptyList = Array(8).fill(0)
 
   DeelGemeenteList = ["A  Centrum", "E  West", "F  Nieuw-West", "K  Zuid", "M  Oost", "N  Noord", "T  Zuidoost", "Amsterdam"];
   DeelGemeenteList1 = ["A Centrum", "E West", "F Nieuw-West", "K Zuid", "M Oost", "N Noord", "T Zuidoost", "Amsterdam"];
   
 
-  
+// income list
   for (i = 2012; i < 2016; i++) {
     incomeList = []
     incomeListYears.push(incomeList)
@@ -40,7 +45,7 @@ window.onload = function() {
     years = [2013, 2015]
     var robinsie = 1
     
-
+// rent list
     for (i = 0; i < 2; i++) {
         rentList = []
         for (j = 0; j < 8; j++) {
@@ -49,17 +54,25 @@ window.onload = function() {
         }
         rentListYears.push(rentList)
     }
+Testlist = []
+    // sort social rent list
+    for (j = 0; j < 8; j++) {
+        socialRentList.push(socialrent[DeelGemeenteList1[j]])    
+    }
+    console.log(socialRentList[0][2015]);
+    for (i = 0; i < 8; i++) {
+      Testlist.push(socialRentList[i][2015])    
+  }
+  console.log(Testlist);
         // rentListSocial = []
         // rentListSocial.push(rent[DeelGemeenteList1[j]][2013.1])
         // rentListSocial.push(rent[DeelGemeenteList1[j]][2015.1])
         // rentListYears.push(rentListSocial)  
 
-        var check123 = d3.selectAll("dropdown-menu");
-        console.log(check123)
 
 
   income2015 = incomeListYears[3]
-
+console.log(incomeListYears)
 
 // Set tooltips
   var tip = d3.tip()
@@ -199,32 +212,37 @@ svg.append("g")
      // load line chart of deelgemeente when clicked on
     .on('click', function(d){
         d3.select("#chart > *").remove()
+        d3.select("#piechart > *").remove()
         
         // destroy linechart 
-        // console.log(robinsie)
+
         // if (robinsie == 2) {
-        //     console.log(TestChart)
+
             // TestChart.destroy();
         
         // robinsie = 2
         if(DeelGemeenteList1.includes(d.properties.Stadsdeel_code)){
             var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
-            // console.log(location)
-           
+            console.log(rentListYears)
+        
+
             var rent2013 = rentListYears[0][location]
             var rent2015 = rentListYears[1][location]
             var rent2014 = (((rentListYears[0][location]) + rent2015)/2)
             var rent2012 = (rentListYears[0][location]) - (rent2014-rentListYears[0][location])
+            var socialRent = Testlist[location]
 
             var year = [2012, 2013, 2014, 2015]
             
             var data = [{year: year[0], income: incomeListYears[0][location], rent: rent2012},
                         {year: year[1], income: incomeListYears[1][location], rent: rent2013},
                         {year: year[2], income: incomeListYears[2][location], rent: rent2014},
-                        {year: year[3], income: incomeListYears[3][location], rent: rent2015}]
+                        {year: year[3], income: incomeListYears[3][location], rent: rent2015, socialrent: socialRent}]
 
-            createLinechart(data)
-      console.log(income2015)
+                        buildPieChart(data)
+                        createLinechart(data)
+            // buildPieChart()
+
             
       //line   
             // var canvas = document.getElementById('chart1');
@@ -287,9 +305,7 @@ svg.append("g")
   };
 
   function createLinechart(data) {
-
-    console.log(data)
-    
+   
     // use standard margins
     var margin = {top: 50, right: 50, bottom: 50, left: 50}
     , width = window.innerWidth - margin.left - margin.right 
@@ -369,6 +385,19 @@ svg.append("g")
     .y(d => yScale(d.income))
     .curve(d3.curveMonotoneX);
    
+    // define the area
+    var area = d3.area()
+    .x(function(d) { return xScale(d.year); })
+    .y0(height-147)
+    .y1(function(d) { return yScale(d.income); })
+    .curve(d3.curveMonotoneX);
+
+    // add the area
+    svg.append("path")
+       .data([data])
+       .attr("class", "area1")
+       .attr("d", area);
+    
     svg.append('path')
       .datum(data)
       .style('stroke','#D073BA')
@@ -385,7 +414,7 @@ svg.append("g")
         .attr('class', 'circle')
         .attr('cx', d => xScale(d.year))
         .attr('cy', d => yScale(d.income))
-        .attr('r', 3)
+        .attr('r', 5)
         
         // tooltips
         .style('stroke-width', 0.3)
@@ -393,8 +422,8 @@ svg.append("g")
             tip.show(d);
             
             d3.select(this)
-            .style("opacity", 1)
-            .style("stroke","white")
+            .style("opacity", 0.9)
+            .style("stroke","pink")
             .style("stroke-width",3);
             })
             .on('mouseout', function(d){
@@ -419,9 +448,22 @@ function createrentline(data, svg, xScale, yScale2) {
     .y(d => yScale2(d.rent))
     .curve(d3.curveMonotoneX);
 
+    // define the area
+    var area = d3.area()
+    .x(function(d) { return xScale(d.year); })
+    .y0(height-147)
+    .y1(function(d) { return yScale2(d.rent); })
+    .curve(d3.curveMonotoneX);
+
+    // add the area
+    svg.append("path")
+    .data([data])
+    .attr("class", "area2")
+    .attr("d", area);
+
     svg.append('path')
     .datum(data)
-    .style('stroke','#72ccd0')
+    .style('stroke','rgba(0, 10, 130, .7)')
     .style('stroke-width', 2)
     .style('fill', 'none')
     .attr('d', rentline)
@@ -435,16 +477,16 @@ function createrentline(data, svg, xScale, yScale2) {
         .attr('class', 'circle')
         .attr('cx', d => xScale(d.year))
         .attr('cy', d => yScale2(d.rent))
-        .attr('r', 3)
+        .attr('r', 5)
         
         // tooltips
-        .style('stroke-width', 0.3)
+        .style('stroke-width', 0.9)
         .on('mouseover',function(d){ 
             tip1.show(d);
         
          d3.select(this)
-         .style("opacity", 1)
-         .style("stroke","white")
+         .style("opacity", 0.5)
+         .style("stroke","darkblue")
          .style("stroke-width",3);
          })
          .on('mouseout', function(d){
@@ -503,15 +545,100 @@ function createrentline(data, svg, xScale, yScale2) {
             var rent2015 = rentListYears[1][location]
             var rent2014 = (((rentListYears[0][location]) + rent2015)/2)
             var rent2012 = (rentListYears[0][location]) - (rent2014-rentListYears[0][location])
-
-            var year = [2012, 2013, 2014, 2015]
+            var year = ['2012', '2013', '2014', '2015']
             
             var data = [{year: year[0], income: incomeListYears[0][location], rent: rent2012},
                         {year: year[1], income: incomeListYears[1][location], rent: rent2013},
                         {year: year[2], income: incomeListYears[2][location], rent: rent2014},
                         {year: year[3], income: incomeListYears[3][location], rent: rent2015}]
 
-            console.log(location)
-            createLinechart(data)
-        }
-        getSelectValue()
+            console.log(data)
+            createLinechart(data)  
+        }        
+        
+        function buildPieChart(data) {
+            radius = Math.min(width, height) / 2;
+
+            var segments = d3.arc()
+            .outerRadius(radius - 200)
+            .innerRadius(0);
+
+            
+            // color
+            var colors = d3.scaleThreshold()
+            .domain([1, 10, 14])
+            .range(["rgb(3,19,43)", "rgb(135,206,250)","rgb(205,17,17)", "rgb(3,19,43)"]);
+
+            // legend
+// var legendRectSize = 25; // defines the size of the colored squares in legend
+// var legendSpacing = 6; // defines spacing between squares
+
+    
+
+    var svg = d3.select("#piechart")
+            // .attr("width", width)
+            // .attr("height", height)
+            .style("background", "pink")
+    // .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    var details = [{grade: 'A', number: 5}, {grade: 'B', number: 15}, {grade: 'C', number: 9}];
+
+    var data = d3.pie()
+                // .sort(null)
+                .value(function(d){return d.number;})(details);
+    
+  
+
+
+    var sections = svg.append("g")
+                      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+                      .selectAll("path")
+                      .data(data);
+
+        sections.enter()
+        .append("path")
+        .attr("d", segments)
+        .attr("fill", function(d, i) { return colors(i); }
+        );
+      
+  }
+
+//   var path = svg.datum(data).selectAll("path")
+//       .data(pie)
+//     .enter().append("path")
+//       .attr("fill", function(d, i) { return color(i); })
+//       .attr("d", arc)
+//       .each(function(d) { this._current = d; }); // store the initial angles
+
+//   d3.selectAll("input")
+//       .on("change", change);
+
+//   var timeout = setTimeout(function() {
+//     d3.select("input[value=\"oranges\"]").property("checked", true).each(change);
+//   }, 2000);
+
+//   function change() {
+//     var value = this.value;
+//     clearTimeout(timeout);
+//     pie.value(function(d) { return d[value]; }); // change the value function
+//     path = path.data(pie); // compute the new angles
+//     path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
+//   };
+
+// function type(d) {
+// //   d.rent = +d.value;
+//   d.income = +d.income;
+//   return d;
+// }
+
+// Store the displayed angles in _current.
+// Then, interpolate from _current to the new angles.
+// During the transition, _current is updated in-place by d3.interpolate.
+// function arcTween(a) {
+//   var i = d3.interpolate(this._current, a);
+//   this._current = i(0);
+//   return function(t) {
+//     return arc(i(t));
+//   };
+// }
+       

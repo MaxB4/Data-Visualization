@@ -168,13 +168,28 @@
   }
 
   path {
-    fill: none;
-    stroke: #000;
+   /* fill: none; */
+    /* stroke: #000; */
     stroke-width: 3px;
   }
   .line {
     fill: none;
-    stroke: rgba(0, 255, 98, 0.856);
+    stroke: rgba(200, 99, 132, .7);
     stroke-width: 2px;
   }
+  .area1 {
+    fill: rgba(105, 0, 132, .2);
+    stroke-width: 0;
+    opacity: 1;
+  }
+  .area2 {
+    fill: rgba(0, 137, 132, .2);
+    stroke-width: 0;
+    opacity: 1;
+  }
   
+  form {
+    position: absolute;
+    right: 150px;
+    top: 100px;
+  }

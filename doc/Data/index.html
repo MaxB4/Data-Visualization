@@ -53,6 +53,23 @@ http://localhost:7800/
 <script type="text/javascript" src="linked.js"> </script>
 <div id="map"></div>
 
+
+<div class="btn-group">
+    <form>
+        <label><input type="radio" name="dataset" value='0' checked> Centrum</label>
+        <label><input type="radio" name="dataset" value='1'> West</label>
+        <label><input type="radio" name="dataset" value='2'>Nieuw-West</label>
+        <label><input type="radio" name="dataset" value='3'>Zuid</label>
+        <label><input type="radio" name="dataset" value='4'>Oost</label>
+        <label><input type="radio" name="dataset" value='5'>Noord</label>
+        <label><input type="radio" name="dataset" value='6'>Zuidoost</label>
+        <label><input type="radio" name="dataset" value='7'>Amsterdam</label>
+    </form>  
+    </div>
+<svg width="800" height="600" id="piechart"></svg>
+<div id="piechart"></div>
+
+
 <select id="list" onchange="getSelectValue();">
     <option value= '0'>Centrum</option>
     <option value= '3'>Zuid</option>
@@ -63,24 +80,12 @@ http://localhost:7800/
     <option value= '6'>Zuidoost</option>
     <option value= '7'>Amsterdam</option>
 </select>
-<!-- <div id = "fruitDropdown"></div> -->
+
 <div id="chart"></div>
 
-<!-- <div class="dropdown"> -->
-    <!-- <button  onclick="myFunction()" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> -->
-    <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 
-      Deelgemeentes
-    </button>
-    <div id="myDropdown" class="dropdown-menu"> -->
-       
-      <!-- <div class="dropdown-menu" onchange="loadData()"></div> -->
 
-<!--   
-    </div>
-  </div> -->
 
-  
 
 <a href="https://www.ois.amsterdam.nl/feiten-en-cijfers/#"target="_blank"> Bron: Gemeenste Amsterdam, CBS</a>
 </body>
