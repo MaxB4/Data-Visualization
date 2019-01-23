@@ -33,3 +33,7 @@ Started building a dropdown menu for the line chart.
 
 # Day 11 (22/01/2018)
 Finished dropdown menu and thinking about adding a rent and income button. Third visualization is going to be a pie chart with radio buttons. Pie chart shows percentage of "sociale huurwoning" per "deelgemeente".
+
+# Day 11 (23/01/2018)
+Created first version of pie chart with radio buttons. Had a lot of trouble with the colors because a couple of elements were above eachother.
+
