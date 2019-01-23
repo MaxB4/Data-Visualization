@@ -540,6 +540,7 @@ function createrentline(data, svg, xScale, yScale2) {
         }    
         function getSelectValue() {
             d3.select("#chart > *").remove()
+            d3.select("#piechart > *").remove()
             var selectedValue = document.getElementById("list").value;
             var location = selectedValue
             
@@ -554,13 +555,20 @@ function createrentline(data, svg, xScale, yScale2) {
                         {year: year[2], income: incomeListYears[2][location], rent: rent2014},
                         {year: year[3], income: incomeListYears[3][location], rent: rent2015}]
 
-          
+            var socialrentdata = [{socialrent: socialrentlist[location]}, {socialrent: nonsocialrentlist[location]}]
+            buildPieChart(socialrentdata)
             createLinechart(data)  
         }        
         
         function buildPieChart(socialrentdata) {
-            radius = Math.min(width, height) / 2;
+          
+          
+          radius = Math.min(width, height) / 2;
 
+// color
+var colors = d3.scaleThreshold()
+// .domain([1, 10, 14])
+.range(["rgb(253,212,158)", "rgb(153,0,0)"]);
 
             var details = socialrentdata
 
@@ -575,29 +583,40 @@ function createrentline(data, svg, xScale, yScale2) {
     const g = svg.append("g")
     .attr("transform", `translate(${width / 2},${height / 2})`)
     // .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
-                      .selectAll("path")
-                      .data(data);
+                  
+    var segments = d3.arc()
+    .outerRadius(radius - 200)
+    .innerRadius(0);
 
-          g.enter()
+          g.selectAll("path")
+          .data(data)
+          .enter()
           .append("path")
-          .attr("d", segments)
           .attr("fill", function(d, i) { return colors(i); }
-          );
+          )
+          .attr("d", segments)
+          .append("title")
+          .text(d => {d.data.socialrent})
+          
 
                 
-            var segments = d3.arc()
-            .outerRadius(radius - 200)
-            .innerRadius(0);
+          const text = g.selectAll("text")
+          .data(data)
+          .enter().append("text")
+            .attr("transform", d => `translate(${segments.centroid(d)})`)
+            // .attr("dy", "0.35em");
 
-            var labelArc = d3.arc()
-            .outerRadius(radius - 40)
-            .innerRadius(radius - 40)
+            text.append("tspan")
+            // .attr("x", 10)
+            // .attr("y", "-0.7em")
+            // .style("font-weight", "bold")
+            .style("opacity", 1)
+            .style("stroke","black")
+            // .style("stroke-width",1)
+            .text(d => d.data.socialrent);
 
             
-            // color
-            var colors = d3.scaleThreshold()
-            // .domain([1, 10, 14])
-            .range(["rgb(253,212,158)", "rgb(153,0,0)"]);
+            
 
 
     
@@ -630,20 +649,20 @@ function createrentline(data, svg, xScale, yScale2) {
         //               .selectAll("text")
         //               .data(data);
 
-       g.enter()
-              .append("text")
-              .each(function(d)
-              {
-              var center = labelArc.centroid(d);
-              console.log(center)
-              d3.select(this)
-                .attr("x", center[0])
-                             .attr("y", center[1])
-                             .text(function(d){
-                               console.log(d.value)
-                              return d.value;
-                              })
-              })
+      //  g.enter()
+      //         .append("text")
+      //         .each(function(d)
+      //         {
+      //         var center = labelArc.centroid(d);
+      //         console.log(center)
+      //         d3.select(this)
+      //           .attr("x", center[0])
+      //                        .attr("y", center[1])
+      //                        .text(function(d){
+      //                          console.log(d.value)
+      //                         return d.value;
+      //                         })
+      //         })
 
 
 
