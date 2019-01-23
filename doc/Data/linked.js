@@ -26,6 +26,7 @@ window.onload = function() {
   incomeListYears = []
   rentListYears = []
   socialRentList = []
+  nonsocialRentList = []
   emptyList = Array(8).fill(0)
 
   DeelGemeenteList = ["A  Centrum", "E  West", "F  Nieuw-West", "K  Zuid", "M  Oost", "N  Noord", "T  Zuidoost", "Amsterdam"];
@@ -43,7 +44,7 @@ window.onload = function() {
 
     rentListYears = []
     years = [2013, 2015]
-    var robinsie = 1
+
     
 // rent list
     for (i = 0; i < 2; i++) {
@@ -54,16 +55,24 @@ window.onload = function() {
         }
         rentListYears.push(rentList)
     }
-Testlist = []
-    // sort social rent list
+    socialrentlist = []
+nonsocialrentlist = []
+
+
+// sort social rent list
     for (j = 0; j < 8; j++) {
-        socialRentList.push(socialrent[DeelGemeenteList1[j]])    
+        socialRentList.push(socialrent[DeelGemeenteList1[j]]) 
+        nonsocialRentList.push(100 - socialrent[DeelGemeenteList1[j]])    
     }
-    console.log(socialRentList[0][2015]);
+    
+    // console.log(100 - socialRentList[0][2015]);
     for (i = 0; i < 8; i++) {
-      Testlist.push(socialRentList[i][2015])    
+      socialrentlist.push(socialRentList[i][2015])
+      nonsocialrentlist.push(100 - socialRentList[i][2015]) 
   }
-  console.log(Testlist);
+  // console.log(nonsocialrentlist)
+
+  // console.log(Testlist);
         // rentListSocial = []
         // rentListSocial.push(rent[DeelGemeenteList1[j]][2013.1])
         // rentListSocial.push(rent[DeelGemeenteList1[j]][2015.1])
@@ -72,7 +81,7 @@ Testlist = []
 
 
   income2015 = incomeListYears[3]
-console.log(incomeListYears)
+// console.log(incomeListYears)
 
 // Set tooltips
   var tip = d3.tip()
@@ -106,7 +115,7 @@ var projection = d3.geoAlbers()
 // color scale
 var color = d3.scaleThreshold()
 .domain([20000,22000,24000,26000,28000,34000])
-.range(["rgb(255,255,178)", "rgb(254,217,118)", "rgb(254,178,76)", "rgb(253,141,60)","rgb(252,78,42)","rgb(227,26,28)","rgb(177,0,38)","rgb(37,37,37)"]);
+.range(["rgb(254,240,217)", "rgb(253,212,158)", "rgb(253,187,132)", "rgb(252,141,89)","rgb(239,101,72)","rgb(215,48,31)","rgb(153,0,0)","rgb(37,37,37)"]);
             
 var path = d3.geoPath()
   .projection(projection);
@@ -214,34 +223,27 @@ svg.append("g")
         d3.select("#chart > *").remove()
         d3.select("#piechart > *").remove()
         
-        // destroy linechart 
-
-        // if (robinsie == 2) {
-
-            // TestChart.destroy();
-        
-        // robinsie = 2
         if(DeelGemeenteList1.includes(d.properties.Stadsdeel_code)){
             var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
-            console.log(rentListYears)
         
-
             var rent2013 = rentListYears[0][location]
             var rent2015 = rentListYears[1][location]
             var rent2014 = (((rentListYears[0][location]) + rent2015)/2)
             var rent2012 = (rentListYears[0][location]) - (rent2014-rentListYears[0][location])
-            var socialRent = Testlist[location]
 
             var year = [2012, 2013, 2014, 2015]
             
             var data = [{year: year[0], income: incomeListYears[0][location], rent: rent2012},
                         {year: year[1], income: incomeListYears[1][location], rent: rent2013},
                         {year: year[2], income: incomeListYears[2][location], rent: rent2014},
-                        {year: year[3], income: incomeListYears[3][location], rent: rent2015, socialrent: socialRent}]
+                        {year: year[3], income: incomeListYears[3][location], rent: rent2015}]
+            
+            var socialrentdata = [{socialrent: socialrentlist[location]}, {socialrent: nonsocialrentlist[location]}]
+            console.log(socialrentdata)
+            
+            buildPieChart(socialrentdata)
+            createLinechart(data)
 
-                        buildPieChart(data)
-                        createLinechart(data)
-            // buildPieChart()
 
             
       //line   
@@ -552,78 +554,124 @@ function createrentline(data, svg, xScale, yScale2) {
                         {year: year[2], income: incomeListYears[2][location], rent: rent2014},
                         {year: year[3], income: incomeListYears[3][location], rent: rent2015}]
 
-            console.log(data)
+          
             createLinechart(data)  
         }        
         
-        function buildPieChart(data) {
+        function buildPieChart(socialrentdata) {
             radius = Math.min(width, height) / 2;
 
+
+            var details = socialrentdata
+
+            var data = d3.pie()
+            .value(function(d){return d.socialrent;})(details);
+
+            
+    const svg = d3.select("#piechart")
+    .attr("text-anchor", "middle")
+    .style("font", "12px sans-serif");
+
+    const g = svg.append("g")
+    .attr("transform", `translate(${width / 2},${height / 2})`)
+    // .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+                      .selectAll("path")
+                      .data(data);
+
+          g.enter()
+          .append("path")
+          .attr("d", segments)
+          .attr("fill", function(d, i) { return colors(i); }
+          );
+
+                
             var segments = d3.arc()
             .outerRadius(radius - 200)
             .innerRadius(0);
 
+            var labelArc = d3.arc()
+            .outerRadius(radius - 40)
+            .innerRadius(radius - 40)
+
             
             // color
             var colors = d3.scaleThreshold()
-            .domain([1, 10, 14])
-            .range(["rgb(3,19,43)", "rgb(135,206,250)","rgb(205,17,17)", "rgb(3,19,43)"]);
+            // .domain([1, 10, 14])
+            .range(["rgb(253,212,158)", "rgb(153,0,0)"]);
 
-            // legend
-// var legendRectSize = 25; // defines the size of the colored squares in legend
-// var legendSpacing = 6; // defines spacing between squares
 
     
 
-    var svg = d3.select("#piechart")
-            // .attr("width", width)
-            // .attr("height", height)
-            .style("background", "pink")
-    // .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-    var details = [{grade: 'A', number: 5}, {grade: 'B', number: 15}, {grade: 'C', number: 9}];
-
-    var data = d3.pie()
-                // .sort(null)
-                .value(function(d){return d.number;})(details);
     
+
+   
+
+
+
+                 
   
+    
+   
 
+       
 
-    var sections = svg.append("g")
-                      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
-                      .selectAll("path")
-                      .data(data);
-
-        sections.enter()
-        .append("path")
-        .attr("d", segments)
-        .attr("fill", function(d, i) { return colors(i); }
-        );
+        // sections.append("text")
+        //         .attr("transform", function(d){
+        //         d.innerRadius = 0;
+        //         d.outerRadius = radius - 200;
+        //         return "translate(" + segments.centroid(d) + ")"
+        //         })
+        //         .attr("text-anchor", "middle")
+        //         .text(function (d, i){
+        //           return "test";
+        //         })
       
-  }
+        // var content = d3.select("g")
+        //               .selectAll("text")
+        //               .data(data);
 
-//   var path = svg.datum(data).selectAll("path")
-//       .data(pie)
-//     .enter().append("path")
-//       .attr("fill", function(d, i) { return color(i); })
-//       .attr("d", arc)
-//       .each(function(d) { this._current = d; }); // store the initial angles
+       g.enter()
+              .append("text")
+              .each(function(d)
+              {
+              var center = labelArc.centroid(d);
+              console.log(center)
+              d3.select(this)
+                .attr("x", center[0])
+                             .attr("y", center[1])
+                             .text(function(d){
+                               console.log(d.value)
+                              return d.value;
+                              })
+              })
 
-//   d3.selectAll("input")
-//       .on("change", change);
 
-//   var timeout = setTimeout(function() {
-//     d3.select("input[value=\"oranges\"]").property("checked", true).each(change);
-//   }, 2000);
 
-//   function change() {
-//     var value = this.value;
-//     clearTimeout(timeout);
-//     pie.value(function(d) { return d[value]; }); // change the value function
-//     path = path.data(pie); // compute the new angles
-//     path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
-//   };
+
+
+
+
+  // var path = svg.datum(data).selectAll("path")
+  //     .data(data)
+  //   .enter().append("path")
+  //     .attr("fill", function(d, i) { return color(i); })
+  //     .attr("d", segments)
+  //     .each(function(d) { this._current = d; }); // store the initial angles
+
+  // d3.selectAll("input")
+  //     .on("change", change);
+
+  // var timeout = setTimeout(function() {
+  //   d3.select("input[value=\"socialrent\"]").property("checked", true).each(change);
+  // }, 2000);
+
+  // function change() {
+  //   var value = this.value;
+  //   clearTimeout(timeout);
+  //   pie.value(function(d) { return d[value]; }); // change the value function
+  //   path = path.data(data); // compute the new angles
+  //   path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
+  // };
 
 // function type(d) {
 // //   d.rent = +d.value;
@@ -641,4 +689,5 @@ function createrentline(data, svg, xScale, yScale2) {
 //     return arc(i(t));
 //   };
 // }
+}
        
