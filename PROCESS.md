@@ -37,3 +37,5 @@ Finished dropdown menu and thinking about adding a rent and income button. Third
 # Day 11 (23/01/2018)
 Created first version of pie chart with radio buttons. Had a lot of trouble with the colors because a couple of elements were above eachother.
 
+# Day 12 (25/01/2018)
+Goals: fix favicon, deelgemeente nieuw_west, deleting data, and legend.
