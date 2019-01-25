@@ -112,8 +112,7 @@ function main(response) {
 
     svg.append("svg")
         .append('g')
-        .attr('class', 'map');
-
+        .attr('class', 'map')
 
     // properties of map visualization
     var projection = d3.geoAlbers()
@@ -125,7 +124,7 @@ function main(response) {
     // color scale
     var color = d3.scaleThreshold()
         .domain([20000, 22000, 24000, 26000, 28000, 34000])
-        .range(["rgb(254,240,217)", "rgb(253,212,158)", "rgb(253,187,132)", "rgb(252,141,89)", "rgb(239,101,72)", "rgb(215,48,31)", "rgb(153,0,0)", "rgb(37,37,37)"]);
+        .range(["rgb(222,235,247)", "rgb(198,219,239)", "rgb(158,202,225)", "rgb(107,174,214)", "rgb(66,146,198)", "rgb(33,113,181)", "rgb(8,69,148)", "rgb(37,37,37)"]);
 
     var path = d3.geoPath()
         .projection(projection);
@@ -150,7 +149,7 @@ function main(response) {
         .attr("y", legendhight)
         .attr("font-size", "large")
         .attr("font-weight", "bold")
-        .text("Legenda");
+        .text("Income Legenda");
 
     legend = svg.selectAll("#map")
         .data([20000, 22000, 24000, 26000, 28000, 34000 + "+"])
@@ -220,8 +219,8 @@ function main(response) {
 
                 d3.select(this)
                     .style("opacity", 1)
-                    .style("stroke", "white")
-                    .style("stroke-width", 3);
+                    // .style("stroke", "rgb(,0,0)")
+                    .style("stroke-width", 1);
             })
             .on('mouseout', function (d) {
                 tip.hide(d);
@@ -278,55 +277,6 @@ function main(response) {
 
                     buildPieChart(socialrentdata)
                     createLinechart(data)
-
-
-
-                    //line   
-                    // var canvas = document.getElementById('chart1');
-                    // var TestChart = new Chart(canvas, {
-                    //   type: 'line',
-                    //   data: {
-                    //     labels: [year[0], year[1], year[2], year[3]],
-                    //     datasets: [{
-                    //       label: 'Income',
-                    //       yAxisID: 'Income',
-                    //       data: [incomeListYears[0][location], incomeListYears[1][location], incomeListYears[2][location], incomeListYears[3][location]],        
-                    //       backgroundColor: [
-                    //           'rgba(105, 0, 132, .2)',
-                    //         ],
-                    //         borderColor: [
-                    //           'rgba(200, 99, 132, .7)',
-                    //         ],
-                    //         borderWidth: 2
-
-                    //     }, {
-                    //       label: 'Rent',
-                    //       yAxisID: 'Rent',
-                    //       data: [rent2013, rent2013, rent2014, rent2015], 
-                    //         backgroundColor: [
-                    //           'rgba(0, 137, 132, .2)',
-                    //         ],
-                    //         borderColor: [
-                    //           'rgba(0, 10, 130, .7)',
-                    //         ],
-                    //         borderWidth: 2
-                    //     }]
-                    //   },
-                    //   options: {
-                    //     scales: {
-                    //       yAxes: [{
-                    //         id: 'Income',
-                    //         type: 'linear',
-                    //         position: 'left',
-                    //       }, {
-                    //         id: 'Rent',
-                    //         type: 'linear',
-                    //         position: 'right',
-                    //       }]
-                    //     }
-                    //   }
-                    // });
-
 
                     // scroll down
                     document.documentElement.scrollTop = 1630;
@@ -448,9 +398,7 @@ function createincomeline(data, svg, xScale, yScale) {
 
     svg.append('path')
         .datum(data)
-        .style('stroke', '#D073BA')
-        .style('stroke-width', 2)
-        .style('fill', 'none')
+        .attr("class", "incomeline")
         .attr('d', incomeline)
         .call(transition);
 
@@ -515,9 +463,10 @@ function createrentline(data, svg, xScale, yScale2) {
 
     svg.append('path')
         .datum(data)
-        .style('stroke', 'rgba(0, 10, 130, .7)')
-        .style('stroke-width', 2)
-        .style('fill', 'none')
+        .attr("class", "rentline")
+        // .style('stroke', 'rgba(0, 10, 130, .7)')
+        // .style('stroke-width', 2)
+        // .style('fill', 'none')
         .attr('d', rentline)
         .call(transition);
 
@@ -526,7 +475,7 @@ function createrentline(data, svg, xScale, yScale2) {
         .data(data)
         .enter()
         .append('circle')
-        .attr('class', 'circle')
+        // .attr('class', 'circle')
         .attr('cx', d => xScale(d.year))
         .attr('cy', d => yScale2(d.rent))
         .attr('r', 5)
@@ -635,28 +584,28 @@ function getSelectValue() {
 }
 
 function buildPieChart(socialrentdata) {
-
+// dataset for piechart
+var data = d3.pie()
+             .value(function (d) {
+    return d.socialrent;
+})(socialrentdata)
 
     radius = Math.min(width, height) / 2;
 
     // color
     var colors = d3.scaleThreshold()
-        .range(["rgb(253,212,158)", "rgb(153,0,0)"]);
-
-    var details = socialrentdata
-
-    var data = d3.pie()
-        .value(function (d) {
-            return d.socialrent;
-        })(details)
+        // .domain([50, 100, 60])
+        .range(["rgb(49,130,189)", "rgb(153,0,0)"]);
         // .sort(null);
 
 
-    const svg = d3.select("#piechart")
+    var svg = d3.select("#piechart")
         .attr("text-anchor", "middle")
         .style("font", "12px sans-serif");
 
-    const g = svg.append("g")
+    
+    
+        var g = svg.append("g")
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
     var segments = d3.arc()
@@ -704,6 +653,7 @@ function buildPieChart(socialrentdata) {
         .attr("x", 50)
         .attr("y", 25)
 
+    // pie transition
 
 
         // path = path.data(pie(data)); // update pie with new data
