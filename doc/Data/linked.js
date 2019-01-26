@@ -24,7 +24,7 @@ function main(response) {
         "E West": "West",
         "M Oost": "Oost",
         "K Zuid": "Zuid",
-        "F Nieuw west": "Nieuw west",
+        "F Nieuw-West": "Nieuw West",
         "N Noord": "Noord",
         "T Zuidoost": "Zuidoost"
     }
@@ -80,18 +80,9 @@ function main(response) {
         socialrentlist.push(socialRentList[i][2015])
         nonsocialrentlist.push(100 - socialRentList[i][2015])
     }
-    // console.log(nonsocialrentlist)
-
-    // console.log(Testlist);
-    // rentListSocial = []
-    // rentListSocial.push(rent[DeelGemeenteList1[j]][2013.1])
-    // rentListSocial.push(rent[DeelGemeenteList1[j]][2015.1])
-    // rentListYears.push(rentListSocial)  
-
-
-
+  
     income2015 = incomeListYears[3]
-    // console.log(incomeListYears)
+    console.log(incomeListYears)
 
     // Set tooltips
     var tip = d3.tip()
@@ -99,16 +90,19 @@ function main(response) {
         .offset([-10, 0])
         .html(function (d) {
             if (DeelGemeenteList1.includes(d.properties.Stadsdeel_code)) {
-                var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code)
+                var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
                 var newIncome2015 = income2015[location];
+            }
+            // give message when data is missing
+            else {
+                var newIncome2015 = "No data for location";
             }
             return "<strong>Deelgemeente: </strong><span class='details'>" + stadsdeel[d.properties.Stadsdeel_code] + "<br></span>" + "<strong>Income (euro): </strong><span class='details'>" + newIncome2015 + "<br></span>";
         })
 
-
-    var svg = d3.select("#map")
+    var svg = d3.select("#map");
     width = +svg.attr("width"),
-        height = +svg.attr("height")
+        height = +svg.attr("height");
 
     svg.append("svg")
         .append('g')
@@ -119,7 +113,8 @@ function main(response) {
         .center([4.9, 52.366667])
         .rotate(120)
         .scale(250000)
-        .translate([width / 2, height / 2]);
+        .translate([width / 2, height / 2])
+        // .attr("transform", "translate(" + (width / 2) + " ," + (height + padding + 20) + ")")
 
     // color scale
     var color = d3.scaleThreshold()
@@ -210,8 +205,6 @@ function main(response) {
             .style('stroke-width', 1.5)
             .style("opacity", 0.8)
 
-
-
             // tooltips
             .style('stroke-width', 0.3)
             .on('mouseover', function (d) {
@@ -238,7 +231,7 @@ function main(response) {
 
                 if (DeelGemeenteList1.includes(d.properties.Stadsdeel_code)) {
                     var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
-
+                    console.log(location)
                     var rent2013 = rentListYears[0][location]
                     var rent2015 = rentListYears[1][location]
                     var rent2014 = (((rentListYears[0][location]) + rent2015) / 2)
@@ -277,9 +270,9 @@ function main(response) {
 
                     buildPieChart(socialrentdata)
                     createLinechart(data)
-
+                    // updatePieChart()
                     // scroll down
-                    document.documentElement.scrollTop = 1630;
+                    // document.documentElement.scrollTop = 1630;
 
                     return (data)
 
@@ -291,6 +284,14 @@ function main(response) {
     }
 };
 
+function updatePieChart() {
+    // const path = svg.selectAll("path")
+    // .data((data[val]));
+
+    //  path.transition().duration(200).attrTween("d", arcTween);
+}
+
+
 function createLinechart(data) {
 
     // use standard margins
@@ -300,10 +301,10 @@ function createLinechart(data) {
             bottom: 50,
             left: 75
         },
-        
+
         width = window.innerWidth - margin.left - margin.right - 20,
         height = window.innerHeight - margin.top - margin.bottom;
-        padding = 20;
+    padding = 20;
 
     // add SVG 
     var svg = d3.select("#chart")
@@ -519,21 +520,6 @@ function tweenDash() {
 
 
 }
-// function readFunction() {
-//     var dots = document.getElementById("dots");
-//     var moreText = document.getElementById("more");
-//     var btnText = document.getElementById("readButton");
-
-//     if (dots.style.display === "none") {
-//       dots.style.display = "inline";
-//       btnText.innerHTML = "Read more"; 
-//       moreText.style.display = "none";
-//     } else {
-//       dots.style.display = "none";
-//       btnText.innerHTML = "Read less"; 
-//       moreText.style.display = "inline";
-//     }
-//   }
 
 // when the user clicks on the button, scroll to the first visualization
 function downFunction() {
@@ -584,11 +570,16 @@ function getSelectValue() {
 }
 
 function buildPieChart(socialrentdata) {
-// dataset for piechart
-var data = d3.pie()
-             .value(function (d) {
-    return d.socialrent;
-})(socialrentdata)
+
+
+    // var keys = ["A Centrum", "E West", "F Nieuw-West", "K Zuid", "M Oost", "N Noord", "T Zuidoost", "Amsterdam"];
+    // dataset for piechart
+
+    var data = d3.pie()
+        .sort(null)
+        .value(function (d) {
+            return d.socialrent;
+        })(socialrentdata)
 
     radius = Math.min(width, height) / 2;
 
@@ -596,22 +587,20 @@ var data = d3.pie()
     var colors = d3.scaleThreshold()
         // .domain([50, 100, 60])
         .range(["rgb(49,130,189)", "rgb(153,0,0)"]);
-        // .sort(null);
 
 
     var svg = d3.select("#piechart")
         .attr("text-anchor", "middle")
         .style("font", "12px sans-serif");
 
-    
-    
-        var g = svg.append("g")
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
-    var segments = d3.arc()
+    var g = svg.append("g")
+        .attr("transform", "translate(" + width / 3 + "," + height / 2 + ")")
+
+    var arc = d3.arc()
         .outerRadius(radius - 200)
         .innerRadius(0);
-        
+
 
     g.selectAll("path")
         .data(data)
@@ -620,96 +609,115 @@ var data = d3.pie()
         .attr("fill", function (d, i) {
             return colors(i);
         })
-        .attr("d", segments)
+        .attr("d", arc)
         .append("title")
-        .text(d => {
-            d.data.socialrent
-        })
+        // .text(d => {
+        //     d.data.socialrent
+        // })
 
-    const text = g.selectAll("text")
+        pielegend = svg.selectAll("#piechart")
+                    .data(["Social housing", "Private housing"])
+                    .enter()
+                    .append("g")
+                    .attr("class", "legend")
+                    .attr("transform", function(d, i) { return "translate(0," + i * 40 + ")"; })
+
+        // boxes
+        pielegend.append("rect")
+                    .attr("x", width - 550)
+                    .attr("y", height - 675)
+                    .attr("width", 60)
+                    .attr("height", 30)
+                    .attr("fill", function (d, i) {
+            return colors(i);
+        });
+        
+        // // title
+        // pielegend.append("text")
+        // .attr("x", width - 280)
+        // .attr("y", 100)
+        // .attr("font-size", "large")
+        // .attr("font-weight", "bold")
+        // .text("percent social rent");
+        
+        // add text to legend
+        pielegend.append("text")
+        .attr("x", width - 420)
+        .attr("y", height - 650)
+        .text(function(d){
+        return d;
+        });
+
+    
+
+    // pie chart legend
+    var text = g.selectAll("text")
         .data(data)
-        .enter().append("text")
-        .attr("transform", d => `translate(${segments.centroid(d)})`)
+        .enter()
+        .append("text")
+        .attr("transform", d => `translate(${arc.centroid(d)})`)
+ 
+    // add text to legend
+    pielegend.append("textttttttttttttttttttt")
+        .attr("x", 100)
+        .attr("y", 100)
+        .text(function (d) {
+            return d;
+        })
 
     text.append("tspan")
         .style("opacity", 1)
         .style("stroke", "black")
         .text(d => d.data.socialrent);
 
-    var pielegends = svg.append("g").attr("transform", "translate(500, 100)")
-    .selectAll(".pielegends").data(data);
+    // var pielegends = svg.append("g")
+    // .attr("transform", "translate(500, 100)")
+    //     .selectAll(".pielegends")
+    //     .data(data);
 
-    var pielegend = pielegends.enter().append("g").classed("pielegends", true).attr("transform", function(d, i){
-    return "translate(200," + (i+1)*50 +")";});
-    
-    pielegend.append("rect").attr("width", 40).attr("height", 40).attr("fill", function (d){
-        return colors(d.data.socialrent);
-    });
+    // var pielegend = pielegends.enter()
+    // .append("g")
+    // .classed("pielegends", true)
+    // .attr("transform", function (d, i) {
+    //     return "translate(200," + (i + 1) * 50 + ")";
+    // });
 
-    pielegend.append("text").text(function (d){ return d.data.socialrent;})
-        .attr("fill", function (d){
-            return colors(d.data.socialrent);
-        })
-        .attr("x", 50)
-        .attr("y", 25)
+    // // boxes
+    // pielegend.append("rect")
+    //          .attr("width", 40)
+    //          .attr("height", 40)
+    //          .attr("fill", function (d, i) {
+    //     return colors(i);
+    // });
+
+    // pielegend.append("text")
+    //          .text(function (d) {
+    //         return d.data.socialrent;
+    //     })
+    //     .attr("fill", function (d) {
+    //         return colors(d.data.socialrent);
+    //     })
+    //     .attr("x", 50)
+    //     .attr("y", 25)
 
     // pie transition
+    function transition() {
 
+    }
+    // arctween
+    function arcTween(a) {
+        const i = d3.interpolate(this._current, a);
+        this._current = i(1);
+        return (t) => arc(i(t));
+    }
 
-        // path = path.data(pie(data)); // update pie with new data
+    // update data --> https://bl.ocks.org/rshaker/225c6df494811f46f6ea53eba63da817
 
-        // path.transition() // transition of redrawn pie
-        //   .duration(750) // 
-        //   .attrTween('d', function(d) { // 'd' specifies the d attribute that we'll be animating
-        //     var interpolate = d3.interpolate(this._current, d); // this = current path element
-        //     this._current = interpolate(0); // interpolate between current value and the new value of 'd'
-        //     return function(t) {
-        //       return arc(interpolate(t));
-        //     };
-        // })
+    // $(function() {
+    //     $('a[href*=#]').on('click', function(e) {
+    //       e.preventDefault();
+    //       $('html, body').animate({ scrollTop: $($(this).attr('href')).offset().top}, 500, 'linear');
+    //     });
+    //   });
 
-
-
-
-
-
-
-    // var path = svg.datum(data).selectAll("path")
-    //     .data(data)
-    //   .enter().append("path")
-    //     .attr("fill", function(d, i) { return color(i); })
-    //     .attr("d", segments)
-    //     .each(function(d) { this._current = d; }); // store the initial angles
-
-    // d3.selectAll("input")
-    //     .on("change", change);
-
-    // var timeout = setTimeout(function() {
-    //   d3.select("input[value=\"socialrent\"]").property("checked", true).each(change);
-    // }, 2000);
-
-    // function change() {
-    //   var value = this.value;
-    //   clearTimeout(timeout);
-    //   pie.value(function(d) { return d[value]; }); // change the value function
-    //   path = path.data(data); // compute the new angles
-    //   path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
-    // };
-
-    // function type(d) {
-    // //   d.rent = +d.value;
-    //   d.income = +d.income;
-    //   return d;
-    // }
-
-    // Store the displayed angles in _current.
-    // Then, interpolate from _current to the new angles.
-    // During the transition, _current is updated in-place by d3.interpolate.
-    // function arcTween(a) {
-    //   var i = d3.interpolate(this._current, a);
-    //   this._current = i(0);
-    //   return function(t) {
-    //     return arc(i(t));
-    //   };
-    // }
 }

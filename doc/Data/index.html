@@ -20,6 +20,10 @@ http://localhost:7800/
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
 </head>
 <body>
+
+<section id="section01" class="demo">
+    <a href="#section02"><span></span>Scroll</a>
+
 <!-- image on homepage-->
 <div class="hero-image">
         <div class="hero-text">
@@ -27,18 +31,19 @@ http://localhost:7800/
             <p>A visualization by Max Baneke</p>
             
 
-            <div id="demo" class="collapse">A story about the Amsterdam housing prices development.The Amsterdam housing market is known to be overheated. In the past years the house prices have risen rapidly. The question rises if such a growth of house prices is sustainable on the long run and what the consequences of a faster growth rate of housing prices than income will have. Therefore, data will be visualized on these two variables to give insights in potential future scenarios of the Amsterdam housing market.</div>
+            <div id="demo" class="collapse">A story about the Amsterdam housing prices development. The Amsterdam housing market is known to be overheated. In the past years the house prices have risen rapidly. The question rises if such a growth of house prices is sustainable on the long run and what the consequences of a faster growth rate of housing prices than income will have. Therefore, data will be visualized on these two variables to give insights in potential future scenarios of the Amsterdam housing market.</div>
             
             <button id="readButton" type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Read story</button>
-            <button onclick="downFunction()" id="downButton">Go Down</button>
         </div>
 </div>
-
+</section>
 <!-- <canvas id="chart1"></canvas> -->
         
 <link rel="stylesheet" href="linked.css">
 <script src="https://d3js.org/d3.v5.min.js"></script>
 
+<section id="section02" class="demo">
+    <!-- <a href="#section03"><span></span>Scroll</a> -->
 
 <h1>Huurprijzen en lonen per deelgemeente</h1>
 
@@ -57,7 +62,7 @@ http://localhost:7800/
 <div id="map"></div>
 
 
-<div class="btn-group">
+<!-- <div class="btn-group">
     <form>
         <label><input type="radio" name="dataset" value='0' checked> Centrum</label>
         <label><input type="radio" name="dataset" value='1'> West</label>
@@ -68,9 +73,10 @@ http://localhost:7800/
         <label><input type="radio" name="dataset" value='6'>Zuidoost</label>
         <label><input type="radio" name="dataset" value='7'>Amsterdam</label>
     </form>  
-    </div>
-<svg width="800" height="600" id="piechart"></svg>
+    </div> -->
+<svg width="600" height="800" id="piechart"></svg>
 <div id="piechart"></div>
+
 
 
 <select id="list" onchange="getSelectValue();">
@@ -86,7 +92,7 @@ http://localhost:7800/
 
 <div id="chart"></div>
 
-
+</section>
 
 
 
