@@ -39,3 +39,6 @@ Created first version of pie chart with radio buttons. Had a lot of trouble with
 
 # Day 12 (25/01/2018)
 Goals for the day: fix favicon, deelgemeente nieuw_west, deleting data, and legend. Fixed favicon error message, added legend for pie chart and improved positioning of charts. Tried to add update function instead of deleting charts when new data is added but didnt succeed.
+
+# Day 13 (28/01/2018)
+Goals for the day: make line clickable, add titles, fix dropdown menu,and add no data (grey) to legend.
