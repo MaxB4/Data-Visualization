@@ -1,3 +1,22 @@
+.dropdown {
+  position: absolute;
+  display: inline-block;
+  bottom: 0px;
+  right:580px;
+  height:100px;
+  width:300px;
+}
+
+
+/* link to data source */
+#bottomlink{
+  position:absolute;
+  bottom:10px;
+  right:580px;
+  height:20px;
+  width:300px;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -103,7 +122,7 @@ html {
   
   /* change link color */
   a:visited {
-    color: pink;
+    color: #d9f2fa;
     background-color: transparent;
     text-decoration: none;
   }
@@ -158,16 +177,22 @@ html {
     /* stroke: #000;
     stroke-width: 3px;  */
   /* } */
-  
+
   .incomeline {
     fill: none;
     stroke: rgb(255, 0, 0);
     stroke-width: 2px;
   }
+  /* .incomeline:hover{ 
+    z-index:2 !important;
+  } */
   .rentline {
     fill: none;
     stroke: rgb(0, 85, 119);
     stroke-width: 2px;
+  }
+  .rentline:hover{
+    z-index:2 !important;
   }
   .area1 {
     fill: rgb(255, 0, 0, .2);

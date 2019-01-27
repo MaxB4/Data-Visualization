@@ -45,7 +45,7 @@ http://localhost:7800/
 <section id="section02" class="demo">
     <!-- <a href="#section03"><span></span>Scroll</a> -->
 
-<h1>Huurprijzen en lonen per deelgemeente</h1>
+<!-- <h1>Huurprijzen en lonen per deelgemeente</h1> -->
 
 
 
@@ -53,7 +53,7 @@ http://localhost:7800/
 <!-- https://gist.github.com/JulesBlm/918e2987805c7189f568d95a4e8855b4 -->
 <!-- https://www.chartjs.org/ -->
 
-<svg width="900" height="800" id="map"></svg>
+<svg width="960" height="750" id="map"></svg>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
 <script src="http://d3js.org/topojson.v2.min.js"></script>
@@ -74,28 +74,28 @@ http://localhost:7800/
         <label><input type="radio" name="dataset" value='7'>Amsterdam</label>
     </form>  
     </div> -->
-<svg width="600" height="800" id="piechart"></svg>
+<svg width="550" height="750" id="piechart"></svg>
 <div id="piechart"></div>
-
-
-
-<select id="list" onchange="getSelectValue();">
-    <option value= '0'>Centrum</option>
-    <option value= '3'>Zuid</option>
-    <option value= '5'>Noord</option>
-    <option value= '1'>West</option>
-    <option value= '4'>Oost</option>
-    <option value= '2'>Nieuw-West</option>
-    <option value= '6'>Zuidoost</option>
-    <option value= '7'>Amsterdam</option>
-</select>
-
 <div id="chart"></div>
 
+<!-- dropdown menu -->
+<div class="dropdown">
+    <select id="dropdown" onchange="getSelectValue();">
+        <option value= '0'>Centrum</option>
+        <option value= '3'>Zuid</option>
+        <option value= '5'>Noord</option>
+        <option value= '1'>West</option>
+        <option value= '4'>Oost</option>
+        <option value= '2'>Nieuw-West</option>
+        <option value= '6'>Zuidoost</option>
+        <option value= '7'>Amsterdam</option>
+    </select>
+    </div>
 </section>
 
 
-
+<div id="bottomlink">
 <a href="https://www.ois.amsterdam.nl/feiten-en-cijfers/#"target="_blank"> Bron: Gemeenste Amsterdam, CBS</a>
+</div>
 </body>
 </html>

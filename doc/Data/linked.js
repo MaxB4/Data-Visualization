@@ -113,7 +113,7 @@ function main(response) {
         .center([4.9, 52.366667])
         .rotate(120)
         .scale(250000)
-        .translate([width / 2, height / 2])
+        .translate([width / 2, height / 2.1])
         // .attr("transform", "translate(" + (width / 2) + " ," + (height + padding + 20) + ")")
 
     // color scale
@@ -132,11 +132,20 @@ function main(response) {
         })));
 
     // constant variables
-    var y0 = 30;
-    var spacingy = 45;
-    var x0 = 0;
+    var y0 = height - 180;
+    var x0 = 10;
     var spacingx = 55;
-    var legendhight = 15;
+    var legendhight = height - 200;
+    var titlehight = 20
+
+    // append a title to the chart
+    svg.append("text")
+    .attr("text-anchor", "middle")    
+    .attr("x", width/2)             
+    .attr("y", titlehight)
+    .style("font-size", "20px")
+    .style("font-family", "sans-serif")
+    .text("Average income per submunicipality of Amsterdam in 2015");
 
     // legend
     svg.append("text")
@@ -159,14 +168,15 @@ function main(response) {
     legend.append("rect")
         .attr("y", y0)
         .attr("x", x0)
-        .attr("width", 32)
+        .attr("width", 40)
         .attr("height", 20)
         .style("fill", color);
 
     // add text to legend
     legend.append("text")
         .attr("x", spacingx)
-        .attr("y", spacingy)
+        .attr("y", y0 + 18)
+     
         .text(function (d) {
             return d;
         })
@@ -202,7 +212,6 @@ function main(response) {
 
                 }
             })
-            .style('stroke-width', 1.5)
             .style("opacity", 0.8)
 
             // tooltips
@@ -313,6 +322,15 @@ function createLinechart(data) {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // add title to line chart
+    svg.append("text")
+    .attr("text-anchor", "middle")    
+    .attr("x", width/2)             
+    .attr("y", 0)
+    .style("font-size", "20px")
+    .style("font-family", "sans-serif")
+    .text("Average income and rent price per submunicipality of Amsterdam between 2012 and 2015"); 
 
     // X scale
     var xScale = d3.scaleLinear()
@@ -435,7 +453,6 @@ function createincomeline(data, svg, xScale, yScale) {
         })
     svg.call(tip);
 }
-// end function income line
 
 function createrentline(data, svg, xScale, yScale2) {
 
@@ -522,14 +539,14 @@ function tweenDash() {
 }
 
 // when the user clicks on the button, scroll to the first visualization
-function downFunction() {
-    document.documentElement.scrollTop = 770;
-}
+// function downFunction() {
+//     document.documentElement.scrollTop = 770;
+// }
 
 function getSelectValue() {
     d3.select("#chart > *").remove()
     d3.select("#piechart > *").remove()
-    var selectedValue = document.getElementById("list").value;
+    var selectedValue = document.getElementById("dropdown").value;
     var location = selectedValue
 
     var rent2013 = rentListYears[0][location]
@@ -585,7 +602,6 @@ function buildPieChart(socialrentdata) {
 
     // color
     var colors = d3.scaleThreshold()
-        // .domain([50, 100, 60])
         .range(["rgb(49,130,189)", "rgb(153,0,0)"]);
 
 
@@ -595,7 +611,7 @@ function buildPieChart(socialrentdata) {
 
 
     var g = svg.append("g")
-        .attr("transform", "translate(" + width / 3 + "," + height / 2 + ")")
+        .attr("transform", "translate(" + width / 3.75 + "," + height / 2 + ")")
 
     var arc = d3.arc()
         .outerRadius(radius - 200)
@@ -622,33 +638,34 @@ function buildPieChart(socialrentdata) {
                     .attr("class", "legend")
                     .attr("transform", function(d, i) { return "translate(0," + i * 40 + ")"; })
 
+       
+                    svg.selectAll("#piechart")
+                    .append("text")
+                    .attr("text-anchor", "middle")    
+                    .attr("x", width/2)             
+                    .attr("y", 20)
+                    .style("font-size", "20px")
+                    .style("font-family", "sans-serif")
+                    .text("Percentage social rent");
+                    
         // boxes
         pielegend.append("rect")
-                    .attr("x", width - 550)
-                    .attr("y", height - 675)
+                    .attr("x", width - 900)
+                    .attr("y", height - 150)
                     .attr("width", 60)
                     .attr("height", 30)
                     .attr("fill", function (d, i) {
             return colors(i);
         });
         
-        // // title
-        // pielegend.append("text")
-        // .attr("x", width - 280)
-        // .attr("y", 100)
-        // .attr("font-size", "large")
-        // .attr("font-weight", "bold")
-        // .text("percent social rent");
-        
+           
         // add text to legend
         pielegend.append("text")
-        .attr("x", width - 420)
-        .attr("y", height - 650)
+        .attr("x", width - 780)
+        .attr("y", height - 130)
         .text(function(d){
         return d;
-        });
-
-    
+        }); 
 
     // pie chart legend
     var text = g.selectAll("text")
@@ -656,14 +673,6 @@ function buildPieChart(socialrentdata) {
         .enter()
         .append("text")
         .attr("transform", d => `translate(${arc.centroid(d)})`)
- 
-    // add text to legend
-    pielegend.append("textttttttttttttttttttt")
-        .attr("x", 100)
-        .attr("y", 100)
-        .text(function (d) {
-            return d;
-        })
 
     text.append("tspan")
         .style("opacity", 1)
