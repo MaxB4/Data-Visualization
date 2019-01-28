@@ -7,6 +7,9 @@ http://localhost:7800/
 <html>
 <meta charset="utf-8">
 <head>
+<!-- source code  -->
+<!-- https://gist.github.com/JulesBlm/918e2987805c7189f568d95a4e8855b4 -->
+<!-- https://www.chartjs.org/ -->
 
 <link rel="shortcut icon" type="image/png" href="/andreaskruis1.png"/>
 <title>Amsterdam Housing Problem</title>
@@ -46,12 +49,7 @@ http://localhost:7800/
     <!-- <a href="#section03"><span></span>Scroll</a> -->
 
 
-
-
-<!-- source code  -->
-<!-- https://gist.github.com/JulesBlm/918e2987805c7189f568d95a4e8855b4 -->
-<!-- https://www.chartjs.org/ -->
-
+    <script type="text/javascript" src="map.js"> </script>
 <svg width="960" height="750" id="map"></svg>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
@@ -59,6 +57,7 @@ http://localhost:7800/
 <script src="d3-tip.js"></script>
 <script type="text/javascript" src="linked.js"> </script>
 <div id="map"></div>
+
 
 
 <!-- <div class="btn-group">
@@ -89,9 +88,11 @@ http://localhost:7800/
         <option value= '7'>Amsterdam</option>
     </select>
     </div>
-<div id="piechart"></div>
-<div id="chart"></div>
 
+<div id="piechart"></div>
+<script type="text/javascript" src="piechart.js"> </script>
+<div id="chart"></div>
+<script type="text/javascript" src="linechart.js"> </script>
 </section>
 
 <!-- link to data source -->
