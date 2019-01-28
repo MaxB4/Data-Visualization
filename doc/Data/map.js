@@ -258,32 +258,17 @@ function main(response) {
                         socialrent: nonsocialrentlist[location]
                     }]
                   
-
-
-                    var location = document.getElementById('dropdown');
-                    var opts = location.options.length;
-                    console.log(opts)
-                    for (var i=0; i<opts; i++){
-                        if (location.options[i].value == location){
-                            location.options[i].selected = true;
-                            break;
-                        }
-                    }
-
-
                     buildPieChart(socialrentdata)
                     createLinechart(data)
+                    
                     // updatePieChart()
                     // scroll down
                     // document.documentElement.scrollTop = 1630;
+                            
+                // change dropdown menu to current 'deelgemeente'
+                  document.getElementById("dropdown").value = location;
                     
-                    value= location;
-        
-                   x = document.getElementById("dropdown") 
-                   x.delete(2)
-                   
-                    console.log(x)
-                    return (data)
+                  return (data)
 
                     
 
