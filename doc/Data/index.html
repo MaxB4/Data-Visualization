@@ -7,9 +7,9 @@ http://localhost:7800/
 <html>
 <meta charset="utf-8">
 <head>
-        
-        <link rel="icon" href="amsterdam-xxx.svg" sizes="16x16" type="image/svg+xml">
-        <title>Amsterdam Housing Problem</title>
+
+<link rel="shortcut icon" type="image/png" href="/andreaskruis1.png"/>
+<title>Amsterdam Housing Problem</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- bootstrap links -->
@@ -27,7 +27,7 @@ http://localhost:7800/
 <!-- image on homepage-->
 <div class="hero-image">
         <div class="hero-text">
-            <h1 style="font-size:50px">Huurprijzen en lonen in Amsterdam</h1>
+            <h1 style="font-size:50px">Rent prices and income in Amsterdam submunicipalities</h1>
             <p>A visualization by Max Baneke</p>
             
 
@@ -45,7 +45,6 @@ http://localhost:7800/
 <section id="section02" class="demo">
     <!-- <a href="#section03"><span></span>Scroll</a> -->
 
-<!-- <h1>Huurprijzen en lonen per deelgemeente</h1> -->
 
 
 
@@ -75,11 +74,10 @@ http://localhost:7800/
     </form>  
     </div> -->
 <svg width="550" height="750" id="piechart"></svg>
-<div id="piechart"></div>
-<div id="chart"></div>
 
 <!-- dropdown menu -->
 <div class="dropdown">
+       
     <select id="dropdown" onchange="getSelectValue();">
         <option value= '0'>Centrum</option>
         <option value= '3'>Zuid</option>
@@ -91,9 +89,12 @@ http://localhost:7800/
         <option value= '7'>Amsterdam</option>
     </select>
     </div>
+<div id="piechart"></div>
+<div id="chart"></div>
+
 </section>
 
-
+<!-- link to data source -->
 <div id="bottomlink">
 <a href="https://www.ois.amsterdam.nl/feiten-en-cijfers/#"target="_blank"> Bron: Gemeenste Amsterdam, CBS</a>
 </div>

@@ -97,7 +97,7 @@ function main(response) {
             else {
                 var newIncome2015 = "No data for location";
             }
-            return "<strong>Deelgemeente: </strong><span class='details'>" + stadsdeel[d.properties.Stadsdeel_code] + "<br></span>" + "<strong>Income (euro): </strong><span class='details'>" + newIncome2015 + "<br></span>";
+            return "<strong>Submunicipality: </strong><span class='details'>" + stadsdeel[d.properties.Stadsdeel_code] + "<br></span>" + "<strong>Income (euro): </strong><span class='details'>" + newIncome2015 + "<br></span>";
         })
 
     var svg = d3.select("#map");
@@ -236,11 +236,11 @@ function main(response) {
             // load line chart of deelgemeente when clicked on
             .on('click', function (d) {
                 d3.select("#chart > *").remove()
-                d3.select("#piechart > *").remove()
+                d3.selectAll("#piechart > *").remove()
 
                 if (DeelGemeenteList1.includes(d.properties.Stadsdeel_code)) {
                     var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
-                    console.log(location)
+        
                     var rent2013 = rentListYears[0][location]
                     var rent2015 = rentListYears[1][location]
                     var rent2014 = (((rentListYears[0][location]) + rent2015) / 2)
@@ -275,8 +275,7 @@ function main(response) {
                     }, {
                         socialrent: nonsocialrentlist[location]
                     }]
-                    console.log(socialrentdata)
-
+                  
                     buildPieChart(socialrentdata)
                     createLinechart(data)
                     // updatePieChart()
@@ -384,9 +383,20 @@ function createLinechart(data) {
         .style("text-anchor", "middle")
         .text("Rent");
 
-
-    createrentline(data, svg, xScale, yScale2)
-    createincomeline(data, svg, xScale, yScale)
+    // order of plotting
+    // console.log(data[2].income)
+    // console.log(data)
+    var linecompare = 40
+    if ((data[2].income/data[2].rent) > linecompare)
+    {
+        createincomeline(data, svg, xScale, yScale)
+        createrentline(data, svg, xScale, yScale2)
+    } 
+    else {
+        createrentline(data, svg, xScale, yScale2)
+        createincomeline(data, svg, xScale, yScale)
+    }
+    
 
 }
 
@@ -403,7 +413,7 @@ function createincomeline(data, svg, xScale, yScale) {
         .x(function (d) {
             return xScale(d.year);
         })
-        .y0(height - 147)
+        .y0(height - 95)
         .y1(function (d) {
             return yScale(d.income);
         })
@@ -432,17 +442,25 @@ function createincomeline(data, svg, xScale, yScale) {
         .attr('r', 5)
 
         // tooltips
-        .style('stroke-width', 0.3)
+        .style('stroke-width', 2)
+        .style("opacity", 0.5)
+        .style("stroke", "red")
+
         .on('mouseover', function (d) {
             tip.show(d);
 
             d3.select(this)
-                .style("opacity", 0.9)
-                .style("stroke", "pink")
-                .style("stroke-width", 3);
+                .style("opacity", 1)
+                .style("stroke", "red")
+                .style("stroke-width", 2);
         })
         .on('mouseout', function (d) {
             tip.hide(d);
+
+            d3.select(this)
+            .style("opacity", 0.5)
+            .style("stroke", "red")
+            .style("stroke-width", 2);
         })
     // tooltip income
     var tip = d3.tip()
@@ -467,7 +485,7 @@ function createrentline(data, svg, xScale, yScale2) {
         .x(function (d) {
             return xScale(d.year);
         })
-        .y0(height - 147)
+        .y0(height - 95)
         .y1(function (d) {
             return yScale2(d.rent);
         })
@@ -497,19 +515,22 @@ function createrentline(data, svg, xScale, yScale2) {
         .attr('cx', d => xScale(d.year))
         .attr('cy', d => yScale2(d.rent))
         .attr('r', 5)
-
-        // tooltips
-        .style('stroke-width', 0.9)
+        .style("stroke-width", 2)
+        .style("stroke", "blue")
+        .style("opacity", 0.5)
         .on('mouseover', function (d) {
             tip1.show(d);
 
             d3.select(this)
-                .style("opacity", 0.5)
-                .style("stroke", "darkblue")
-                .style("stroke-width", 3);
+                .style("opacity", 1)
+                .style("stroke", "blue")
+                .style("stroke-width", 2);
         })
         .on('mouseout', function (d) {
             tip1.hide(d);
+            
+            d3.select(this)
+            .style("opacity", 0.5)
         })
 
     // tooltip rent
@@ -545,7 +566,7 @@ function tweenDash() {
 
 function getSelectValue() {
     d3.select("#chart > *").remove()
-    d3.select("#piechart > *").remove()
+    d3.selectAll("#piechart > *").remove()
     var selectedValue = document.getElementById("dropdown").value;
     var location = selectedValue
 
@@ -609,7 +630,6 @@ function buildPieChart(socialrentdata) {
         .attr("text-anchor", "middle")
         .style("font", "12px sans-serif");
 
-
     var g = svg.append("g")
         .attr("transform", "translate(" + width / 3.75 + "," + height / 2 + ")")
 
@@ -632,26 +652,26 @@ function buildPieChart(socialrentdata) {
         // })
 
         pielegend = svg.selectAll("#piechart")
-                    .data(["Social housing", "Private housing"])
+                    .data(["% Social housing", "% Private housing"])
                     .enter()
                     .append("g")
                     .attr("class", "legend")
-                    .attr("transform", function(d, i) { return "translate(0," + i * 40 + ")"; })
+                    .attr("transform", function(d, i) { return "translate(0," + i * 30 + ")"; })
 
        
-                    svg.selectAll("#piechart")
-                    .append("text")
+                    // title piechart
+                    svg.append("text")
                     .attr("text-anchor", "middle")    
-                    .attr("x", width/2)             
-                    .attr("y", 20)
-                    .style("font-size", "20px")
+                    .attr("x", width/4)             
+                    .attr("y", height - 150)
+                    .style("font-size", "16px")
                     .style("font-family", "sans-serif")
-                    .text("Percentage social rent");
+                    .text("Social and private housing percentage (2015)");
                     
         // boxes
         pielegend.append("rect")
                     .attr("x", width - 900)
-                    .attr("y", height - 150)
+                    .attr("y", height - 120)
                     .attr("width", 60)
                     .attr("height", 30)
                     .attr("fill", function (d, i) {
@@ -661,8 +681,8 @@ function buildPieChart(socialrentdata) {
            
         // add text to legend
         pielegend.append("text")
-        .attr("x", width - 780)
-        .attr("y", height - 130)
+        .attr("x", width - 770)
+        .attr("y", height - 100)
         .text(function(d){
         return d;
         }); 
@@ -676,7 +696,7 @@ function buildPieChart(socialrentdata) {
 
     text.append("tspan")
         .style("opacity", 1)
-        .style("stroke", "black")
+        .style("stroke", "white")
         .text(d => d.data.socialrent);
 
     // var pielegends = svg.append("g")
@@ -710,9 +730,9 @@ function buildPieChart(socialrentdata) {
     //     .attr("y", 25)
 
     // pie transition
-    function transition() {
+    // function transition() {
 
-    }
+    // }
     // arctween
     function arcTween(a) {
         const i = d3.interpolate(this._current, a);
