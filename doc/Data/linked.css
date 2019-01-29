@@ -157,17 +157,11 @@ html {
     stroke: rgb(255, 0, 0);
     stroke-width: 2px;
   }
-  /* .incomeline:hover{ 
-    z-index:2 !important;
-  } */
   .rentline {
     fill: none;
     stroke: rgb(0, 85, 119);
     stroke-width: 2px;
   }
-  /* .rentline:hover {
-    z-index:2 !important;
-  } */
   .area1 {
     fill: rgb(255, 0, 0, .2);
     stroke-width: 0;
