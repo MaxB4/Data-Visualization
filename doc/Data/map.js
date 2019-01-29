@@ -19,7 +19,6 @@ function main(response) {
     rentListYears = []
     socialRentList = []
     nonsocialRentList = []
-    emptyList = Array(8).fill(0)
 
     DeelGemeenteList = ["A  Centrum", "E  West", "F  Nieuw-West", "K  Zuid", "M  Oost", "N  Noord", "T  Zuidoost", "Amsterdam"];
     DeelGemeenteList1 = ["A Centrum", "E West", "F Nieuw-West", "K Zuid", "M Oost", "N Noord", "T Zuidoost", "Amsterdam"];
@@ -51,21 +50,28 @@ function main(response) {
     nonsocialrentlist = []
 
 
-    // sort social rent list
+    // sort social rent lists
     for (j = 0; j < 8; j++) {
         socialRentList.push(socialrent[DeelGemeenteList1[j]])
         nonsocialRentList.push(100 - socialrent[DeelGemeenteList1[j]])
     }
 
-    // console.log(100 - socialRentList[0][2015]);
+    // create rent lists
     for (i = 0; i < 8; i++) {
         socialrentlist.push(socialRentList[i][2015])
         nonsocialrentlist.push(100 - socialRentList[i][2015])
     }
+    var location = 7;
+    
+    var socialrentdata = [{
+        socialrent: socialrentlist[location]
+    }, {
+        socialrent: nonsocialrentlist[location]
+    }]
   
     income2015 = incomeListYears[3]
-    console.log(incomeListYears)
 
+    
     // Set tooltips
     var tip = d3.tip()
         .attr('class', 'd3-tip')
@@ -95,12 +101,12 @@ function main(response) {
         .center([4.9, 52.366667])
         .rotate(120)
         .scale(250000)
-        .translate([width / 2, height / 2.1])
-        // .attr("transform", "translate(" + (width / 2) + " ," + (height + padding + 20) + ")")
+        .translate([width / 2, height / 2.1]);
 
     // color scale
+    var datascale = [20000, 22000, 24000, 26000, 28000, 34000, "No data"];
     var color = d3.scaleThreshold()
-        .domain([20000, 22000, 24000, 26000, 28000, 34000])
+        .domain(datascale)
         .range(["rgb(222,235,247)", "rgb(198,219,239)", "rgb(158,202,225)", "rgb(107,174,214)", "rgb(66,146,198)", "rgb(33,113,181)", "rgb(8,69,148)", "rgb(37,37,37)"]);
 
     var path = d3.geoPath()
@@ -138,7 +144,7 @@ function main(response) {
         .text("Income Legenda");
 
     legend = svg.selectAll("#map")
-        .data([20000, 22000, 24000, 26000, 28000, 34000 + "+"])
+        .data(datascale)
         .enter()
         .append("g")
         .attr("class", ".legend")
@@ -168,16 +174,11 @@ function main(response) {
 
     function ready(data, income2015) {
 
-
         // Draw the deelgemeenten
         svg.selectAll(".buurt")
             .data(stadsdelen)
             .enter().insert("g")
-            .append("path")
-        //  .attr("class", "buurt")
-        //  .attr("d", path)
-
-
+            .append("path");
 
         svg.append("g")
             .attr("class", "buurt")
@@ -219,10 +220,10 @@ function main(response) {
             .on('click', function (d) {
                 d3.select("#chart > *").remove()
                 d3.selectAll("#piechart > *").remove()
-
                 if (DeelGemeenteList1.includes(d.properties.Stadsdeel_code)) {
                     var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
         
+                    // function getdata(){
                     var rent2013 = rentListYears[0][location]
                     var rent2015 = rentListYears[1][location]
                     var rent2014 = (((rentListYears[0][location]) + rent2015) / 2)
@@ -257,23 +258,22 @@ function main(response) {
                     }, {
                         socialrent: nonsocialrentlist[location]
                     }]
+                    // }
                   
                     buildPieChart(socialrentdata)
                     createLinechart(data)
                     
                     // updatePieChart()
-                    // scroll down
-                    // document.documentElement.scrollTop = 1630;
                             
-                // change dropdown menu to current 'deelgemeente'
+                // change dropdown menu to current'deelgemeente'
                   document.getElementById("dropdown").value = location;
                     
-                  return (data)
-
-                    
-
-
+                  return (socialrentdata)
                 }
-            });
-    }
+             });
+            
+             buildPieChart(socialrentdata)
+             document.getElementById("dropdown").value = location;
+
+            }
 };
