@@ -1,11 +1,9 @@
 function createLinechart(data) {
 
     // variables
-        var y0 = height - 180;
-        var x0 = 10;
-        // var spacingx = 55;
-        // var legendhight = height - 200;
-        var titlehight = 0;
+    var titlehight = 0;
+    var incomeFlag = 0;
+    var rentFlag = 0;
 
     // use standard margins
     var margin = {
@@ -29,50 +27,67 @@ function createLinechart(data) {
 
     // add title to line chart
     svg.append("text")
-    .attr("text-anchor", "middle")    
-    .attr("x", width/2)             
-    .attr("y", titlehight)
-    .style("font-size", "20px")
-    .style("font-family", "sans-serif")
-    .text("Average income and rent price per submunicipality of Amsterdam between 2012 and 2015"); 
+        .attr("text-anchor", "middle")
+        .attr("x", width / 2)
+        .attr("y", titlehight)
+        .style("font-size", "20px")
+        .style("font-family", "sans-serif")
+        .text("Average income and rent price per submunicipality of Amsterdam between 2012 and 2015");
 
-    
     var legendcolor = d3.scaleThreshold()
-    .range(["rgb(49,130,189)", "rgb(153,0,0)"]);
+        .range(["rgb(49,130,189)", "rgb(153,0,0)"]);
 
- 
-    
-    chartlegend = svg.selectAll("#chart")
-        .data(["Rent", "Income"])
+    chartlegendRent = svg.selectAll("#chart")
+        .data(["Rent"])
         .enter()
         .append("g")
-        .attr("class", ".legend")
 
-    .attr("transform", function(d, i) { return "translate(0," + i * 50 + ")"; })
+    chartlegendIncome = svg.selectAll("#chart")
+        .data(["Income"])
+        .enter()
+        .append("g")
 
+    // boxes
+    chartlegendRent.append("rect")
+        .attr("class", "legendrent")
+        .attr("x", margin.left + 60)
+        .attr("y", height + 15)
+        .attr("width", 60)
+        .attr("height", 30)
+        .attr("fill", function (d, i) {
+            return legendcolor(i);
+        });
 
+    // boxes
+    chartlegendIncome.append("rect")
+        .attr("class", "legendincome")
+        .attr("x", margin.left + 60)
+        .attr("y", height + 50)
+        .attr("width", 60)
+        .attr("height", 30)
+        .attr("fill", function (d, i) {
+            return legendcolor(d);
+        });
 
-          // boxes
-         chartlegend.append("rect")
-          .attr("x", margin.left + 60)
-          .attr("y", height + 15)
-          .attr("width", 60)
-          .attr("height", 30)
-          .attr("fill", function (d, i) {
-  return legendcolor(i);
-});
-
-      // add text to legend
-    chartlegend.append("text")
+    // add text to legend
+    chartlegendRent.append("text")
         .attr("x", margin.left)
-        .attr("y", height + margin.bottom/4)
-     
+        .attr("y", height + 35)
+
         .text(function (d) {
             return d;
         })
-    
-        // clickable legend
-        svg.selectAll("rect")
+
+    chartlegendIncome.append("text")
+        .attr("x", margin.left)
+        .attr("y", height + 70)
+
+        .text(function (i) {
+            return i;
+        })
+
+    // clickable legend legendrent
+    svg.select("rect.legendrent")
         .style("opacity", 0.5)
         .on('mouseover', function (d) {
             d3.select(this)
@@ -80,18 +95,46 @@ function createLinechart(data) {
         })
         .on('mouseout', function (d) {
             d3.select(this)
-            .style("opacity", 0.5)
-   
-          
+                .style("opacity", 0.5)
         })
         .on('click', function (d) {
-    //   d3.select("rentpath").remove()
-      d3.select("path.rentline").remove()
-      d3.select("path.area2").remove()
-      d3.select("circle").remove()
-      console.log("test")
-    //   d3.select(rentlinepath).remove()
-        // d3.selectAll("#piechart > *").remove();
+            console.log(rentFlag)
+            if (rentFlag == 0) {
+
+                d3.select("path.rentline").remove()
+                d3.select("path.area2").remove()
+                d3.selectAll("circle.rentcircle").remove()
+                rentFlag = 1
+
+            } else {
+                createrentline(data, svg, xScale, yScale2)
+                rentFlag = 0
+            }
+        })
+
+    // clickable legend legendincome
+    svg.select("rect.legendincome")
+        .style("opacity", 0.5)
+        .on('mouseover', function (d) {
+            d3.select(this)
+                .style("opacity", 1)
+        })
+        .on('mouseout', function (d) {
+            d3.select(this)
+                .style("opacity", 0.5)
+
+        })
+        .on('click', function (d) {
+            if (incomeFlag == 0) {
+                d3.select("path.incomeline").remove()
+                d3.select("path.area1").remove()
+                d3.selectAll("circle.incomecircle").remove()
+                incomeFlag = 1;
+            } else {
+                createincomeline(data, svg, xScale, yScale)
+                incomeFlag = 0;
+            }
+
         })
 
     // X scale
@@ -147,19 +190,15 @@ function createLinechart(data) {
         .text("Rent");
 
     // order of plotting
-    // console.log(data[2].income)
-    // console.log(data)
     var linecompare = 40
-    if ((data[2].income/data[2].rent) > linecompare)
-    {
+    if ((data[2].income / data[2].rent) > linecompare) {
         createincomeline(data, svg, xScale, yScale)
         createrentline(data, svg, xScale, yScale2)
-    } 
-    else {
+    } else {
         createrentline(data, svg, xScale, yScale2)
         createincomeline(data, svg, xScale, yScale)
     }
-    
+
 
 }
 
@@ -201,11 +240,11 @@ function createincomeline(data, svg, xScale, yScale) {
         .call(transition);
 
     //  circles income line
-    svg.selectAll(".buurt")
+    incomeCircles = svg.selectAll(".buurt")
         .data(data)
         .enter()
         .append('circle')
-        .attr('class', 'circle')
+        .attr('class', 'incomecircle')
         .attr('cx', d => xScale(d.year))
         .attr('cy', d => yScale(d.income))
         .attr('r', 5)
@@ -227,9 +266,9 @@ function createincomeline(data, svg, xScale, yScale) {
             tip.hide(d);
 
             d3.select(this)
-            .style("opacity", 0.5)
-            .style("stroke", "red")
-            .style("stroke-width", 2);
+                .style("opacity", 0.5)
+                .style("stroke", "red")
+                .style("stroke-width", 2);
         })
     // tooltip income
     var tip = d3.tip()
@@ -242,7 +281,7 @@ function createincomeline(data, svg, xScale, yScale) {
 }
 
 function createrentline(data, svg, xScale, yScale2) {
-    
+
     var margin = {
         top: 50,
         right: 50,
@@ -273,7 +312,7 @@ function createrentline(data, svg, xScale, yScale2) {
         .attr("class", "area2")
         .attr("d", area);
 
-       svg.append("path")
+    svg.append("path")
         .datum(data)
         .attr("class", "rentline")
         // .style('stroke', 'rgba(0, 10, 130, .7)')
@@ -287,7 +326,7 @@ function createrentline(data, svg, xScale, yScale2) {
         .data(data)
         .enter()
         .append('circle')
-        // .attr('class', 'circle')
+        .attr('class', 'rentcircle')
         .attr('cx', d => xScale(d.year))
         .attr('cy', d => yScale2(d.rent))
         .attr('r', 5)
@@ -304,9 +343,9 @@ function createrentline(data, svg, xScale, yScale2) {
         })
         .on('mouseout', function (d) {
             tip1.hide(d);
-            
+
             d3.select(this)
-            .style("opacity", 0.5)
+                .style("opacity", 0.5)
         })
 
     // tooltip rent
@@ -331,6 +370,4 @@ function tweenDash() {
     return function (t) {
         return i(t);
     };
-
-
 }

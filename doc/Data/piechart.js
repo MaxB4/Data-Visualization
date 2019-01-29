@@ -1,14 +1,10 @@
 function buildPieChart(socialrentdata) {
 
-
-    // var keys = ["A Centrum", "E West", "F Nieuw-West", "K Zuid", "M Oost", "N Noord", "T Zuidoost", "Amsterdam"];
-    // dataset for piechart
-
     var data = d3.pie()
         .sort(null)
         .value(function (d) {
             return d.socialrent;
-        })(socialrentdata)
+            })(socialrentdata)
 
     radius = Math.min(width, height) / 2;
 
@@ -28,7 +24,6 @@ function buildPieChart(socialrentdata) {
         .outerRadius(radius - 200)
         .innerRadius(0);
 
-
     g.selectAll("path")
         .data(data)
         .enter()
@@ -38,45 +33,42 @@ function buildPieChart(socialrentdata) {
         })
         .attr("d", arc)
         .append("title")
-        // .text(d => {
-        //     d.data.socialrent
-        // })
 
-        pielegend = svg.selectAll("#piechart")
-                    .data(["% Social housing", "% Private housing"])
-                    .enter()
-                    .append("g")
-                    .attr("class", "legend")
-                    .attr("transform", function(d, i) { return "translate(0," + i * 30 + ")"; })
+    pielegend = svg.selectAll("#piechart")
+        .data(["% Social housing", "% Private housing"])
+        .enter()
+        .append("g")
+        .attr("class", "legend")
+        .attr("transform", function (d, i) {
+            return "translate(0," + i * 30 + ")";
+        })
 
-       
-                    // title piechart
-                    svg.append("text")
-                    .attr("text-anchor", "middle")    
-                    .attr("x", width/4)             
-                    .attr("y", height - 150)
-                    .style("font-size", "16px")
-                    .style("font-family", "sans-serif")
-                    .text("Social and private housing percentage (2015)");
-                    
-        // boxes
-        pielegend.append("rect")
-                    .attr("x", width - 900)
-                    .attr("y", height - 120)
-                    .attr("width", 60)
-                    .attr("height", 30)
-                    .attr("fill", function (d, i) {
+    // title piechart
+    svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("x", width / 4)
+        .attr("y", height - 150)
+        .style("font-size", "16px")
+        .style("font-family", "sans-serif")
+        .text("Social and private housing percentage (2015)");
+
+    // boxes
+    pielegend.append("rect")
+        .attr("x", width - 900)
+        .attr("y", height - 120)
+        .attr("width", 60)
+        .attr("height", 30)
+        .attr("fill", function (d, i) {
             return colors(i);
         });
-        
-           
-        // add text to legend
-        pielegend.append("text")
+
+    // add text to legend
+    pielegend.append("text")
         .attr("x", width - 770)
         .attr("y", height - 100)
-        .text(function(d){
-        return d;
-        }); 
+        .text(function (d) {
+            return d;
+        });
 
     // pie chart legend
     var text = g.selectAll("text")

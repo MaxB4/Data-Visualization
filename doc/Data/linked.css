@@ -229,6 +229,21 @@ html {
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
   }
+    #section02 a {
+      padding-top: 40px;
+    }
+    #section02 a span {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      width: 24px;
+      height: 24px;
+      margin-left: -12px;
+      border-left: 2px solid rgb(0, 140, 255);
+      border-bottom: 2px solid rgb(0, 140, 255);
+      -webkit-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+  }
   .dropdown {
     position: absolute;
     display: inline-block;

@@ -20,6 +20,7 @@ function main(response) {
     socialRentList = []
     nonsocialRentList = []
 
+    // two lists because of dataset with extra space
     DeelGemeenteList = ["A  Centrum", "E  West", "F  Nieuw-West", "K  Zuid", "M  Oost", "N  Noord", "T  Zuidoost", "Amsterdam"];
     DeelGemeenteList1 = ["A Centrum", "E West", "F Nieuw-West", "K Zuid", "M Oost", "N Noord", "T Zuidoost", "Amsterdam"];
 
@@ -36,7 +37,6 @@ function main(response) {
     rentListYears = []
     years = [2013, 2015]
 
-
     // rent list
     for (i = 0; i < 2; i++) {
         rentList = []
@@ -48,7 +48,6 @@ function main(response) {
     }
     socialrentlist = []
     nonsocialrentlist = []
-
 
     // sort social rent lists
     for (j = 0; j < 8; j++) {
@@ -71,7 +70,9 @@ function main(response) {
   
     income2015 = incomeListYears[3]
 
-    
+    loadtooltip()
+
+    function loadtooltip(){
     // Set tooltips
     var tip = d3.tip()
         .attr('class', 'd3-tip')
@@ -88,6 +89,9 @@ function main(response) {
             return "<strong>Submunicipality: </strong><span class='details'>" + stadsdeel[d.properties.Stadsdeel_code] + "<br></span>" + "<strong>Income (euro): </strong><span class='details'>" + newIncome2015 + "<br></span>";
         })
 
+    }
+
+    
     var svg = d3.select("#map");
     width = +svg.attr("width"),
         height = +svg.attr("height");
@@ -119,7 +123,7 @@ function main(response) {
             return stadsdeel[a.properties.Stadsdeel_code] !== stadsdeel[b.properties.Stadsdeel_code];
         })));
 
-    // constant variables
+    // variables
     var y0 = height - 180;
     var x0 = 10;
     var spacingx = 55;

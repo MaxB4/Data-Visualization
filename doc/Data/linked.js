@@ -1,5 +1,6 @@
 window.onload = function () {
 
+
     var data = "buurten.json"
     var rentprice = "RentPrice.json"
     var income = "Income.json"
@@ -12,11 +13,6 @@ window.onload = function () {
         throw (e);
     });
 }
-
-// when the user clicks on the button, scroll to the first visualization
-// function downFunction() {
-//     document.documentElement.scrollTop = 770;
-// }
 
 function getSelectValue() {
     d3.select("#chart > *").remove()
