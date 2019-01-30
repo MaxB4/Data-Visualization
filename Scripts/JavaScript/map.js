@@ -1,3 +1,6 @@
+// Student Name: Max Baneke
+// Student Number: 10797564
+
 function main(response) {
     var data = response[0];
     var rent = response[1];

@@ -1,3 +1,6 @@
+// Student Name: Max Baneke
+// Student Number: 10797564
+
 window.onload = function () {
     
     // open data files

@@ -1,3 +1,5 @@
+// Student Name: Max Baneke
+// Student Number: 10797564
 function buildPieChart(socialRentData) {
 
     var data = d3.pie()
