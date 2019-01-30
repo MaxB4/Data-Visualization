@@ -1,9 +1,8 @@
-
 function main(response) {
     var data = response[0];
     var rent = response[1];
     var income = response[2];
-    var socialrent = response[3];
+    var socialRent = response[3];
     var stadsdeel = {
         "A Centrum": "Centrum",
         "B Westpoort": "Westpoort",
@@ -21,8 +20,8 @@ function main(response) {
     nonsocialRentList = []
 
     // two lists because of dataset with extra space
-    DeelGemeenteList = ["A  Centrum", "E  West", "F  Nieuw-West", "K  Zuid", "M  Oost", "N  Noord", "T  Zuidoost", "Amsterdam"];
-    DeelGemeenteList1 = ["A Centrum", "E West", "F Nieuw-West", "K Zuid", "M Oost", "N Noord", "T Zuidoost", "Amsterdam"];
+    deelGemeenteList = ["A  Centrum", "E  West", "F  Nieuw-West", "K  Zuid", "M  Oost", "N  Noord", "T  Zuidoost", "Amsterdam"];
+    deelGemeenteList1 = ["A Centrum", "E West", "F Nieuw-West", "K Zuid", "M Oost", "N Noord", "T Zuidoost", "Amsterdam"];
 
 
     // income list
@@ -30,7 +29,7 @@ function main(response) {
         incomeList = []
         incomeListYears.push(incomeList)
         for (j = 0; j < 8; j++) {
-            incomeList.push(income[DeelGemeenteList[j]][i])
+            incomeList.push(income[deelGemeenteList[j]][i])
         }
     }
 
@@ -41,45 +40,42 @@ function main(response) {
     for (i = 0; i < 2; i++) {
         rentList = []
         for (j = 0; j < 8; j++) {
-            rentList.push(rent[DeelGemeenteList1[j]][years[i]])
+            rentList.push(rent[deelGemeenteList1[j]][years[i]])
 
         }
         rentListYears.push(rentList)
     }
-        // default data is Amsterdam 
+    // default data is Amsterdam 
     var location = 7;
 
-        var rent2013 = rentListYears[0][location]
-        var rent2015 = rentListYears[1][location]
-        var rent2014 = (((rentListYears[0][location]) + rent2015) / 2)
-        var rent2012 = (rentListYears[0][location]) - (rent2014 - rentListYears[0][location])
+    var rent2013 = rentListYears[0][location]
+    var rent2015 = rentListYears[1][location]
+    var rent2014 = (((rentListYears[0][location]) + rent2015) / 2)
+    var rent2012 = (rentListYears[0][location]) - (rent2014 - rentListYears[0][location])
 
-        var year = [2012, 2013, 2014, 2015]
+    var year = [2012, 2013, 2014, 2015]
 
-        var testdata = [{
-                year: year[0],
-                income: incomeListYears[0][location],
-                rent: rent2012
-            },
-            {
-                year: year[1],
-                income: incomeListYears[1][location],
-                rent: rent2013
-            },
-            {
-                year: year[2],
-                income: incomeListYears[2][location],
-                rent: rent2014
-            },
-            {
-                year: year[3],
-                income: incomeListYears[3][location],
-                rent: rent2015
-            }
-        ]
-
-
-
+    var dataset = [{
+            year: year[0],
+            income: incomeListYears[0][location],
+            rent: rent2012
+        },
+        {
+            year: year[1],
+            income: incomeListYears[1][location],
+            rent: rent2013
+        },
+        {
+            year: year[2],
+            income: incomeListYears[2][location],
+            rent: rent2014
+        },
+        {
+            year: year[3],
+            income: incomeListYears[3][location],
+            rent: rent2015
+        }
+    ]
 
 
     socialrentlist = []
@@ -87,8 +83,8 @@ function main(response) {
 
     // sort social rent lists
     for (j = 0; j < 8; j++) {
-        socialRentList.push(socialrent[DeelGemeenteList1[j]])
-        nonsocialRentList.push(100 - socialrent[DeelGemeenteList1[j]])
+        socialRentList.push(socialRent[deelGemeenteList1[j]])
+        nonsocialRentList.push(100 - socialRent[deelGemeenteList1[j]])
     }
 
     // create rent lists
@@ -96,23 +92,23 @@ function main(response) {
         socialrentlist.push(socialRentList[i][2015])
         nonsocialrentlist.push(100 - socialRentList[i][2015])
     }
-    
+
     var socialrentdata = [{
         socialrent: socialrentlist[location]
     }, {
         socialrent: nonsocialrentlist[location]
     }]
-  
+
     income2015 = incomeListYears[3]
 
-    
+
     // Set tooltips
     var tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
         .html(function (d) {
-            if (DeelGemeenteList1.includes(d.properties.Stadsdeel_code)) {
-                var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
+            if (deelGemeenteList1.includes(d.properties.Stadsdeel_code)) {
+                var location = deelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
                 var newIncome2015 = income2015[location];
             }
             // give message when data is missing
@@ -122,9 +118,6 @@ function main(response) {
             return "<strong>Submunicipality: </strong><span class='details'>" + stadsdeel[d.properties.Stadsdeel_code] + "<br></span>" + "<strong>Income (euro): </strong><span class='details'>" + newIncome2015 + "<br></span>";
         })
 
-
-
-    
     var svg = d3.select("#map");
     width = +svg.attr("width"),
         height = +svg.attr("height");
@@ -141,10 +134,10 @@ function main(response) {
         .translate([width / 2, height / 2.1]);
 
     // color scale
-    var datascale = [20000, 22000, 24000, 26000, 28000, 34000, "No data"];
-    var color = d3.scaleThreshold()
-        .domain(datascale)
-        .range(["rgb(222,235,247)", "rgb(198,219,239)", "rgb(158,202,225)", "rgb(107,174,214)", "rgb(66,146,198)", "rgb(33,113,181)", "rgb(8,69,148)", "rgb(37,37,37)"]);
+    var dataScale = [20000, 22000, 24000, 26000, 28000, 34000];
+    var colortest = d3.scaleThreshold()
+        .domain(dataScale)
+        .range(["rgb(198,219,239)", "rgb(198,219,239)", "rgb(158,202,225)", "rgb(107,174,214)", "rgb(49,130,189)", "rgb(8,81,156)", "rgb(8,48,107)"]);
 
     var path = d3.geoPath()
         .projection(projection);
@@ -165,12 +158,12 @@ function main(response) {
 
     // append a title to the chart
     svg.append("text")
-    .attr("text-anchor", "middle")    
-    .attr("x", width/2)             
-    .attr("y", titlehight)
-    .style("font-size", "20px")
-    .style("font-family", "sans-serif")
-    .text("Average income per submunicipality of Amsterdam in 2015");
+        .attr("text-anchor", "middle")
+        .attr("x", width / 2)
+        .attr("y", titlehight)
+        .style("font-size", "20px")
+        .style("font-family", "sans-serif")
+        .text("Average income per submunicipality of Amsterdam in 2015");
 
     // legend
     svg.append("text")
@@ -181,7 +174,7 @@ function main(response) {
         .text("Income Legenda");
 
     legend = svg.selectAll("#map")
-        .data(datascale)
+        .data(dataScale)
         .enter()
         .append("g")
         .attr("class", ".legend")
@@ -195,21 +188,21 @@ function main(response) {
         .attr("x", x0)
         .attr("width", 40)
         .attr("height", 20)
-        .style("fill", color);
+        .style("fill", colortest);
 
     // add text to legend
     legend.append("text")
         .attr("x", spacingx)
         .attr("y", y0 + 18)
-     
+
         .text(function (d) {
             return d;
         })
 
     svg.call(tip);
-    ready(data, income2015, testdata);
+    ready(data, income2015, dataset);
 
-    function ready(data, income2015, testdata) {
+    function ready(data, income2015, dataset) {
 
         // Draw the deelgemeenten
         svg.selectAll(".buurt")
@@ -225,11 +218,10 @@ function main(response) {
             .append("path")
             .attr("d", path)
             .style("fill", function (d) {
-                if (DeelGemeenteList1.includes(d.properties.Stadsdeel_code)) {
-                    var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code)
+                if (deelGemeenteList1.includes(d.properties.Stadsdeel_code)) {
+                    var location = deelGemeenteList1.indexOf(d.properties.Stadsdeel_code)
                     var newIncome2015 = income2015[location];
-                    return color(newIncome2015);
-
+                    return colortest(newIncome2015)
                 }
             })
             .style("opacity", 0.8)
@@ -255,45 +247,12 @@ function main(response) {
 
             // load line chart of deelgemeente when clicked on
             .on('click', function (d) {
+                buildCharts(d)
+            });
+        var data = dataset;
 
-                getSelectValue1(d)
-
-                // if (DeelGemeenteList1.includes(d.properties.Stadsdeel_code)) {
-                    
-                //     d3.select("#chart > *").remove()
-                //     d3.selectAll("#piechart > *").remove()
-
-                //     var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
-        
-               
-
-                //     var data = testdata
-
-                //     var socialrentdata = [{
-                //         socialrent: socialrentlist[location]
-                //     }, {
-                //         socialrent: nonsocialrentlist[location]
-                //     }]
-                                  
-                //     buildPieChart(socialrentdata)
-                //     createLinechart(data)
-                    
-                //     // updatePieChart()
-                            
-                // // change dropdown menu to current'deelgemeente'
-                //   document.getElementById("dropdown").value = location;
-                    
-                //   return (socialrentdata)
-                // }
-                // else{
-                //     console.log("geen data")
-                // }
-             });
-            console.log(testdata)
-             var data = testdata;
-
-             createLinechart(data)
-             buildPieChart(socialrentdata)
-             document.getElementById("dropdown").value = location;
-            }
+        createLineChart(data)
+        buildPieChart(socialrentdata)
+        document.getElementById("dropdown").value = location;
+    }
 };

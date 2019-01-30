@@ -19,6 +19,7 @@ Data will be visualized for the submunicipalities of Amsterdam on rent prices, s
 ## Sources
 TopoJSON: https://gist.github.com/JulesBlm/918e2987805c7189f568d95a4e8855b4
 Scroll down button: https://codepen.io/nxworld/pen/OyRrGy
+tooltip : d3.tip * Copyright (c) 2013 Justin Palmer
 
 ### Data sources
 

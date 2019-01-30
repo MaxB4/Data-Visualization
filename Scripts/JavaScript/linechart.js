@@ -1,7 +1,7 @@
-function createLinechart(data) {
+function createLineChart(data) {
 
     // variables
-    var titlehight = 0;
+    var titleHight = 0;
     var incomeFlag = 0;
     var rentFlag = 0;
 
@@ -12,7 +12,6 @@ function createLinechart(data) {
             bottom: 150,
             left: 75
         },
-
         width = window.innerWidth - margin.left - margin.right - 20,
         height = window.innerHeight - margin.top - margin.bottom;
     padding = 20;
@@ -29,23 +28,25 @@ function createLinechart(data) {
     svg.append("text")
         .attr("text-anchor", "middle")
         .attr("x", width / 2)
-        .attr("y", titlehight)
+        .attr("y", titleHight)
         .style("font-size", "20px")
         .style("font-family", "sans-serif")
         .text("Average income and rent price per submunicipality of Amsterdam between 2012 and 2015");
 
+    // legend color
     var legendcolor = d3.scaleThreshold()
         .range(["rgb(49,130,189)", "rgb(153,0,0)"]);
 
-    chartlegendRent = svg.selectAll("#chart")
+    // add text to legend
+    var chartlegendRent = svg.selectAll("#chart")
         .data(["Rent"])
         .enter()
-        .append("g")
+        .append("g");
 
-    chartlegendIncome = svg.selectAll("#chart")
+    var chartlegendIncome = svg.selectAll("#chart")
         .data(["Income"])
         .enter()
-        .append("g")
+        .append("g");
 
     // boxes
     chartlegendRent.append("rect")
@@ -84,9 +85,9 @@ function createLinechart(data) {
 
         .text(function (i) {
             return i;
-        })
+        });
 
-    // clickable legend legendrent
+    // clickable legend for rent line
     svg.select("rect.legendrent")
         .style("opacity", 0.5)
         .on('mouseover', function (d) {
@@ -107,12 +108,12 @@ function createLinechart(data) {
                 rentFlag = 1
 
             } else {
-                createrentline(data, svg, xScale, yScale2)
+                createRentLine(data, svg, xScale, yScale2)
                 rentFlag = 0
             }
         })
 
-    // clickable legend legendincome
+    // clickable legend for income line
     svg.select("rect.legendincome")
         .style("opacity", 0.5)
         .on('mouseover', function (d) {
@@ -131,12 +132,11 @@ function createLinechart(data) {
                 d3.selectAll("circle.incomecircle").remove()
                 incomeFlag = 1;
             } else {
-                createincomeline(data, svg, xScale, yScale)
+                createIncomeLine(data, svg, xScale, yScale)
                 incomeFlag = 0;
             }
-
         })
-
+        
     // X scale
     var xScale = d3.scaleLinear()
         .domain([2012, 2015])
@@ -192,17 +192,14 @@ function createLinechart(data) {
     // order of plotting
     var linecompare = 40
     if ((data[2].income / data[2].rent) > linecompare) {
-        createincomeline(data, svg, xScale, yScale)
-        createrentline(data, svg, xScale, yScale2)
+        createIncomeLine(data, svg, xScale, yScale)
+        createRentLine(data, svg, xScale, yScale2)
     } else {
-        createrentline(data, svg, xScale, yScale2)
-        createincomeline(data, svg, xScale, yScale)
+        createRentLine(data, svg, xScale, yScale2)
+        createIncomeLine(data, svg, xScale, yScale)
     }
-
-
 }
-
-function createincomeline(data, svg, xScale, yScale) {
+function createIncomeLine(data, svg, xScale, yScale) {
     var margin = {
         top: 50,
         right: 50,
@@ -211,7 +208,7 @@ function createincomeline(data, svg, xScale, yScale) {
     }
 
     // income line
-    var incomeline = d3.line()
+    var incomeLine = d3.line()
         .x(d => xScale(d.year))
         .y(d => yScale(d.income))
         .curve(d3.curveMonotoneX);
@@ -236,7 +233,7 @@ function createincomeline(data, svg, xScale, yScale) {
     svg.append('path')
         .datum(data)
         .attr("class", "incomeline")
-        .attr('d', incomeline)
+        .attr('d', incomeLine)
         .call(transition);
 
     //  circles income line
@@ -280,7 +277,7 @@ function createincomeline(data, svg, xScale, yScale) {
     svg.call(tip);
 }
 
-function createrentline(data, svg, xScale, yScale2) {
+function createRentLine(data, svg, xScale, yScale2) {
 
     var margin = {
         top: 50,
@@ -290,7 +287,7 @@ function createrentline(data, svg, xScale, yScale2) {
     }
 
     // rent line
-    var rentline = d3.line()
+    var rentLine = d3.line()
         .x(d => xScale(d.year))
         .y(d => yScale2(d.rent))
         .curve(d3.curveMonotoneX);
@@ -318,7 +315,7 @@ function createrentline(data, svg, xScale, yScale2) {
         // .style('stroke', 'rgba(0, 10, 130, .7)')
         // .style('stroke-width', 2)
         // .style('fill', 'none')
-        .attr('d', rentline)
+        .attr('d', rentLine)
         .call(transition);
 
     // circles rent line 
