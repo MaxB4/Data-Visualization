@@ -55,3 +55,56 @@ function getSelectValue() {
     buildPieChart(socialrentdata)
     createLinechart(data)
 }
+function getSelectValue1(d) {
+   
+    if (DeelGemeenteList1.includes(d.properties.Stadsdeel_code)) {
+        d3.select("#chart > *").remove()
+        d3.selectAll("#piechart > *").remove()
+
+        var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
+
+    var rent2013 = rentListYears[0][location]
+    var rent2015 = rentListYears[1][location]
+    var rent2014 = (((rentListYears[0][location]) + rent2015) / 2)
+    var rent2012 = (rentListYears[0][location]) - (rent2014 - rentListYears[0][location])
+    var year = ['2012', '2013', '2014', '2015']
+
+    var data = [{
+            year: year[0],
+            income: incomeListYears[0][location],
+            rent: rent2012
+        },
+        {
+            year: year[1],
+            income: incomeListYears[1][location],
+            rent: rent2013
+        },
+        {
+            year: year[2],
+            income: incomeListYears[2][location],
+            rent: rent2014
+        },
+        {
+            year: year[3],
+            income: incomeListYears[3][location],
+            rent: rent2015
+        }
+    ]
+
+    var socialrentdata = [{
+        socialrent: socialrentlist[location]
+    }, {
+        socialrent: nonsocialrentlist[location]
+    }]
+    buildPieChart(socialrentdata)
+    createLinechart(data)
+    
+    // change dropdown menu to current'deelgemeente'
+    document.getElementById("dropdown").value = location;
+
+    return (socialrentdata)
+    }
+else{
+    console.log("geen data")
+}
+}

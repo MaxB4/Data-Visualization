@@ -256,36 +256,38 @@ function main(response) {
             // load line chart of deelgemeente when clicked on
             .on('click', function (d) {
 
-                if (DeelGemeenteList1.includes(d.properties.Stadsdeel_code)) {
-                    
-                    d3.select("#chart > *").remove()
-                    d3.selectAll("#piechart > *").remove()
+                getSelectValue1(d)
 
-                    var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
+                // if (DeelGemeenteList1.includes(d.properties.Stadsdeel_code)) {
+                    
+                //     d3.select("#chart > *").remove()
+                //     d3.selectAll("#piechart > *").remove()
+
+                //     var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
         
                
 
-                    var data = testdata
+                //     var data = testdata
 
-                    var socialrentdata = [{
-                        socialrent: socialrentlist[location]
-                    }, {
-                        socialrent: nonsocialrentlist[location]
-                    }]
+                //     var socialrentdata = [{
+                //         socialrent: socialrentlist[location]
+                //     }, {
+                //         socialrent: nonsocialrentlist[location]
+                //     }]
                                   
-                    buildPieChart(socialrentdata)
-                    createLinechart(data)
+                //     buildPieChart(socialrentdata)
+                //     createLinechart(data)
                     
-                    // updatePieChart()
+                //     // updatePieChart()
                             
-                // change dropdown menu to current'deelgemeente'
-                  document.getElementById("dropdown").value = location;
+                // // change dropdown menu to current'deelgemeente'
+                //   document.getElementById("dropdown").value = location;
                     
-                  return (socialrentdata)
-                }
-                else{
-                    console.log("geen data")
-                }
+                //   return (socialrentdata)
+                // }
+                // else{
+                //     console.log("geen data")
+                // }
              });
             console.log(testdata)
              var data = testdata;
