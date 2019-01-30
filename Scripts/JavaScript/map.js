@@ -252,6 +252,8 @@ function main(response) {
 
         createLineChart(data)
         buildPieChart(socialRentData)
+        
+        // set dropdown to current location
         document.getElementById("dropdown").value = location;
     }
 };
