@@ -34,18 +34,18 @@ Started building a dropdown menu for the line chart.
 # Day 11 (22/01/2018)
 Finished dropdown menu and thinking about adding a rent and income button. Third visualization is going to be a pie chart with radio buttons. Pie chart shows percentage of "sociale huurwoning" per "deelgemeente".
 
-# Day 11 (23/01/2018)
+# Day 12 (23/01/2018)
 Created first version of pie chart with radio buttons. Had a lot of trouble with the colors because a couple of elements were above eachother.
 
-# Day 12 (25/01/2018)
+# Day 13 (25/01/2018)
 Goals for the day: fix favicon, deelgemeente nieuw_west, deleting data, and legend. Fixed favicon error message, added legend for pie chart and improved positioning of charts. Tried to add update function instead of deleting charts when new data is added but didnt succeed.
 
-# Day 13 (28/01/2018)
+# Day 14 (28/01/2018)
 Goals for the day: make line clickable, add titles, fix dropdown menu, and add no data (grey) to legend.
 Line is now clickable, titles were added, fixed dropdown menu.
 
-# Day 14 (29/01/2018)
+# Day 15 (29/01/2018)
 Added buttons to scroll down page, added final clickable legenda for line chart, improved structure of files, and added functions
 
-# Day 15 (30/01/2018)
+# Day 16 (30/01/2018)
 Goals: Add transitions, fix black color in legend, improve story, and improve file structure

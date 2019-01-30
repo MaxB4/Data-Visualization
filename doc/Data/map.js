@@ -255,9 +255,12 @@ function main(response) {
 
             // load line chart of deelgemeente when clicked on
             .on('click', function (d) {
-                d3.select("#chart > *").remove()
-                d3.selectAll("#piechart > *").remove()
+
                 if (DeelGemeenteList1.includes(d.properties.Stadsdeel_code)) {
+                    
+                    d3.select("#chart > *").remove()
+                    d3.selectAll("#piechart > *").remove()
+
                     var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
         
                
@@ -269,8 +272,7 @@ function main(response) {
                     }, {
                         socialrent: nonsocialrentlist[location]
                     }]
-                    // }
-                  
+                                  
                     buildPieChart(socialrentdata)
                     createLinechart(data)
                     
@@ -280,6 +282,9 @@ function main(response) {
                   document.getElementById("dropdown").value = location;
                     
                   return (socialrentdata)
+                }
+                else{
+                    console.log("geen data")
                 }
              });
             console.log(testdata)
