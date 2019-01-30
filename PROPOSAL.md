@@ -1,30 +1,26 @@
-# Amsterdam Housing Market Visualization
-
 # Data-Visualization
-Final Project Minor Programmeren UvA (Dataprocessing)
-Name: Max Baneke.
-Student number: 10787224.
+Final Project Minor Programmeren UvA
 
-## Purpose
-Data will be visualized for the submunicipalities of Amsterdam on rent prices, social versus private rent, and income versus rent prices between 2012 and 2015 to provide insights in the Amsterdam housing market and to find out if a difference is developing in income and housing prices.
+## Problem statement 
+The Amsterdam housing market is known to be overheated. In the past years the house prices have risen rapidly. The question rises if such a growth of house prices is sustainable on the long run and what the consequences of a faster growth rate of housing prices than income will have. Therefore, data will be visualized on these two variables to give insights in potential future scenarios of the Amsterdam housing market.
 
-#### First page gives a first impression on what the visualization is showing. Read story button is clickable and will show the story about the Amsterdam housing martet
-![section1](/doc/section1.png)
+## Solution
+Data that will be used are the average income and rent prices in the submunicipalities of Amsterdam over the past years.
+The target group of the visualization are people that live in Amsterdam or would like to live in Amsterdam.
+The visualization will consist of an interactive map of Amsterdam, a line chart, and a piechart. The line chart will also give the option to compare submunicipalities average income and rent prices.
 
-#### Second page shows clickable map of Amsterdam with its submunicipalities. The map is self made with a program that can draw TopoJSON files. The map shows the average income for each submunicapality in 2015. The scond visalization is a pie chart with a dropdown menu. The pie chart shows the percentage social rent versus normal rent in each submunicipality. All visualizations track the last clicked submunicipality in dropdown or in map.
-![section2](/doc/section2.png)
+### MVP
+- Interactive Map which links to line chart 1
+- Line chart 1 displays average rent price and income for each submunicipality (radio buttons), highlighting line when mouse is above it.  When clicked on line go to pie chart.
+- Pie chart also uses radio buttons. Pie chart provides average income and housing prices of the largest cities in The Netherlands compared to Amsterdam over a number of years. 
 
-#### Third page provides a line chart with double y axes comparing income with rent in the period between 2012 and 2015. The legend is clickable and gives the option to only show the income line or rent line.
-![section3](/doc/section3.png)
+### Optional
+- Zoom option in line charts
+- Default settings for line chart 2 same as line clicked on in line chart 1
+- Go to previous chart option
+
+![What is this](/doc/Visualization.png)
 
 ## Sources
-TopoJSON: https://gist.github.com/JulesBlm/918e2987805c7189f568d95a4e8855b4
-Scroll down button: https://codepen.io/nxworld/pen/OyRrGy
-tooltip : d3.tip * Copyright (c) 2013 Justin Palmer
-
-### Data sources
-Gemeente Amsterdam and Centraal Bureau voor Statistiek: https://www.ois.amsterdam.nl/feiten-en-cijfers/#.
-
-### Copyright
-The person who associated a work with this deed has dedicated the work to the public domain by waiving all of his or her rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law.
-Best Regards, Max Baneke.
+- Gemeente Amsterdam
+- CBS
