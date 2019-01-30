@@ -48,12 +48,12 @@ function getSelectValue() {
         }
     ]
 
-    var socialrentdata = [{
+    var socialRentData = [{
         socialrent: socialrentlist[location]
     }, {
         socialrent: nonsocialrentlist[location]
     }]
-    buildPieChart(socialrentdata)
+    buildPieChart(socialRentData)
     createLineChart(data)
 }
 
@@ -92,18 +92,18 @@ function buildCharts(d) {
                 rent: rent2015
             }
         ]
-        var socialrentdata = [{
+        var socialRentData = [{
             socialrent: socialrentlist[location]
         }, {
             socialrent: nonsocialrentlist[location]
         }]
-        buildPieChart(socialrentdata)
+        buildPieChart(socialRentData)
         createLineChart(data)
 
         // change dropdown menu to current'deelgemeente'
         document.getElementById("dropdown").value = location;
 
-        return (socialrentdata)
+        return (socialRentData)
     } 
     // if there is no data
     else {

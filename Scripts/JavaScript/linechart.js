@@ -38,18 +38,18 @@ function createLineChart(data) {
         .range(["rgb(49,130,189)", "rgb(153,0,0)"]);
 
     // add text to legend
-    var chartlegendRent = svg.selectAll("#chart")
+    var chartLegendRent = svg.selectAll("#chart")
         .data(["Rent"])
         .enter()
         .append("g");
 
-    var chartlegendIncome = svg.selectAll("#chart")
+    var chartLegendIncome = svg.selectAll("#chart")
         .data(["Income"])
         .enter()
         .append("g");
 
     // boxes
-    chartlegendRent.append("rect")
+    chartLegendRent.append("rect")
         .attr("class", "legendrent")
         .attr("x", margin.left + 60)
         .attr("y", height + 15)
@@ -60,7 +60,7 @@ function createLineChart(data) {
         });
 
     // boxes
-    chartlegendIncome.append("rect")
+    chartLegendIncome.append("rect")
         .attr("class", "legendincome")
         .attr("x", margin.left + 60)
         .attr("y", height + 50)
@@ -71,7 +71,7 @@ function createLineChart(data) {
         });
 
     // add text to legend
-    chartlegendRent.append("text")
+    chartLegendRent.append("text")
         .attr("x", margin.left)
         .attr("y", height + 35)
 
@@ -79,7 +79,7 @@ function createLineChart(data) {
             return d;
         })
 
-    chartlegendIncome.append("text")
+    chartLegendIncome.append("text")
         .attr("x", margin.left)
         .attr("y", height + 70)
 
@@ -99,9 +99,7 @@ function createLineChart(data) {
                 .style("opacity", 0.5)
         })
         .on('click', function (d) {
-            console.log(rentFlag)
             if (rentFlag == 0) {
-
                 d3.select("path.rentline").remove()
                 d3.select("path.area2").remove()
                 d3.selectAll("circle.rentcircle").remove()
@@ -136,7 +134,7 @@ function createLineChart(data) {
                 incomeFlag = 0;
             }
         })
-        
+
     // X scale
     var xScale = d3.scaleLinear()
         .domain([2012, 2015])

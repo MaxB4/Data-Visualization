@@ -93,7 +93,7 @@ function main(response) {
         nonsocialrentlist.push(100 - socialRentList[i][2015])
     }
 
-    var socialrentdata = [{
+    var socialRentData = [{
         socialrent: socialrentlist[location]
     }, {
         socialrent: nonsocialrentlist[location]
@@ -153,14 +153,14 @@ function main(response) {
     var y0 = height - 180;
     var x0 = 10;
     var spacingx = 55;
-    var legendhight = height - 200;
-    var titlehight = 20
+    var legendHight = height - 200;
+    var titleHight = 20
 
     // append a title to the chart
     svg.append("text")
         .attr("text-anchor", "middle")
         .attr("x", width / 2)
-        .attr("y", titlehight)
+        .attr("y", titleHight)
         .style("font-size", "20px")
         .style("font-family", "sans-serif")
         .text("Average income per submunicipality of Amsterdam in 2015");
@@ -168,7 +168,7 @@ function main(response) {
     // legend
     svg.append("text")
         .attr("x", x0)
-        .attr("y", legendhight)
+        .attr("y", legendHight)
         .attr("font-size", "large")
         .attr("font-weight", "bold")
         .text("Income Legenda");
@@ -233,7 +233,6 @@ function main(response) {
 
                 d3.select(this)
                     .style("opacity", 1)
-                    // .style("stroke", "rgb(,0,0)")
                     .style("stroke-width", 1);
             })
             .on('mouseout', function (d) {
@@ -252,7 +251,7 @@ function main(response) {
         var data = dataset;
 
         createLineChart(data)
-        buildPieChart(socialrentdata)
+        buildPieChart(socialRentData)
         document.getElementById("dropdown").value = location;
     }
 };

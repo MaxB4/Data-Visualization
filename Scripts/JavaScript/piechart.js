@@ -1,10 +1,10 @@
-function buildPieChart(socialrentdata) {
+function buildPieChart(socialRentData) {
 
     var data = d3.pie()
         .sort(null)
         .value(function (d) {
             return d.socialrent;
-            })(socialrentdata)
+            })(socialRentData)
 
     radius = Math.min(width, height) / 2;
 
