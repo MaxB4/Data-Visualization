@@ -4,10 +4,10 @@
 window.onload = function () {
     
     // open data files
-    var data = "../../data/buurten.json"
-    var rentprice = "../../data/RentPrice.json"
-    var income = "../../data/Income.json"
-    var socialrent = "../../data/Socialrent.json"
+    var data = "../../Data/buurten.json"
+    var rentprice = "../../Data/RentPrice.json"
+    var income = "../../Data/Income.json"
+    var socialrent = "../../Data/Socialrent.json"
     var requests = [d3.json(data), d3.json(rentprice), d3.json(income), d3.json(socialrent)];
 
     Promise.all(requests).then(function (response) {
