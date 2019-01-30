@@ -5,6 +5,8 @@ Final Project Minor Programmeren UvA (Dataprocessing)
 Name: Max Baneke.
 Student number: 10787224.
 
+### [GitHub Pages](https://MaxB4.github.io/DATA-VISUALIZATION/Scripts/HTML/index.html)  
+
 ## Purpose
 Data will be visualized for the submunicipalities of Amsterdam on rent prices, social versus private rent, and income versus rent prices between 2012 and 2015 to provide insights in the Amsterdam housing market and to find out if a difference is developing in income and housing prices.
 
@@ -22,6 +24,7 @@ Third page provides a line chart with double y axes comparing income with rent i
 - Scroll down button: https://codepen.io/nxworld/pen/OyRrGy.
 - Tooltip : d3.tip * Copyright (c) 2013 Justin Palmer.
 - Bootstrap: Copyright (c) 2011-2018 The Bootstrap Authors
+- Pandas
 
 ### Data sources
 - Gemeente Amsterdam and Centraal Bureau voor Statistiek: https://www.ois.amsterdam.nl/feiten-en-cijfers/#.
