@@ -46,6 +46,42 @@ function main(response) {
         }
         rentListYears.push(rentList)
     }
+        // default data is Amsterdam 
+    var location = 7;
+
+        var rent2013 = rentListYears[0][location]
+        var rent2015 = rentListYears[1][location]
+        var rent2014 = (((rentListYears[0][location]) + rent2015) / 2)
+        var rent2012 = (rentListYears[0][location]) - (rent2014 - rentListYears[0][location])
+
+        var year = [2012, 2013, 2014, 2015]
+
+        var testdata = [{
+                year: year[0],
+                income: incomeListYears[0][location],
+                rent: rent2012
+            },
+            {
+                year: year[1],
+                income: incomeListYears[1][location],
+                rent: rent2013
+            },
+            {
+                year: year[2],
+                income: incomeListYears[2][location],
+                rent: rent2014
+            },
+            {
+                year: year[3],
+                income: incomeListYears[3][location],
+                rent: rent2015
+            }
+        ]
+
+
+
+
+
     socialrentlist = []
     nonsocialrentlist = []
 
@@ -60,7 +96,6 @@ function main(response) {
         socialrentlist.push(socialRentList[i][2015])
         nonsocialrentlist.push(100 - socialRentList[i][2015])
     }
-    var location = 7;
     
     var socialrentdata = [{
         socialrent: socialrentlist[location]
@@ -70,9 +105,7 @@ function main(response) {
   
     income2015 = incomeListYears[3]
 
-    loadtooltip()
-
-    function loadtooltip(){
+    
     // Set tooltips
     var tip = d3.tip()
         .attr('class', 'd3-tip')
@@ -89,7 +122,7 @@ function main(response) {
             return "<strong>Submunicipality: </strong><span class='details'>" + stadsdeel[d.properties.Stadsdeel_code] + "<br></span>" + "<strong>Income (euro): </strong><span class='details'>" + newIncome2015 + "<br></span>";
         })
 
-    }
+
 
     
     var svg = d3.select("#map");
@@ -174,9 +207,9 @@ function main(response) {
         })
 
     svg.call(tip);
-    ready(data, income2015);
+    ready(data, income2015, testdata);
 
-    function ready(data, income2015) {
+    function ready(data, income2015, testdata) {
 
         // Draw the deelgemeenten
         svg.selectAll(".buurt")
@@ -227,35 +260,9 @@ function main(response) {
                 if (DeelGemeenteList1.includes(d.properties.Stadsdeel_code)) {
                     var location = DeelGemeenteList1.indexOf(d.properties.Stadsdeel_code);
         
-                    // function getdata(){
-                    var rent2013 = rentListYears[0][location]
-                    var rent2015 = rentListYears[1][location]
-                    var rent2014 = (((rentListYears[0][location]) + rent2015) / 2)
-                    var rent2012 = (rentListYears[0][location]) - (rent2014 - rentListYears[0][location])
+               
 
-                    var year = [2012, 2013, 2014, 2015]
-
-                    var data = [{
-                            year: year[0],
-                            income: incomeListYears[0][location],
-                            rent: rent2012
-                        },
-                        {
-                            year: year[1],
-                            income: incomeListYears[1][location],
-                            rent: rent2013
-                        },
-                        {
-                            year: year[2],
-                            income: incomeListYears[2][location],
-                            rent: rent2014
-                        },
-                        {
-                            year: year[3],
-                            income: incomeListYears[3][location],
-                            rent: rent2015
-                        }
-                    ]
+                    var data = testdata
 
                     var socialrentdata = [{
                         socialrent: socialrentlist[location]
@@ -275,9 +282,11 @@ function main(response) {
                   return (socialrentdata)
                 }
              });
-            
+            console.log(testdata)
+             var data = testdata;
+
+             createLinechart(data)
              buildPieChart(socialrentdata)
              document.getElementById("dropdown").value = location;
-
             }
 };

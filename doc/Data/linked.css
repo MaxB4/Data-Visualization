@@ -61,7 +61,6 @@ html {
         color: rgba(0, 0, 0, 0.6);
         position: absolute;
         pointer-events: none;
-        
       }
   
       /* Northward tooltips */
@@ -204,13 +203,32 @@ html {
     text-decoration: none;
     transition: opacity .3s;
   }
+
+  .demos a {
+    position: absolute;
+    bottom: 20px;
+    left: 48%;
+    z-index: 2;
+    display: inline-block;
+    -webkit-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    color: rgb(0, 140, 255);
+    font : normal 400 20px/1 'Josefin Sans', sans-serif;
+    letter-spacing: .1em;
+    text-decoration: none;
+    transition: opacity .3s;
+  }
   .demo a:hover {
+    opacity: .5;
+  }
+  .demos a:hover {
     opacity: .5;
   }
   /* hight between button and text */
   #section01 a {
     padding-top: 40px;
   }
+
   #section01 a span {
     position: absolute;
     top: 0;
@@ -238,6 +256,22 @@ html {
       -webkit-transform: rotate(-45deg);
       transform: rotate(-45deg);
   }
+  #section03 a {
+    padding-top: 60px;
+  }
+  #section03 a span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    margin-left: -12px;
+    border-left: 1px solid rgb(0, 140, 255);
+    border-bottom: 1px solid rgb(0, 140, 255);
+    -webkit-transform: rotate(135);
+    transform: rotate(135deg);
+    /* box-sizing: border-box; */
+}
   .dropdown {
     position: absolute;
     display: inline-block;

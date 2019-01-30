@@ -43,3 +43,9 @@ Goals for the day: fix favicon, deelgemeente nieuw_west, deleting data, and lege
 # Day 13 (28/01/2018)
 Goals for the day: make line clickable, add titles, fix dropdown menu, and add no data (grey) to legend.
 Line is now clickable, titles were added, fixed dropdown menu.
+
+# Day 14 (29/01/2018)
+Added buttons to scroll down page, added final clickable legenda for line chart, improved structure of files, and added functions
+
+# Day 15 (30/01/2018)
+Goals: Add transitions, fix black color in legend, improve story, and improve file structure
