@@ -2,108 +2,106 @@
 Student Name: Max Baneke
 Student Number: 10797564
 -->
-
-<!--
-python -m http.server 7800 
-http://localhost:7800/
--->
-
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
+
 <head>
 
-<link rel="shortcut icon" type="image/png" href="../../doc/andreaskruis1.png"/>
-<title>Amsterdam Housing Problem</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="../../doc/andreaskruis1.png" />
+    <title>Amsterdam Housing Problem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- bootstrap links -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <!-- bootstrap links -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
 </head>
+
 <body>
 
-<section id="section01" class="demo">
-    <a href="#section02"><span></span>Scroll</a>
+    <!-- section 1 includes image and story-->
+    <section id="section01" class="demo">
 
-<!-- image on homepage-->
-<div class="hero-image">
-        <div class="hero-text">
-            <h1 style="font-size:50px">Rent prices and income in Amsterdam submunicipalities</h1>
-            <p>A visualization by Max Baneke</p>
-            
+        <!-- scroll down to section 2 -->
+        <a href="#section02"><span></span>Scroll</a>
 
-            <div id="demo" class="collapse">A story about the Amsterdam housing prices development. The Amsterdam housing market is known to be overheated. Amsterdam was among the top three most popular European cities where international investors want to put their money in the short term. In the past years the house prices have risen rapidly. The question arises if such a growth of house prices is sustainable on the long run and what the consequences on the long term will be. Therefore, data will be visualized on rent prices, social versus private rent, and income versus rent prices between 2012 and 2015 to give insights in potential future scenarios of the Amsterdam housing market.</div>
-            
-            <button id="readButton" type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Read story</button>
+        <!-- image on homepage-->
+        <div class="hero-image">
+            <div class="hero-text">
+                <h1 style="font-size:50px">Rent prices and income in Amsterdam submunicipalities</h1>
+                <p>A visualization by Max Baneke</p>
+
+                <!-- Story -->
+                <div id="demo" class="collapse">A story about the Amsterdam housing prices development. The Amsterdam
+                    housing market is known to be overheated. Amsterdam was among the top three most popular European
+                    cities where international investors want to put their money in the short term. In the past years
+                    the house prices have risen rapidly. The question arises if such a growth of house prices is
+                    sustainable on the long run and what the consequences on the long term will be. Therefore, data
+                    will be visualized on rent prices, social versus private rent, and income versus rent prices
+                    between 2012 and 2015 to give insights in potential future scenarios of the Amsterdam housing
+                    market.</div>
+
+                <button id="readButton" type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Read
+                    story</button>
+            </div>
         </div>
-</div>
-</section>
-<!-- <canvas id="chart1"></canvas> -->
-        
-<link rel="stylesheet" href="../CSS/linked.css">
-<script src="https://d3js.org/d3.v5.min.js"></script>
+    </section>
 
-<section id="section02" class="demo">
-    <a href="#section03"><span></span></a>
+    <link rel="stylesheet" href="../CSS/linked.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
 
+    <!-- section 2 including map and line chart-->
+    <section id="section02" class="demo">
+        <a href="#section03"><span></span></a>
+        <script type="text/javascript" src="../JavaScript/map.js"> </script>
 
-    <script type="text/javascript" src="../JavaScript/map.js"> </script>
-<svg width="960" height="750" id="map"></svg>
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
-<script src="http://d3js.org/topojson.v2.min.js"></script>
-<script src="../JavaScript/d3-tip.js"></script>
-<script type="text/javascript" src="../JavaScript/linked.js"> </script>
-<div id="map"></div>
+        <!-- map size -->
+        <svg width="960" height="750" id="map"></svg>
 
+        <!--  topoJSON sources-->
+        <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+        <script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
+        <script src="http://d3js.org/topojson.v2.min.js"></script>
+        <script src="../JavaScript/d3-tip.js"></script>
+        <script type="text/javascript" src="../JavaScript/linked.js"> </script>
+        <div id="map"></div>
 
+        <!-- properties pie chart -->
+        <svg width="550" height="750" id="piechart"></svg>
 
-<!-- <div class="btn-group">
-    <form>
-        <label><input type="radio" name="dataset" value='0' checked> Centrum</label>
-        <label><input type="radio" name="dataset" value='1'> West</label>
-        <label><input type="radio" name="dataset" value='2'>Nieuw-West</label>
-        <label><input type="radio" name="dataset" value='3'>Zuid</label>
-        <label><input type="radio" name="dataset" value='4'>Oost</label>
-        <label><input type="radio" name="dataset" value='5'>Noord</label>
-        <label><input type="radio" name="dataset" value='6'>Zuidoost</label>
-        <label><input type="radio" name="dataset" value='7'>Amsterdam</label>
-    </form>  
-    </div> -->
-<svg width="550" height="750" id="piechart"></svg>
+        <!-- dropdown menu -->
+        <div class="dropdown">
 
-<!-- dropdown menu -->
-<div class="dropdown">
-       
-    <select id="dropdown" onchange="getSelectValue();">
-        <option value= '0'>Centrum</option>
-        <option value= '3'>Zuid</option>
-        <option value= '5'>Noord</option>
-        <option value= '1'>West</option>
-        <option value= '4'>Oost</option>
-        <option value= '2'>Nieuw-West</option>
-        <option value= '6'>Zuidoost</option>
-        <option value= '7'>Amsterdam</option>
-    </select>
-    </div>
+            <select id="dropdown" onchange="getSelectValue();">
+                <option value='0'>Centrum</option>
+                <option value='3'>Zuid</option>
+                <option value='5'>Noord</option>
+                <option value='1'>West</option>
+                <option value='4'>Oost</option>
+                <option value='2'>Nieuw-West</option>
+                <option value='6'>Zuidoost</option>
+                <option value='7'>Amsterdam</option>
+            </select>
+        </div>
 
-<div id="piechart"></div>
-<script type="text/javascript" src="../JavaScript/piechart.js"> </script>
+        <div id="piechart"></div>
+        <script type="text/javascript" src="../JavaScript/piechart.js"> </script>
+    </section>
 
-</section>
-<section id="section03" class="demos">
-        <a href="#section02"><span></span>Go Up</a>    
-    <div id="chart"></div>
+    <!-- section 3 with linechart-->
+    <section id="section03" class="demos">
+        <a href="#section02"><span></span>Go Up</a>
+        <div id="chart"></div>
         <script type="text/javascript" src="../JavaScript/linechart.js"> </script>
-</section>
+    </section>
 
-<!-- link to data sources -->
-<div id="bottomlink">
-<a href="https://www.ois.amsterdam.nl/feiten-en-cijfers/#"target="_blank"> Bron: Gemeenste Amsterdam, CBS</a>
-</div>
+    <!-- link to data sources -->
+    <div id="bottomlink">
+        <a href="https://www.ois.amsterdam.nl/feiten-en-cijfers/#" target="_blank"> Bron: Gemeenste Amsterdam, CBS</a>
+    </div>
 </body>
+
 </html>

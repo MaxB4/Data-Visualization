@@ -21,6 +21,7 @@ Third page provides a line chart with double y axes comparing income with rent i
 - TopoJSON: https://gist.github.com/JulesBlm/918e2987805c7189f568d95a4e8855b4.
 - Scroll down button: https://codepen.io/nxworld/pen/OyRrGy.
 - Tooltip : d3.tip * Copyright (c) 2013 Justin Palmer.
+- Bootstrap: Copyright (c) 2011-2018 The Bootstrap Authors
 
 ### Data sources
 - Gemeente Amsterdam and Centraal Bureau voor Statistiek: https://www.ois.amsterdam.nl/feiten-en-cijfers/#.
