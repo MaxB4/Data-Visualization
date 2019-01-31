@@ -6,6 +6,7 @@ Name: Max Baneke.
 Student number: 10787224.
 
 [link to data visualizations](https://MaxB4.github.io/Data-Visualization/Scripts/HTML/index.html)
+[link to video about visualization] (https://youtu.be/IOpy3wnwNeg)
 
 ## Purpose
 Data will be visualized for the submunicipalities of Amsterdam on rent prices, social versus private rent, and income versus rent prices between 2012 and 2015 to provide insights in the Amsterdam housing market and to find out if a difference is developing in income and housing prices.
